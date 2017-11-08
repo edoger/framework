@@ -4,7 +4,7 @@
 	"keywords": ["edoger", "util", "utility"],
 	"license": "LGPL-3.0",
 	"type": "library",
-	"homepage": "https://git.edoger.com/edoger-team/edoger-util",
+	"homepage": "https://github.com/edoger/util",
 	"authors": [
 		{
 			"name": "Qingshan Luo",
