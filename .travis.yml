@@ -1,0 +1,14 @@
+language: php
+
+php:
+  - 7.1
+  - 7.2
+
+script:
+  - vendor/bin/phpunit --process-isolation
+
+before_script:
+  - composer install --no-interaction
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
