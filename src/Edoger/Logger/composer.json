@@ -1,0 +1,33 @@
+{
+	"name": "edoger/logger",
+	"description": "The Edoger framework logger component.",
+	"keywords": ["edoger", "logger"],
+	"license": "LGPL-3.0",
+	"type": "library",
+	"homepage": "https://github.com/edoger/logger",
+	"authors": [
+		{
+			"name": "Qingshan Luo",
+			"email": "shanshan.lqs@gmail.com"
+		}
+	],
+	"require": {
+        "php": ">=7.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=6.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Edoger\\Logger\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
