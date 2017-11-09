@@ -1,6 +1,7 @@
 # Configuration Component #
 
 [![Build Status](https://travis-ci.org/edoger/config.svg?branch=master)](https://travis-ci.org/edoger/config)
+[![codecov](https://codecov.io/gh/edoger/config/branch/master/graph/badge.svg)](https://codecov.io/gh/edoger/config)
 
 - This component is part of the Edoger framework.
 - This component only supports **PHP 7.1** or later.
