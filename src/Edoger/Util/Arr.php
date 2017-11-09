@@ -16,14 +16,6 @@ use Traversable;
 class Arr
 {
     /**
-     * This class should not be instantiated.
-     */
-    private function __construct()
-    {
-        //
-    }
-
-    /**
      * Determines whether a given key exists in a given array.
      *
      * @param  array     $arr The given array.

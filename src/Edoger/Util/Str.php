@@ -13,14 +13,6 @@ namespace Edoger\Util;
 class Str
 {
     /**
-     * This class should not be instantiated.
-     */
-    private function __construct()
-    {
-        //
-    }
-    
-    /**
      * Get string length.
      *
      * @param  string    $str The given string.
