@@ -67,6 +67,10 @@ class ArrTest extends TestCase
         $this->assertEquals(['foo' => 'foo', 'bar'], Arr::convert(['foo' => 'foo', 'bar']));
         $this->assertEquals(['foo'], Arr::convert(new TestArrayable(['foo'])));
         $this->assertEquals(['foo'], Arr::convert(new TestIteratorAggregate(['foo'])));
+        $this->assertEquals(['str'], Arr::convert('str'));
+        $this->assertEquals([true], Arr::convert(true));
+        $this->assertEquals([false], Arr::convert(false));
+        $this->assertEquals([], Arr::convert(null));
     }
 
     public function testArrKeys()
