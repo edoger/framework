@@ -25,15 +25,16 @@ abstract class AbstractHandler implements Processor
      */
     final public function process(Container $input, Closure $next)
     {
-        return $this->handle($input->get('log'), $next);
+        return $this->handle($input->get('channel'), $input->get('log'), $next);
     }
 
     /**
      * Handle a log.
      *
-     * @param  Edoger\Logger\Log $log  The log body instance.
-     * @param  Closure           $next The trigger for the next log handler.
+     * @param  string            $channel The logger channel name.
+     * @param  Edoger\Logger\Log $log     The log body instance.
+     * @param  Closure           $next    The trigger for the next log handler.
      * @return boolean
      */
-    abstract public function handle(Log $log, Closure $next): bool;
+    abstract public function handle(string $channel, Log $log, Closure $next): bool;
 }

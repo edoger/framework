@@ -48,13 +48,14 @@ class CallableHandler extends AbstractHandler
     /**
      * Handle a log.
      *
-     * @param  Edoger\Logger\Log $log  The log body instance.
-     * @param  Closure           $next The trigger for the next log handler.
+     * @param  string            $channel The logger channel name.
+     * @param  Edoger\Logger\Log $log     The log body instance.
+     * @param  Closure           $next    The trigger for the next log handler.
      * @return boolean
      */
-    public function handle(Log $log, Closure $next): bool
+    public function handle(string $channel, Log $log, Closure $next): bool
     {
-        $return = call_user_func($this->getHandler(), $log, $next);
+        $return = call_user_func($this->getHandler(), $channel, $log, $next);
 
         if (!is_bool($return)) {
             throw new RuntimeException(
