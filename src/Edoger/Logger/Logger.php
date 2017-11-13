@@ -53,7 +53,7 @@ class Logger
      * @param  integer $level   The lowest processing log level.
      * @return void
      */
-    public function __construct(string $channel, int $level = Levels::ERROR)
+    public function __construct(string $channel, int $level = Levels::DEBUG)
     {
         $this->channel = $channel;
         $this->flow    = new Flow(new Blocker());
@@ -170,7 +170,7 @@ class Logger
     }
 
     /**
-     * Processes a log at a given log level.
+     * Record a log of a given log level.
      *
      * @param  integer   $level     The log level.
      * @param  string    $message   The log message.
@@ -181,6 +181,10 @@ class Logger
      */
     public function log(int $level, string $message, array $context = [], int $timestamp = 0, $extra = []): bool
     {
+        if ($level < $this->level) {
+            return false;
+        }
+
         $log = new Log($level, $message, $context, $timestamp, $extra);
 
         // Cache the current log.
@@ -191,5 +195,117 @@ class Logger
         }
 
         return $this->getFlow()->start(['channel' => $this->channel, 'log' => $log]);
+    }
+
+    /**
+     * Record a "DEBUG" level log.
+     *
+     * @param  string    $message   The log message.
+     * @param  array     $context   The log context.
+     * @param  integer   $timestamp The log generation timestamp.
+     * @param  mixed     $extra     Additional data for the current log.
+     * @return boolean
+     */
+    public function debug(string $message, array $context = [], int $timestamp = 0, $extra = []): bool
+    {
+        return $this->log(Levels::DEBUG, $message, $context, $timestamp, $extra);
+    }
+
+    /**
+     * Record a "INFO" level log.
+     *
+     * @param  string    $message   The log message.
+     * @param  array     $context   The log context.
+     * @param  integer   $timestamp The log generation timestamp.
+     * @param  mixed     $extra     Additional data for the current log.
+     * @return boolean
+     */
+    public function info(string $message, array $context = [], int $timestamp = 0, $extra = []): bool
+    {
+        return $this->log(Levels::INFO, $message, $context, $timestamp, $extra);
+    }
+
+    /**
+     * Record a "NOTICE" level log.
+     *
+     * @param  string    $message   The log message.
+     * @param  array     $context   The log context.
+     * @param  integer   $timestamp The log generation timestamp.
+     * @param  mixed     $extra     Additional data for the current log.
+     * @return boolean
+     */
+    public function notice(string $message, array $context = [], int $timestamp = 0, $extra = []): bool
+    {
+        return $this->log(Levels::NOTICE, $message, $context, $timestamp, $extra);
+    }
+
+    /**
+     * Record a "WARNING" level log.
+     *
+     * @param  string    $message   The log message.
+     * @param  array     $context   The log context.
+     * @param  integer   $timestamp The log generation timestamp.
+     * @param  mixed     $extra     Additional data for the current log.
+     * @return boolean
+     */
+    public function warning(string $message, array $context = [], int $timestamp = 0, $extra = []): bool
+    {
+        return $this->log(Levels::WARNING, $message, $context, $timestamp, $extra);
+    }
+
+    /**
+     * Record a "ERROR" level log.
+     *
+     * @param  string    $message   The log message.
+     * @param  array     $context   The log context.
+     * @param  integer   $timestamp The log generation timestamp.
+     * @param  mixed     $extra     Additional data for the current log.
+     * @return boolean
+     */
+    public function error(string $message, array $context = [], int $timestamp = 0, $extra = []): bool
+    {
+        return $this->log(Levels::ERROR, $message, $context, $timestamp, $extra);
+    }
+
+    /**
+     * Record a "CRITICAL" level log.
+     *
+     * @param  string    $message   The log message.
+     * @param  array     $context   The log context.
+     * @param  integer   $timestamp The log generation timestamp.
+     * @param  mixed     $extra     Additional data for the current log.
+     * @return boolean
+     */
+    public function critical(string $message, array $context = [], int $timestamp = 0, $extra = []): bool
+    {
+        return $this->log(Levels::CRITICAL, $message, $context, $timestamp, $extra);
+    }
+
+    /**
+     * Record a "ALERT" level log.
+     *
+     * @param  string    $message   The log message.
+     * @param  array     $context   The log context.
+     * @param  integer   $timestamp The log generation timestamp.
+     * @param  mixed     $extra     Additional data for the current log.
+     * @return boolean
+     */
+    public function alert(string $message, array $context = [], int $timestamp = 0, $extra = []): bool
+    {
+        return $this->log(Levels::ALERT, $message, $context, $timestamp, $extra);
+    }
+
+    /**
+     * Record a "EMERGENCY" level log.
+     *
+     * @param  string    $message   The log message.
+     * @param  array     $context   The log context.
+     * @param  integer   $timestamp The log generation timestamp.
+     * @param  mixed     $extra     Additional data for the current log.
+     * @return boolean
+     */
+    public function emergency(string $message, array $context = [], int $timestamp = 0, $extra = []): bool
+    {
+        return $this->log(Levels::EMERGENCY, $message, $context, $timestamp, $extra);
     }
 }
