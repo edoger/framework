@@ -31,7 +31,7 @@ class Blocker implements BlockerContract
      *
      * @param  Edoger\Container\Container $input     The processor input parameter container.
      * @param  Throwable|null             $exception The captured processor exception.
-     * @return Edoger\Config\Repository
+     * @return boolean
      */
     public function block(Container $input, Throwable $exception = null)
     {
