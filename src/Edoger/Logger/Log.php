@@ -15,13 +15,6 @@ use Edoger\Util\Arr;
 class Log
 {
     /**
-     * Whether the current log has been handled.
-     *
-     * @var boolean
-     */
-    protected $handled = false;
-
-    /**
      * The log level.
      *
      * @var integer
@@ -73,28 +66,6 @@ class Log
         $this->context   = $context;
         $this->timestamp = $timestamp > 0 ? $timestamp : time();
         $this->extra     = Arr::convert($extra);
-    }
-
-    /**
-     * Determines whether the current log has been handled.
-     *
-     * @return boolean
-     */
-    public function isHandled(): bool
-    {
-        return $this->handled;
-    }
-
-    /**
-     * Mark the current log as handled.
-     *
-     * @return self
-     */
-    public function toHandled()
-    {
-        $this->handled = true;
-
-        return $this;
     }
 
     /**

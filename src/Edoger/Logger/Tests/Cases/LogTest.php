@@ -16,20 +16,6 @@ use PHPUnit\Framework\TestCase;
 
 class LogTest extends TestCase
 {
-    public function testLogIsHandled()
-    {
-        $log = new Log(Levels::DEBUG, 'test');
-        $this->assertFalse($log->isHandled());
-    }
-
-    public function testLogToHandled()
-    {
-        $log = new Log(Levels::DEBUG, 'test');
-        $this->assertFalse($log->isHandled());
-        $this->assertEquals($log, $log->toHandled());
-        $this->assertTrue($log->isHandled());
-    }
-
     public function testLogGetLevel()
     {
         $log = new Log(Levels::DEBUG, 'test');
