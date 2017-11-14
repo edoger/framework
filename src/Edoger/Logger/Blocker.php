@@ -35,6 +35,6 @@ class Blocker implements BlockerContract
      */
     public function block(Container $input, Throwable $exception = null)
     {
-        return false;
+        return $exception ? false : true;
     }
 }
