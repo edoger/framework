@@ -1,0 +1,3 @@
+# Keep the current directory exists.
+*
+!.gitignore
