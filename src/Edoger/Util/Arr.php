@@ -149,10 +149,6 @@ class Arr
      */
     public static function isAssoc(array $arr): bool
     {
-        if (empty($arr)) {
-            return true;
-        }
-
-        return static::keys($arr) !== range(0, count($arr) - 1);
+        return empty($arr) || static::keys($arr) !== range(0, count($arr) - 1);
     }
 }
