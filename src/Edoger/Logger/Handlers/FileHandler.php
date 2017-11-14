@@ -86,7 +86,7 @@ class FileHandler extends AbstractHandler
      */
     protected function write(string $message): bool
     {
-        return false !== file_put_contents($this->file, $message, FILE_APPEND);
+        return false !== @file_put_contents($this->file, $message, FILE_APPEND);
     }
 
     /**
