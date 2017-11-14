@@ -31,7 +31,7 @@ class BlockerTest extends TestCase
         $container = new Container();
         $exception = new Exception('test');
 
-        $this->assertFalse($blocker->block($container));
+        $this->assertTrue($blocker->block($container));
         $this->assertFalse($blocker->block($container, $exception));
     }
 }
