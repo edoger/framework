@@ -151,25 +151,6 @@ class Logger
     }
 
     /**
-     * Get all captured logs.
-     *
-     * @param  callable|null $filter The log filter.
-     * @return array
-     */
-    public function getLogs(callable $filter = null): array
-    {
-        if (empty($this->logs)) {
-            return [];
-        }
-
-        if (is_null($filter)) {
-            return $this->logs;
-        }
-
-        return Arr::values(array_filter($this->logs, $filter, ARRAY_FILTER_USE_BOTH));
-    }
-
-    /**
      * Record a log of a given log level.
      *
      * @param  integer   $level     The log level.
@@ -190,11 +171,26 @@ class Logger
         // Cache the current log.
         $this->logs[] = $log;
 
-        if ($this->isEmptyHandlers()) {
-            return false;
+        return $this->getFlow()->start(['channel' => $this->channel, 'log' => $log]);
+    }
+
+    /**
+     * Get all captured logs.
+     *
+     * @param  callable|null $filter The log filter.
+     * @return array
+     */
+    public function getLogs(callable $filter = null): array
+    {
+        if (empty($this->logs)) {
+            return [];
         }
 
-        return $this->getFlow()->start(['channel' => $this->channel, 'log' => $log]);
+        if (is_null($filter)) {
+            return $this->logs;
+        }
+
+        return Arr::values(array_filter($this->logs, $filter, ARRAY_FILTER_USE_BOTH));
     }
 
     /**
