@@ -40,4 +40,22 @@ class HeadersTest extends TestCase
             'x-host'         => 'HTTP_X_HOST',
         ], $headers->toArray());
     }
+
+    public function testHeadersCreate()
+    {
+        $headers = Headers::create([
+            'CONTENT_LENGTH' => 'CONTENT_LENGTH',
+            'CONTENT_MD5'    => 'CONTENT_MD5',
+            'CONTENT_TYPE'   => 'CONTENT_TYPE',
+            'HTTP_X_HOST'    => 'HTTP_X_HOST',
+            'X_TEST'         => 'X_TEST',
+        ]);
+
+        $this->assertEquals([
+            'content-length' => 'CONTENT_LENGTH',
+            'content-md5'    => 'CONTENT_MD5',
+            'content-type'   => 'CONTENT_TYPE',
+            'x-host'         => 'HTTP_X_HOST',
+        ], $headers->toArray());
+    }
 }

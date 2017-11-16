@@ -30,16 +30,4 @@ class QueryTest extends TestCase
         $this->assertInstanceOf(Collection::class, $query);
         $this->assertEquals(['test' => 'test'], $query->toArray());
     }
-
-    public function testQueryCreateFromGlobals()
-    {
-        if (empty($_GET)) {
-            $_GET['test'] = 'test';
-        }
-
-        $query = Query::createFromGlobals();
-
-        $this->assertInstanceOf(Collection::class, $query);
-        $this->assertEquals($_GET, $query->toArray());
-    }
 }

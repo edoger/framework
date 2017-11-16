@@ -24,14 +24,4 @@ class Cookies extends Collection
     {
         return new static($cookies);
     }
-
-    /**
-     * Create request cookies collection from $_COOKIE.
-     *
-     * @return self
-     */
-    public static function createFromGlobals(): self
-    {
-        return static::create($_COOKIE);
-    }
 }

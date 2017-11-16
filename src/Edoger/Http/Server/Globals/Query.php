@@ -24,14 +24,4 @@ class Query extends Collection
     {
         return new static($query);
     }
-
-    /**
-     * Create request query parameters collection from $_GET.
-     *
-     * @return self
-     */
-    public static function createFromGlobals(): self
-    {
-        return static::create($_GET);
-    }
 }

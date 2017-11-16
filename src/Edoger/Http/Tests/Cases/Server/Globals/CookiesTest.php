@@ -30,16 +30,4 @@ class CookiesTest extends TestCase
         $this->assertInstanceOf(Collection::class, $cookies);
         $this->assertEquals(['test' => 'test'], $cookies->toArray());
     }
-
-    public function testCookiesCreateFromGlobals()
-    {
-        if (empty($_COOKIE)) {
-            $_COOKIE['test'] = 'test';
-        }
-
-        $cookies = Cookies::createFromGlobals();
-
-        $this->assertInstanceOf(Collection::class, $cookies);
-        $this->assertEquals($_COOKIE, $cookies->toArray());
-    }
 }

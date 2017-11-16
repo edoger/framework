@@ -42,4 +42,15 @@ class Headers extends FoundationHeaders
 
         parent::__construct($headers);
     }
+
+    /**
+     * Create request headers collection.
+     *
+     * @param  iterable $server Server and execution environment variables.
+     * @return self
+     */
+    public static function create(iterable $server): self
+    {
+        return new static($server);
+    }
 }

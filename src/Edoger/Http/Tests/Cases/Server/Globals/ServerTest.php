@@ -30,16 +30,4 @@ class ServerTest extends TestCase
         $this->assertInstanceOf(Collection::class, $server);
         $this->assertEquals(['test' => 'test'], $server->toArray());
     }
-
-    public function testServerCreateFromGlobals()
-    {
-        if (empty($_SERVER)) {
-            $_SERVER['test'] = 'test';
-        }
-
-        $server = Server::createFromGlobals();
-
-        $this->assertInstanceOf(Collection::class, $server);
-        $this->assertEquals($_SERVER, $server->toArray());
-    }
 }

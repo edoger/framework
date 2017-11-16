@@ -30,16 +30,4 @@ class BodyTest extends TestCase
         $this->assertInstanceOf(Collection::class, $body);
         $this->assertEquals(['test' => 'test'], $body->toArray());
     }
-
-    public function testBodyCreateFromGlobals()
-    {
-        if (empty($_POST)) {
-            $_POST['test'] = 'test';
-        }
-        
-        $body = Body::createFromGlobals();
-
-        $this->assertInstanceOf(Collection::class, $body);
-        $this->assertEquals($_POST, $body->toArray());
-    }
 }

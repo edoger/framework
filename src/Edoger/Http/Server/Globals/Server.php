@@ -24,14 +24,4 @@ class Server extends Collection
     {
         return new static($server);
     }
-
-    /**
-     * Create server and execution environment variables collection from $_SERVER.
-     *
-     * @return self
-     */
-    public static function createFromGlobals(): self
-    {
-        return static::create($_SERVER);
-    }
 }

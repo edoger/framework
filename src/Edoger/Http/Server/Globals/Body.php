@@ -24,14 +24,4 @@ class Body extends Collection
     {
         return new static($body);
     }
-
-    /**
-     * Create request body parameters collection from $_POST.
-     *
-     * @return self
-     */
-    public static function createFromGlobals(): self
-    {
-        return static::create($_POST);
-    }
 }
