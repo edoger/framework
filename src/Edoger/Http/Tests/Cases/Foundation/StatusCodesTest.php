@@ -104,4 +104,27 @@ class StatusCodesTest extends TestCase
 
         StatusCodes::getText(1000); // exception
     }
+
+    public function testStatusCodesAddCustomStatusCode()
+    {
+        $this->assertFalse(StatusCodes::addCustomStatusCode(200, 'Test Status Code'));
+        $this->assertTrue(StatusCodes::addCustomStatusCode(900, 'Test Status Code'));
+
+        $this->assertTrue(StatusCodes::isValid(200));
+        $this->assertTrue(StatusCodes::isValid(900));
+
+        $this->assertEquals('OK', StatusCodes::getText(200));
+        $this->assertEquals('Test Status Code', StatusCodes::getText(900));
+    }
+
+    public function testStatusCodesClearCustomStatusCodes()
+    {
+        StatusCodes::clearCustomStatusCodes(); // init
+
+        StatusCodes::addCustomStatusCode(900, 'Test Status Code');
+
+        $this->assertTrue(StatusCodes::isValid(900));
+        StatusCodes::clearCustomStatusCodes();
+        $this->assertFalse(StatusCodes::isValid(900));
+    }
 }

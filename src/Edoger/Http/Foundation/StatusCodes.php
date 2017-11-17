@@ -92,6 +92,13 @@ class StatusCodes
     ];
 
     /**
+     * Custom HTTP status codes.
+     *
+     * @var array
+     */
+    protected static $custom = [];
+
+    /**
      * Determines whether the given status code is valid.
      *
      * @param  integer   $code The given status code.
@@ -99,7 +106,7 @@ class StatusCodes
      */
     public static function isValid(int $code): bool
     {
-        return isset(static::$codes[$code]);
+        return isset(static::$codes[$code]) || isset(static::$custom[$code]);
     }
 
     /**
@@ -111,10 +118,42 @@ class StatusCodes
      */
     public static function getText(int $code): string
     {
-        if (static::isValid($code)) {
+        if (isset(static::$codes[$code])) {
             return static::$codes[$code];
         }
 
+        if (isset(static::$custom[$code])) {
+            return static::$custom[$code];
+        }
+
         throw new InvalidArgumentException('Invalid HTTP status code.');
+    }
+
+    /**
+     * Add a custom HTTP status code.
+     *
+     * @param  integer   $code The given status code.
+     * @param  string    $text The given status text.
+     * @return boolean
+     */
+    public static function addCustomStatusCode(int $code, string $text): bool
+    {
+        if (static::isValid($code)) {
+            return false;
+        }
+
+        static::$custom[$code] = $text;
+
+        return true;
+    }
+
+    /**
+     * Clear all custom HTTP status codes.
+     *
+     * @return void
+     */
+    public static function clearCustomStatusCodes(): void
+    {
+        static::$custom = [];
     }
 }
