@@ -11,6 +11,7 @@
 namespace Edoger\Http\Foundation;
 
 use Edoger\Container\Collection as CollectionContainer;
+use Edoger\Util\Arr;
 
 class Collection extends CollectionContainer
 {
@@ -49,5 +50,18 @@ class Collection extends CollectionContainer
         }
 
         return $default;
+    }
+
+    /**
+     * Replaces all elements in the current collection.
+     *
+     * @param  mixed  $elements The collection elements.
+     * @return self
+     */
+    public function replace($elements): self
+    {
+        $this->elements = Arr::convert($elements);
+
+        return $this;
     }
 }

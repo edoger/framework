@@ -53,4 +53,13 @@ class CollectionTest extends TestCase
         $this->assertEquals('test', $collection->getAny(new CollectionContainer(['bar', 'test'])));
         $this->assertEquals('test', $collection->getAny(new CollectionContainer(['bar', 'foo']), 'test'));
     }
+
+    public function testCollectionReplace()
+    {
+        $collection = new Collection(['test' => 'test']);
+
+        $this->assertEquals(['test' => 'test'], $collection->toArray());
+        $this->assertEquals($collection, $collection->replace(['bar', 'test']));
+        $this->assertEquals(['bar', 'test'], $collection->toArray());
+    }
 }
