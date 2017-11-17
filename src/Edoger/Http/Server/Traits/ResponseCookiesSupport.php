@@ -148,7 +148,7 @@ trait ResponseCookiesSupport
     public function removeCookie(string $name)
     {
         if ($this->hasCookie($name)) {
-            unset($this->cookies);
+            unset($this->cookies[$name]);
         }
 
         return $this;
