@@ -75,6 +75,11 @@ trait RequestAttributesSupport
     {
         $this->getAttributes()->clear();
 
+        // Update request header information.
+        // Some of the attributes will depend on the request header,
+        // which will not be updated without forcing the request header set to be rebuilt.
+        $this->initRequestHeadersSupport();
+
         return $this;
     }
 }
