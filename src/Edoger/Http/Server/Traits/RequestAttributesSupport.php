@@ -65,4 +65,16 @@ trait RequestAttributesSupport
 
         return $value;
     }
+
+    /**
+     * Flush the request attributes.
+     *
+     * @return self
+     */
+    public function flushAttributes()
+    {
+        $this->getAttributes()->clear();
+
+        return $this;
+    }
 }
