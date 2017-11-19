@@ -138,6 +138,7 @@ class StatusCodes
      */
     public static function addCustomStatusCode(int $code, string $text): bool
     {
+        // Do not allow changes to existing status codes.
         if (static::isValid($code)) {
             return false;
         }
