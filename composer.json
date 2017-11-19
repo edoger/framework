@@ -1,10 +1,10 @@
 {
-	"name": "edoger/example",
-	"description": "The Edoger framework example component.",
-	"keywords": ["edoger", "example"],
+	"name": "edoger/database",
+	"description": "The Edoger framework database component.",
+	"keywords": ["edoger", "database"],
 	"license": "LGPL-3.0",
 	"type": "library",
-	"homepage": "https://github.com/edoger/example",
+	"homepage": "https://github.com/edoger/database",
 	"authors": [
 		{
 			"name": "Qingshan Luo",
@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Edoger\\Example\\": ""
+            "Edoger\\Database\\": ""
         },
         "exclude-from-classmap": [
             "/Tests/"
