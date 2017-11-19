@@ -1,10 +1,10 @@
 {
-	"name": "edoger/example",
-	"description": "The Edoger framework example component.",
-	"keywords": ["edoger", "example"],
+	"name": "edoger/session",
+	"description": "The Edoger framework session component.",
+	"keywords": ["edoger", "session"],
 	"license": "LGPL-3.0",
 	"type": "library",
-	"homepage": "https://github.com/edoger/example",
+	"homepage": "https://github.com/edoger/session",
 	"authors": [
 		{
 			"name": "Qingshan Luo",
@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Edoger\\Example\\": ""
+            "Edoger\\Session\\": ""
         },
         "exclude-from-classmap": [
             "/Tests/"
