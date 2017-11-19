@@ -1,0 +1,33 @@
+{
+	"name": "edoger/database",
+	"description": "The Edoger framework database component.",
+	"keywords": ["edoger", "database"],
+	"license": "LGPL-3.0",
+	"type": "library",
+	"homepage": "https://github.com/edoger/database",
+	"authors": [
+		{
+			"name": "Qingshan Luo",
+			"email": "shanshan.lqs@gmail.com"
+		}
+	],
+	"require": {
+        "php": ">=7.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=6.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Edoger\\Database\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
