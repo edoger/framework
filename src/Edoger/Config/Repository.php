@@ -26,7 +26,8 @@ class Repository implements Arrayable, Countable
     /**
      * The configuration repository constructor.
      *
-     * @param  iterable $items The configuration items.
+     * @param iterable $items The configuration items.
+     *
      * @return void
      */
     public function __construct(iterable $items = [])
@@ -39,7 +40,7 @@ class Repository implements Arrayable, Countable
     /**
      * Determines whether the current configuration item repository is empty.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEmpty(): bool
     {
@@ -49,8 +50,9 @@ class Repository implements Arrayable, Countable
     /**
      * Determines whether a configuration item for a given search string exists.
      *
-     * @param  string    $search The configuration item search string.
-     * @return boolean
+     * @param string $search The configuration item search string.
+     *
+     * @return bool
      */
     public function has(string $search): bool
     {
@@ -74,8 +76,9 @@ class Repository implements Arrayable, Countable
     /**
      * Gets the configuration item for the given query string from the current repository.
      *
-     * @param  string  $search  The configuration item search string.
-     * @param  mixed   $default The default value.
+     * @param string $search  The configuration item search string.
+     * @param mixed  $default The default value.
+     *
      * @return mixed
      */
     public function get(string $search, $default = null)
@@ -110,7 +113,7 @@ class Repository implements Arrayable, Countable
     /**
      * Gets the size of the current repository.
      *
-     * @return integer
+     * @return int
      */
     public function count()
     {

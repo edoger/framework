@@ -10,12 +10,12 @@
 
 namespace Edoger\Config\Tests\Cases;
 
+use RuntimeException;
 use Edoger\Config\Config;
-use Edoger\Config\Tests\Support\TestLoader;
 use Edoger\Event\Collector;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
+use Edoger\Config\Tests\Support\TestLoader;
 
 class ConfigTest extends TestCase
 {

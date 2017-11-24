@@ -11,9 +11,9 @@
 namespace Edoger\Config\Tests\Support;
 
 use Closure;
-use Edoger\Config\AbstractLoader;
-use Edoger\Config\Repository;
 use Exception;
+use Edoger\Config\Repository;
+use Edoger\Config\AbstractLoader;
 
 class TestExceptionLoader extends AbstractLoader
 {

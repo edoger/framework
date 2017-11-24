@@ -11,8 +11,8 @@
 namespace Edoger\Config\Loaders;
 
 use Closure;
-use Edoger\Config\AbstractLoader;
 use Edoger\Config\Repository;
+use Edoger\Config\AbstractLoader;
 
 class ArrayLoader extends AbstractLoader
 {
@@ -33,8 +33,9 @@ class ArrayLoader extends AbstractLoader
     /**
      * The array loader constructor.
      *
-     * @param  string $directory The directory of the configuration files.
-     * @param  string $suffix    The suffix of the configuration file name.
+     * @param string $directory The directory of the configuration files.
+     * @param string $suffix    The suffix of the configuration file name.
+     *
      * @return void
      */
     public function __construct(string $directory, string $suffix = '.php')
@@ -46,8 +47,9 @@ class ArrayLoader extends AbstractLoader
     /**
      * Load the configuration group.
      *
-     * @param  string                     $group The configuration group name.
-     * @param  Closure                    $next  The trigger for the next loader.
+     * @param string  $group The configuration group name.
+     * @param Closure $next  The trigger for the next loader.
+     *
      * @return Edoger\Config\Repository
      */
     public function load(string $group, Closure $next): Repository
@@ -62,7 +64,8 @@ class ArrayLoader extends AbstractLoader
     /**
      * Read the configuration item in the configuration file.
      *
-     * @param  string  $file The configuration file path.
+     * @param string $file The configuration file path.
+     *
      * @return array
      */
     protected function read(string $file): array

@@ -11,19 +11,21 @@
 namespace Edoger\Config;
 
 use Closure;
-use Edoger\Config\Contracts\Loader;
-use Edoger\Container\Container;
-use Edoger\Flow\Contracts\Processor;
 use InvalidArgumentException;
+use Edoger\Container\Container;
+use Edoger\Config\Contracts\Loader;
+use Edoger\Flow\Contracts\Processor;
 
 abstract class AbstractLoader implements Processor
 {
     /**
      * Process configuration group load task.
      *
-     * @param  Edoger\Containers\Container $input The processor input parameters.
-     * @param  Closure                     $next  The trigger for the next processor.
-     * @throws InvalidArgumentException    Throws when the configuration group name is invalid.
+     * @param Edoger\Containers\Container $input The processor input parameters.
+     * @param Closure                     $next  The trigger for the next processor.
+     *
+     * @throws InvalidArgumentException Throws when the configuration group name is invalid.
+     *
      * @return mixed
      */
     final public function process(Container $input, Closure $next)
@@ -42,8 +44,9 @@ abstract class AbstractLoader implements Processor
     /**
      * Load the configuration group.
      *
-     * @param  string                     $group The configuration group name.
-     * @param  Closure                    $next  The trigger for the next loader.
+     * @param string  $group The configuration group name.
+     * @param Closure $next  The trigger for the next loader.
+     *
      * @return Edoger\Config\Repository
      */
     abstract public function load(string $group, Closure $next): Repository;

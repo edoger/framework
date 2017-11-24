@@ -10,14 +10,14 @@
 
 namespace Edoger\Config\Tests\Cases;
 
-use Edoger\Config\Config;
-use Edoger\Config\Repository;
-use Edoger\Config\Tests\Support\TestExceptionLoader;
-use Edoger\Config\Tests\Support\TestLoader;
-use Edoger\Event\Dispatcher;
-use Edoger\Event\Event;
 use Exception;
+use Edoger\Event\Event;
+use Edoger\Config\Config;
+use Edoger\Event\Dispatcher;
+use Edoger\Config\Repository;
 use PHPUnit\Framework\TestCase;
+use Edoger\Config\Tests\Support\TestLoader;
+use Edoger\Config\Tests\Support\TestExceptionLoader;
 
 class ConfigEventTest extends TestCase
 {

@@ -11,11 +11,11 @@
 namespace Edoger\Config\Tests\Cases\Loaders;
 
 use Closure;
-use Edoger\Config\AbstractLoader;
 use Edoger\Config\Config;
-use Edoger\Config\Loaders\CallableLoader;
 use Edoger\Config\Repository;
 use PHPUnit\Framework\TestCase;
+use Edoger\Config\AbstractLoader;
+use Edoger\Config\Loaders\CallableLoader;
 
 class CallableLoaderTest extends TestCase
 {
@@ -60,5 +60,4 @@ class CallableLoaderTest extends TestCase
         $this->assertInstanceOf(Repository::class, $group);
         $this->assertEquals([], $group->toArray());
     }
-
 }

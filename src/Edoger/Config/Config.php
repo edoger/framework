@@ -10,15 +10,15 @@
 
 namespace Edoger\Config;
 
-use Edoger\Config\Loaders\CallableLoader;
-use Edoger\Event\Collector;
-use Edoger\Event\Dispatcher;
+use Edoger\Util\Arr;
+use Edoger\Flow\Flow;
+use RuntimeException;
 use Edoger\Event\Factory;
 use Edoger\Event\Trigger;
-use Edoger\Flow\Flow;
-use Edoger\Util\Arr;
+use Edoger\Event\Collector;
+use Edoger\Event\Dispatcher;
 use InvalidArgumentException;
-use RuntimeException;
+use Edoger\Config\Loaders\CallableLoader;
 
 class Config extends Collector
 {
@@ -46,9 +46,11 @@ class Config extends Collector
     /**
      * The config constructor.
      *
-     * @param  iterable                 $loaders    The configuration group loaders.
-     * @param  Edoger\Event\Dispatcher  $dispatcher The configuration event dispatcher.
+     * @param iterable                $loaders    The configuration group loaders.
+     * @param Edoger\Event\Dispatcher $dispatcher The configuration event dispatcher.
+     *
      * @throws InvalidArgumentException Thrown when the configuration group loader is invalid.
+     *
      * @return void
      */
     public function __construct(iterable $loaders = [], Dispatcher $dispatcher = null)
@@ -90,7 +92,7 @@ class Config extends Collector
     /**
      * Determines whether the current loader collection is empty.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEmptyLoaders(): bool
     {
@@ -100,7 +102,7 @@ class Config extends Collector
     /**
      * Get the size of the current group configuration loader collection.
      *
-     * @return integer
+     * @return int
      */
     public function countLoaders(): int
     {
@@ -122,8 +124,9 @@ class Config extends Collector
     /**
      * Append a configuration group loader.
      *
-     * @param  Edoger\Config\AbstractLoader|callable $loader The configuration group loader.
-     * @return integer
+     * @param Edoger\Config\AbstractLoader|callable $loader The configuration group loader.
+     *
+     * @return int
      */
     public function pushLoader($loader): int
     {
@@ -139,7 +142,8 @@ class Config extends Collector
     /**
      * Delete and return a configuration group loader.
      *
-     * @throws RuntimeException               Throws when the configuration group loader collection is empty.
+     * @throws RuntimeException Throws when the configuration group loader collection is empty.
+     *
      * @return Edoger\Config\AbstractLoader
      */
     public function popLoader(): AbstractLoader
@@ -169,8 +173,9 @@ class Config extends Collector
      * Gets the configuration group collection for the given name.
      * If the configuration group does not exist, an empty collection is returned.
      *
-     * @param  string                     $group  The configuration group name.
-     * @param  boolean                    $reload Whether to reload the configuration group.
+     * @param string $group  The configuration group name.
+     * @param bool   $reload Whether to reload the configuration group.
+     *
      * @return Edoger\Config\Repository
      */
     public function group(string $group, bool $reload = false): Repository

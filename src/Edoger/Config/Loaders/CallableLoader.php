@@ -11,9 +11,9 @@
 namespace Edoger\Config\Loaders;
 
 use Closure;
-use Edoger\Config\AbstractLoader;
-use Edoger\Config\Repository;
 use RuntimeException;
+use Edoger\Config\Repository;
+use Edoger\Config\AbstractLoader;
 
 class CallableLoader extends AbstractLoader
 {
@@ -27,7 +27,8 @@ class CallableLoader extends AbstractLoader
     /**
      * The callable loader constructor.
      *
-     * @param  callable $loader The configuration group callable loader.
+     * @param callable $loader The configuration group callable loader.
+     *
      * @return void
      */
     public function __construct(callable $loader)
@@ -38,8 +39,9 @@ class CallableLoader extends AbstractLoader
     /**
      * Load the configuration group.
      *
-     * @param  string                     $group The configuration group name.
-     * @param  Closure                    $next  The trigger for the next loader.
+     * @param string  $group The configuration group name.
+     * @param Closure $next  The trigger for the next loader.
+     *
      * @return Edoger\Config\Repository
      */
     public function load(string $group, Closure $next): Repository

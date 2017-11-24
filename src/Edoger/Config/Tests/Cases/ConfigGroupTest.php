@@ -12,9 +12,9 @@ namespace Edoger\Config\Tests\Cases;
 
 use Edoger\Config\Config;
 use Edoger\Config\Repository;
-use Edoger\Config\Tests\Support\TestExceptionLoader;
-use Edoger\Config\Tests\Support\TestLoader;
 use PHPUnit\Framework\TestCase;
+use Edoger\Config\Tests\Support\TestLoader;
+use Edoger\Config\Tests\Support\TestExceptionLoader;
 
 class ConfigGroupTest extends TestCase
 {

@@ -10,11 +10,11 @@
 
 namespace Edoger\Config\Tests\Cases\Loaders;
 
-use Edoger\Config\AbstractLoader;
 use Edoger\Config\Config;
-use Edoger\Config\Loaders\ArrayLoader;
 use Edoger\Config\Repository;
 use PHPUnit\Framework\TestCase;
+use Edoger\Config\AbstractLoader;
+use Edoger\Config\Loaders\ArrayLoader;
 
 class ArrayLoaderTest extends TestCase
 {

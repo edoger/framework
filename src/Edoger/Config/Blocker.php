@@ -10,18 +10,19 @@
 
 namespace Edoger\Config;
 
-use Edoger\Container\Container;
-use Edoger\Container\Wrapper;
-use Edoger\Event\Trigger;
-use Edoger\Flow\Contracts\Blocker as BlockerContract;
 use Throwable;
+use Edoger\Event\Trigger;
+use Edoger\Container\Wrapper;
+use Edoger\Container\Container;
+use Edoger\Flow\Contracts\Blocker as BlockerContract;
 
 class Blocker extends Wrapper implements BlockerContract
 {
     /**
      * The configuration group load flow blocker constructor.
      *
-     * @param  Edoger\Event\Trigger $trigger [description]
+     * @param Edoger\Event\Trigger $trigger [description]
+     *
      * @return void
      */
     public function __construct(Trigger $trigger)
@@ -32,8 +33,9 @@ class Blocker extends Wrapper implements BlockerContract
     /**
      * Block the current call stack.
      *
-     * @param  Edoger\Container\Container $input     The processor input parameter container.
-     * @param  Throwable|null             $exception The captured processor exception.
+     * @param Edoger\Container\Container $input     The processor input parameter container.
+     * @param Throwable|null             $exception The captured processor exception.
+     *
      * @return Edoger\Config\Repository
      */
     public function block(Container $input, Throwable $exception = null)

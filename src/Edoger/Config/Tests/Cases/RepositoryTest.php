@@ -12,8 +12,8 @@ namespace Edoger\Config\Tests\Cases;
 
 use Countable;
 use Edoger\Config\Repository;
-use Edoger\Util\Contracts\Arrayable;
 use PHPUnit\Framework\TestCase;
+use Edoger\Util\Contracts\Arrayable;
 
 class RepositoryTest extends TestCase
 {
