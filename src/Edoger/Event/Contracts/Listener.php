@@ -10,16 +10,17 @@
 
 namespace Edoger\Event\Contracts;
 
-use Edoger\Event\Dispatcher;
 use Edoger\Event\Event;
+use Edoger\Event\Dispatcher;
 
 interface Listener
 {
     /**
      * Run the current event listener.
      *
-     * @param  Edoger\Event\Event      $event      The event body.
-     * @param  Edoger\Event\Dispatcher $dispatcher The event dispatcher.
+     * @param Edoger\Event\Event      $event      The event body.
+     * @param Edoger\Event\Dispatcher $dispatcher The event dispatcher.
+     *
      * @return void
      */
     public function handle(Event $event, Dispatcher $dispatcher): void;

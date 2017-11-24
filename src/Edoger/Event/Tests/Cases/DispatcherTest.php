@@ -11,10 +11,10 @@
 namespace Edoger\Event\Tests\Cases;
 
 use Edoger\Event\Dispatcher;
-use Edoger\Event\Tests\Support\TestListener;
-use Edoger\Util\Contracts\Arrayable;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Edoger\Util\Contracts\Arrayable;
+use Edoger\Event\Tests\Support\TestListener;
 
 class DispatcherTest extends TestCase
 {

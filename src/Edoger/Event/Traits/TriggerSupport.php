@@ -10,8 +10,8 @@
 
 namespace Edoger\Event\Traits;
 
-use Edoger\Event\Dispatcher;
 use Edoger\Event\Event;
+use Edoger\Event\Dispatcher;
 
 trait TriggerSupport
 {
@@ -25,8 +25,9 @@ trait TriggerSupport
     /**
      * Determines whether the listener for the specified event exists.
      *
-     * @param  string    $name The event name.
-     * @return boolean
+     * @param string $name The event name.
+     *
+     * @return bool
      */
     public function hasEventListener(string $name): bool
     {
@@ -36,8 +37,9 @@ trait TriggerSupport
     /**
      * Triggers an event with the specified name.
      *
-     * @param  string               $name The event name.
-     * @param  mixed                $body The event body.
+     * @param string $name The event name.
+     * @param mixed  $body The event body.
+     *
      * @return Edoger\Event\Event
      */
     public function emit(string $name, $body = []): Event

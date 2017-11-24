@@ -10,10 +10,10 @@
 
 namespace Edoger\Event\Tests\Cases;
 
-use Edoger\Event\Dispatcher;
 use Edoger\Event\Event;
-use Edoger\Event\Tests\Support\TestListener;
+use Edoger\Event\Dispatcher;
 use PHPUnit\Framework\TestCase;
+use Edoger\Event\Tests\Support\TestListener;
 
 class DispatcherDispatchTest extends TestCase
 {

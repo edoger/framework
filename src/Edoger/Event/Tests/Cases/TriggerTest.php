@@ -10,14 +10,14 @@
 
 namespace Edoger\Event\Tests\Cases;
 
-use Edoger\Event\Contracts\Trigger as TriggerContract;
-use Edoger\Event\Dispatcher;
-use Edoger\Event\DispatcherContainer;
 use Edoger\Event\Event;
-use Edoger\Event\Tests\Support\TestListener;
-use Edoger\Event\Traits\TriggerSupport;
 use Edoger\Event\Trigger;
+use Edoger\Event\Dispatcher;
 use PHPUnit\Framework\TestCase;
+use Edoger\Event\DispatcherContainer;
+use Edoger\Event\Traits\TriggerSupport;
+use Edoger\Event\Tests\Support\TestListener;
+use Edoger\Event\Contracts\Trigger as TriggerContract;
 
 class TriggerTest extends TestCase
 {

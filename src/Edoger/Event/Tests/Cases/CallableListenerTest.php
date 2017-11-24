@@ -10,12 +10,12 @@
 
 namespace Edoger\Event\Tests\Cases;
 
+use Edoger\Event\Event;
+use Edoger\Event\Dispatcher;
 use Edoger\Container\Wrapper;
+use PHPUnit\Framework\TestCase;
 use Edoger\Event\CallableListener;
 use Edoger\Event\Contracts\Listener;
-use Edoger\Event\Dispatcher;
-use Edoger\Event\Event;
-use PHPUnit\Framework\TestCase;
 
 class CallableListenerTest extends TestCase
 {

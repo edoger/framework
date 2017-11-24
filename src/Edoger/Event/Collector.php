@@ -10,8 +10,8 @@
 
 namespace Edoger\Event;
 
-use Edoger\Event\Contracts\Collector as CollectorContract;
 use Edoger\Event\Traits\CollectorSupport;
+use Edoger\Event\Contracts\Collector as CollectorContract;
 
 class Collector extends DispatcherContainer implements CollectorContract
 {

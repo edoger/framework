@@ -10,9 +10,9 @@
 
 namespace Edoger\Event\Tests\Cases;
 
-use Edoger\Container\Collection;
 use Edoger\Event\Event;
 use PHPUnit\Framework\TestCase;
+use Edoger\Container\Collection;
 
 class EventTest extends TestCase
 {

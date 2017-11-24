@@ -17,16 +17,18 @@ interface Trigger
     /**
      * Determines whether the listener for the specified event exists.
      *
-     * @param  string    $name The event name.
-     * @return boolean
+     * @param string $name The event name.
+     *
+     * @return bool
      */
     public function hasEventListener(string $name): bool;
 
     /**
      * Triggers an event with the specified name.
      *
-     * @param  string               $name The event name.
-     * @param  mixed                $body The event body.
+     * @param string $name The event name.
+     * @param mixed  $body The event body.
+     *
      * @return Edoger\Event\Event
      */
     public function emit(string $name, $body = []): Event;

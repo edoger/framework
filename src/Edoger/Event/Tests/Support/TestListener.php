@@ -10,9 +10,9 @@
 
 namespace Edoger\Event\Tests\Support;
 
-use Edoger\Event\Contracts\Listener;
-use Edoger\Event\Dispatcher;
 use Edoger\Event\Event;
+use Edoger\Event\Dispatcher;
+use Edoger\Event\Contracts\Listener;
 
 class TestListener implements Listener
 {

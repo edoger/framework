@@ -31,16 +31,17 @@ class Event extends Collection
     /**
      * Marks whether the current event has been interrupted.
      *
-     * @var boolean
+     * @var bool
      */
     protected $interrupted = false;
 
     /**
      * The event constructor.
      *
-     * @param  string $name  The event name.
-     * @param  string $group The event group name.
-     * @param  mixed  $body  The event body.
+     * @param string $name  The event name.
+     * @param string $group The event group name.
+     * @param mixed  $body  The event body.
+     *
      * @return void
      */
     public function __construct(string $name, string $group = '', $body = [])
@@ -88,7 +89,7 @@ class Event extends Collection
     /**
      * Determines whether the current event has been interrupted.
      *
-     * @return boolean
+     * @return bool
      */
     public function isInterrupted(): bool
     {

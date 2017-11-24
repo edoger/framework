@@ -10,8 +10,8 @@
 
 namespace Edoger\Event;
 
-use Edoger\Event\Contracts\Trigger as TriggerContract;
 use Edoger\Event\Traits\TriggerSupport;
+use Edoger\Event\Contracts\Trigger as TriggerContract;
 
 class Trigger extends DispatcherContainer implements TriggerContract
 {

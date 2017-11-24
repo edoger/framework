@@ -10,16 +10,16 @@
 
 namespace Edoger\Event\Tests\Cases;
 
-use Edoger\Event\Contracts\Collector;
-use Edoger\Event\Contracts\Trigger;
-use Edoger\Event\Dispatcher;
-use Edoger\Event\DispatcherContainer;
-use Edoger\Event\Emitter;
 use Edoger\Event\Event;
-use Edoger\Event\Tests\Support\TestListener;
-use Edoger\Event\Traits\CollectorSupport;
-use Edoger\Event\Traits\TriggerSupport;
+use Edoger\Event\Emitter;
+use Edoger\Event\Dispatcher;
 use PHPUnit\Framework\TestCase;
+use Edoger\Event\Contracts\Trigger;
+use Edoger\Event\Contracts\Collector;
+use Edoger\Event\DispatcherContainer;
+use Edoger\Event\Traits\TriggerSupport;
+use Edoger\Event\Traits\CollectorSupport;
+use Edoger\Event\Tests\Support\TestListener;
 
 class EmitterTest extends TestCase
 {

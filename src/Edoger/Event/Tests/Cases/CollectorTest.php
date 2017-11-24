@@ -11,12 +11,12 @@
 namespace Edoger\Event\Tests\Cases;
 
 use Edoger\Event\Collector;
-use Edoger\Event\Contracts\Collector as CollectorContract;
 use Edoger\Event\Dispatcher;
-use Edoger\Event\DispatcherContainer;
-use Edoger\Event\Tests\Support\TestListener;
-use Edoger\Event\Traits\CollectorSupport;
 use PHPUnit\Framework\TestCase;
+use Edoger\Event\DispatcherContainer;
+use Edoger\Event\Traits\CollectorSupport;
+use Edoger\Event\Tests\Support\TestListener;
+use Edoger\Event\Contracts\Collector as CollectorContract;
 
 class CollectorTest extends TestCase
 {

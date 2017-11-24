@@ -10,8 +10,8 @@
 
 namespace Edoger\Event\Tests\Cases;
 
-use Edoger\Event\Dispatcher;
 use Edoger\Event\Factory;
+use Edoger\Event\Dispatcher;
 use PHPUnit\Framework\TestCase;
 
 class FactoryTest extends TestCase

@@ -10,11 +10,11 @@
 
 namespace Edoger\Event;
 
-use Edoger\Event\Contracts\Listener;
 use Edoger\Util\Arr;
-use Edoger\Util\Contracts\Arrayable;
 use Edoger\Util\Str;
 use InvalidArgumentException;
+use Edoger\Event\Contracts\Listener;
+use Edoger\Util\Contracts\Arrayable;
 
 class Dispatcher implements Arrayable
 {
@@ -35,8 +35,9 @@ class Dispatcher implements Arrayable
     /**
      * The event dispatcher constructor.
      *
-     * @param  mixed  $listeners The event listeners.
-     * @param  string $group     The event group name.
+     * @param mixed  $listeners The event listeners.
+     * @param string $group     The event group name.
+     *
      * @return void
      */
     public function __construct($listeners = [], string $group = '')
@@ -64,7 +65,8 @@ class Dispatcher implements Arrayable
     /**
      * Standardize the name of the event.
      *
-     * @param  string   $name The event name.
+     * @param string $name The event name.
+     *
      * @return string
      */
     public function standardizeEventName(string $name): string
@@ -79,8 +81,9 @@ class Dispatcher implements Arrayable
     /**
      * Determines whether the current event listener stack is enabled.
      *
-     * @param  string    $name The event name.
-     * @return boolean
+     * @param string $name The event name.
+     *
+     * @return bool
      */
     public function isEnabled(string $name): bool
     {
@@ -94,7 +97,8 @@ class Dispatcher implements Arrayable
     /**
      * Enable the current event listener stack.
      *
-     * @param  string $name The event name.
+     * @param string $name The event name.
+     *
      * @return self
      */
     public function enable(string $name)
@@ -109,7 +113,8 @@ class Dispatcher implements Arrayable
     /**
      * Disable the current event listener stack.
      *
-     * @param  string $name The event name.
+     * @param string $name The event name.
+     *
      * @return self
      */
     public function disable(string $name)
@@ -124,8 +129,9 @@ class Dispatcher implements Arrayable
     /**
      * Determines whether the event listener stack for the specified event is empty.
      *
-     * @param  string    $name The event name.
-     * @return boolean
+     * @param string $name The event name.
+     *
+     * @return bool
      */
     public function isEmptyListeners(string $name): bool
     {
@@ -140,7 +146,8 @@ class Dispatcher implements Arrayable
     /**
      * Gets the event listeners for the specified event.
      *
-     * @param  string  $name The event name.
+     * @param string $name The event name.
+     *
      * @return array
      */
     public function getListeners(string $name): array
@@ -166,10 +173,12 @@ class Dispatcher implements Arrayable
     /**
      * Add an event listener for the specified event.
      *
-     * @param  string                                   $name     The event name.
-     * @param  Edoger\Event\Contracts\Listener|callable $listener The event listener.
-     * @throws InvalidArgumentException                 Thrown when the event listener is invalid.
-     * @return integer
+     * @param string                                   $name     The event name.
+     * @param Edoger\Event\Contracts\Listener|callable $listener The event listener.
+     *
+     * @throws InvalidArgumentException Thrown when the event listener is invalid.
+     *
+     * @return int
      */
     public function addListener(string $name, $listener): int
     {
@@ -195,7 +204,9 @@ class Dispatcher implements Arrayable
     /**
      * Removes a listener for the specified event.
      *
-     * @param  string                                          $event The event name.
+     * @param string $event The event name.
+     * @param string $name
+     *
      * @return Edoger\Event\Contracts\Listener|callable|null
      */
     public function removeListener(string $name)
@@ -217,7 +228,8 @@ class Dispatcher implements Arrayable
     /**
      * Clear all listeners for the specified event.
      *
-     * @param  string $name The event name.
+     * @param string $name The event name.
+     *
      * @return self
      */
     public function clearListeners(string $name)
@@ -232,8 +244,9 @@ class Dispatcher implements Arrayable
     /**
      * Gets the listener stack size for the specified event.
      *
-     * @param  string    $name The event name.
-     * @return integer
+     * @param string $name The event name.
+     *
+     * @return int
      */
     public function countListeners(string $name): int
     {
@@ -248,8 +261,9 @@ class Dispatcher implements Arrayable
     /**
      * Distribute events, run the event listener program.
      *
-     * @param  string               $name The event name.
-     * @param  mixed                $body The event body.
+     * @param string $name The event name.
+     * @param mixed  $body The event body.
+     *
      * @return Edoger\Event\Event
      */
     public function dispatch(string $name, $body = []): Event

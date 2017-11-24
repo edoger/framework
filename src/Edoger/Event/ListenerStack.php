@@ -17,14 +17,14 @@ class ListenerStack extends Stack
     /**
      * Marks whether the current event listener stack is enabled.
      *
-     * @var boolean
+     * @var bool
      */
     protected $enabled = true;
 
     /**
      * Determines whether the current event listener stack is enabled.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEnabled(): bool
     {

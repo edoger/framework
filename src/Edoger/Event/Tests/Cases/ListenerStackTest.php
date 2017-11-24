@@ -41,7 +41,7 @@ class ListenerStackTest extends TestCase
     public function testListenerStackDisable()
     {
         $stack = new ListenerStack();
-        
+
         $this->assertEquals($stack, $stack->disable());
         $this->assertFalse($stack->isEnabled());
     }

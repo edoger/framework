@@ -10,11 +10,11 @@
 
 namespace Edoger\Event\Tests\Cases;
 
-use Edoger\Container\Wrapper;
-use Edoger\Event\Contracts\DispatcherContainer as DispatcherContainerContract;
 use Edoger\Event\Dispatcher;
-use Edoger\Event\DispatcherContainer;
+use Edoger\Container\Wrapper;
 use PHPUnit\Framework\TestCase;
+use Edoger\Event\DispatcherContainer;
+use Edoger\Event\Contracts\DispatcherContainer as DispatcherContainerContract;
 
 class DispatcherContainerTest extends TestCase
 {

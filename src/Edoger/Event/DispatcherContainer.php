@@ -18,7 +18,8 @@ class DispatcherContainer extends Wrapper implements DispatcherContainerContract
     /**
      * The event dispatcher container constructor.
      *
-     * @param  Edoger\Event\Dispatcher $dispatcher The event dispatcher.
+     * @param Edoger\Event\Dispatcher $dispatcher The event dispatcher.
+     *
      * @return void
      */
     public function __construct(Dispatcher $dispatcher)
