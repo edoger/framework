@@ -17,7 +17,9 @@ class Query extends Collection
     /**
      * Create request query parameters collection.
      *
-     * @param  iterable $server The request query parameters.
+     * @param iterable $server The request query parameters.
+     * @param iterable $query
+     *
      * @return self
      */
     public static function create(iterable $query): self

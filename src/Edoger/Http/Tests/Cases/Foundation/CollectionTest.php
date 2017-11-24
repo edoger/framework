@@ -10,9 +10,9 @@
 
 namespace Edoger\Http\Tests\Cases\Foundation;
 
-use Edoger\Container\Collection as CollectionContainer;
-use Edoger\Http\Foundation\Collection;
 use PHPUnit\Framework\TestCase;
+use Edoger\Http\Foundation\Collection;
+use Edoger\Container\Collection as CollectionContainer;
 
 class CollectionTest extends TestCase
 {

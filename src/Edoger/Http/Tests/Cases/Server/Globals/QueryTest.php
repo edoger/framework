@@ -10,9 +10,9 @@
 
 namespace Edoger\Http\Tests\Cases\Server\Globals;
 
-use Edoger\Http\Foundation\Collection;
-use Edoger\Http\Server\Globals\Query;
 use PHPUnit\Framework\TestCase;
+use Edoger\Http\Server\Globals\Query;
+use Edoger\Http\Foundation\Collection;
 
 class QueryTest extends TestCase
 {

@@ -44,7 +44,8 @@ trait RequestAttributesSupport
     /**
      * Get the request attribute value.
      *
-     * @param  string  $name The request attribute name.
+     * @param string $name The request attribute name.
+     *
      * @return mixed
      */
     protected function getAttribute(string $name)
@@ -55,8 +56,9 @@ trait RequestAttributesSupport
     /**
      * Put the request attribute.
      *
-     * @param  string  $name  The request attribute name.
-     * @param  mixed   $value The request attribute value.
+     * @param string $name  The request attribute name.
+     * @param mixed  $value The request attribute value.
+     *
      * @return mixed
      */
     protected function putAttribute(string $name, $value)

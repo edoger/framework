@@ -17,7 +17,9 @@ class Body extends Collection
     /**
      * Create request body parameters collection.
      *
-     * @param  iterable $server The request body parameters.
+     * @param iterable $server The request body parameters.
+     * @param iterable $body
+     *
      * @return self
      */
     public static function create(iterable $body): self

@@ -10,11 +10,11 @@
 
 namespace Edoger\Http\Server\Response;
 
+use InvalidArgumentException;
 use Edoger\Http\Foundation\Collection;
 use Edoger\Http\Foundation\StatusCodes;
 use Edoger\Http\Server\Traits\ResponseCookiesSupport;
 use Edoger\Http\Server\Traits\ResponseHeadersSupport;
-use InvalidArgumentException;
 
 class Response
 {
@@ -23,7 +23,7 @@ class Response
     /**
      * The HTTP response status code.
      *
-     * @var integer
+     * @var int
      */
     protected $status;
 
@@ -37,9 +37,10 @@ class Response
     /**
      * The response constructor.
      *
-     * @param  integer  $status  The HTTP response status code.
-     * @param  iterable $content The response content.
-     * @param  iterable $headers The response headers.
+     * @param int      $status  The HTTP response status code.
+     * @param iterable $content The response content.
+     * @param iterable $headers The response headers.
+     *
      * @return void
      */
     public function __construct(int $status, iterable $content, iterable $headers = [])
@@ -54,7 +55,7 @@ class Response
     /**
      * Gets the HTTP response status code.
      *
-     * @return integer
+     * @return int
      */
     public function getStatusCode(): int
     {
@@ -64,8 +65,10 @@ class Response
     /**
      * Sets the HTTP response status code.
      *
-     * @param  integer                  $status The HTTP response status code.
+     * @param int $status The HTTP response status code.
+     *
      * @throws InvalidArgumentException Thrown when the HTTP status code is invalid.
+     *
      * @return void
      */
     public function setStatusCode(int $status): void
@@ -90,7 +93,8 @@ class Response
     /**
      * Set the HTTP response content collection.
      *
-     * @param  iterable $content The HTTP response content.
+     * @param iterable $content The HTTP response content.
+     *
      * @return self
      */
     public function withResponseContent(iterable $content): self

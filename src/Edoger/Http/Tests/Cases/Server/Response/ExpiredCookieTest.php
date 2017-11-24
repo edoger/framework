@@ -10,9 +10,9 @@
 
 namespace Edoger\Http\Tests\Cases\Server\Response;
 
+use PHPUnit\Framework\TestCase;
 use Edoger\Http\Server\Response\Cookie;
 use Edoger\Http\Server\Response\ExpiredCookie;
-use PHPUnit\Framework\TestCase;
 
 class ExpiredCookieTest extends TestCase
 {

@@ -10,17 +10,17 @@
 
 namespace Edoger\Http\Tests\Cases\Server\Request;
 
+use PHPUnit\Framework\TestCase;
 use Edoger\Http\Server\Globals\Body;
-use Edoger\Http\Server\Globals\Cookies;
+use Edoger\Util\Contracts\Arrayable;
 use Edoger\Http\Server\Globals\Query;
 use Edoger\Http\Server\Globals\Server;
+use Edoger\Http\Server\Globals\Cookies;
 use Edoger\Http\Server\Request\Headers;
 use Edoger\Http\Server\Request\Request;
-use Edoger\Http\Server\Traits\RequestAttributesSupport;
 use Edoger\Http\Server\Traits\RequestExtrasSupport;
 use Edoger\Http\Server\Traits\RequestHeadersSupport;
-use Edoger\Util\Contracts\Arrayable;
-use PHPUnit\Framework\TestCase;
+use Edoger\Http\Server\Traits\RequestAttributesSupport;
 
 class RequestTest extends TestCase
 {
@@ -175,16 +175,16 @@ class RequestTest extends TestCase
     public function testRequestGetHeader()
     {
         foreach ([
-            'accept-language'           => 'zh-CN,zh;q=0.8,ko;q=0.6,en;q=0.4',
-            'accept-encoding'           => 'gzip, deflate',
-            'accept'                    => '*/*',
+            'accept-language' => 'zh-CN,zh;q=0.8,ko;q=0.6,en;q=0.4',
+            'accept-encoding' => 'gzip, deflate',
+            'accept' => '*/*',
             'upgrade-insecure-requests' => '1',
-            'user-agent'                => 'Edoger/1.x',
-            'cache-control'             => 'max-age=0',
-            'connection'                => 'keep-alive',
-            'host'                      => 'www.test.org',
-            'content-length'            => '',
-            'content-type'              => '',
+            'user-agent' => 'Edoger/1.x',
+            'cache-control' => 'max-age=0',
+            'connection' => 'keep-alive',
+            'host' => 'www.test.org',
+            'content-length' => '',
+            'content-type' => '',
         ] as $name => $header) {
             $this->assertEquals($header, $this->createRequest()->getHeader($name));
         }
@@ -206,8 +206,8 @@ class RequestTest extends TestCase
         $this->server['PATH_INFO'] = '/test/bar';
         $this->assertEquals('/test/bar', $this->createRequest()->getRequestPath());
 
-        unset($this->server['PATH_INFO']);
-        unset($this->server['REQUEST_URI']);
+        unset($this->server['PATH_INFO'], $this->server['REQUEST_URI']);
+
         $this->assertEquals('/', $this->createRequest()->getRequestPath());
     }
 
@@ -294,8 +294,8 @@ class RequestTest extends TestCase
         $this->server['HTTP_X_FORWARDED_FOR'] = '192.168.1.3';
         $this->assertEquals('192.168.1.3', $this->createRequest()->getClientIp());
 
-        unset($this->server['HTTP_X_FORWARDED_FOR']);
-        unset($this->server['REMOTE_ADDR']);
+        unset($this->server['HTTP_X_FORWARDED_FOR'], $this->server['REMOTE_ADDR']);
+
         $this->assertEquals('127.0.0.1', $this->createRequest()->getClientIp());
 
         $this->server['REMOTE_ADDR'] = '192.168.1.4';

@@ -10,8 +10,8 @@
 
 namespace Edoger\Http\Tests\Cases\Server\Response;
 
-use Edoger\Http\Server\Response\Cookie;
 use PHPUnit\Framework\TestCase;
+use Edoger\Http\Server\Response\Cookie;
 
 class CookieTest extends TestCase
 {

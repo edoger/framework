@@ -10,17 +10,17 @@
 
 namespace Edoger\Http\Server\Request;
 
-use Edoger\Http\Foundation\Collection;
+use Edoger\Util\Arr;
+use Edoger\Util\Str;
 use Edoger\Http\Server\Globals\Body;
-use Edoger\Http\Server\Globals\Cookies;
+use Edoger\Util\Contracts\Arrayable;
 use Edoger\Http\Server\Globals\Query;
+use Edoger\Http\Foundation\Collection;
 use Edoger\Http\Server\Globals\Server;
-use Edoger\Http\Server\Traits\RequestAttributesSupport;
+use Edoger\Http\Server\Globals\Cookies;
 use Edoger\Http\Server\Traits\RequestExtrasSupport;
 use Edoger\Http\Server\Traits\RequestHeadersSupport;
-use Edoger\Util\Arr;
-use Edoger\Util\Contracts\Arrayable;
-use Edoger\Util\Str;
+use Edoger\Http\Server\Traits\RequestAttributesSupport;
 
 class Request implements Arrayable
 {
@@ -57,10 +57,11 @@ class Request implements Arrayable
     /**
      * The request constructor.
      *
-     * @param  array  $server  The server and execution environment variables.
-     * @param  array  $body    The request body parameters.
-     * @param  array  $query   The request query parameters.
-     * @param  array  $cookies The request cookies.
+     * @param array $server  The server and execution environment variables.
+     * @param array $body    The request body parameters.
+     * @param array $query   The request query parameters.
+     * @param array $cookies The request cookies.
+     *
      * @return void
      */
     public function __construct(iterable $server, iterable $body, iterable $query, iterable $cookies)
@@ -176,8 +177,9 @@ class Request implements Arrayable
     /**
      * Determines whether the client's request method is a given request method.
      *
-     * @param  string    $method The given request method.
-     * @return boolean
+     * @param string $method The given request method.
+     *
+     * @return bool
      */
     public function isRequestMethod(string $method): bool
     {
@@ -187,7 +189,7 @@ class Request implements Arrayable
     /**
      * Determines whether the current request is an https request.
      *
-     * @return boolean
+     * @return bool
      */
     public function isHttps(): bool
     {
@@ -199,7 +201,7 @@ class Request implements Arrayable
 
         return $this->putAttribute(
             'REQUEST_IS_HTTPS',
-            !empty($https) && Str::lower($https) !== 'off'
+            !empty($https) && 'off' !== Str::lower($https)
         );
     }
 
@@ -272,7 +274,7 @@ class Request implements Arrayable
     /**
      * Get the server port number.
      *
-     * @return integer
+     * @return int
      */
     public function getServerPort(): int
     {
@@ -290,7 +292,7 @@ class Request implements Arrayable
     /**
      * Determines whether the request is an AJAX request.
      *
-     * @return boolean
+     * @return bool
      */
     public function isAjax(): bool
     {

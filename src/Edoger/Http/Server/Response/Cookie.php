@@ -30,7 +30,7 @@ class Cookie
      * The time the cookie expires.
      * If set to 0, the cookie will expire at the end of the session.
      *
-     * @var integer
+     * @var int
      */
     protected $expire;
 
@@ -51,27 +51,28 @@ class Cookie
     /**
      * Whether the cookie can only be transmitted on the client's secure HTTPS connection.
      *
-     * @var boolean
+     * @var bool
      */
     protected $secure;
 
     /**
      * Whether the cookie will only be accessible via the HTTP protocol.
      *
-     * @var boolean
+     * @var bool
      */
     protected $httpOnly;
 
     /**
      * The cookie constructor.
      *
-     * @param  string  $name     The name of the cookie.
-     * @param  string  $value    The value of the cookie.
-     * @param  integer $expire   The time the cookie expires.
-     * @param  string  $path     The path on the server in which the cookie will be available on.
-     * @param  string  $domain   The (sub)domain that the cookie is available to.
-     * @param  boolean $secure   Whether the cookie can only be transmitted on the client's secure HTTPS connection.
-     * @param  boolean $httpOnly Whether the cookie will only be accessible via the HTTP protocol.
+     * @param string $name     The name of the cookie.
+     * @param string $value    The value of the cookie.
+     * @param int    $expire   The time the cookie expires.
+     * @param string $path     The path on the server in which the cookie will be available on.
+     * @param string $domain   The (sub)domain that the cookie is available to.
+     * @param bool   $secure   Whether the cookie can only be transmitted on the client's secure HTTPS connection.
+     * @param bool   $httpOnly Whether the cookie will only be accessible via the HTTP protocol.
+     *
      * @return void
      */
     public function __construct(string $name, string $value = '', int $expire = 0, string $path = '/', string $domain = '', bool $secure = false, bool $httpOnly = false)
@@ -108,7 +109,7 @@ class Cookie
     /**
      * Gets the time the cookie expires.
      *
-     * @return integer
+     * @return int
      */
     public function getExpiresTime(): int
     {
@@ -138,7 +139,7 @@ class Cookie
     /**
      * Determines whether the cookie can only be transmitted on the client's secure HTTPS connection.
      *
-     * @return boolean
+     * @return bool
      */
     public function isSecure(): bool
     {
@@ -148,7 +149,7 @@ class Cookie
     /**
      * Determine whether the cookie will only be accessible through the HTTP protocol.
      *
-     * @return boolean
+     * @return bool
      */
     public function isHttpOnly(): bool
     {

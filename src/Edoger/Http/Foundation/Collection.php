@@ -10,8 +10,8 @@
 
 namespace Edoger\Http\Foundation;
 
-use Edoger\Container\Collection as CollectionContainer;
 use Edoger\Util\Arr;
+use Edoger\Container\Collection as CollectionContainer;
 
 class Collection extends CollectionContainer
 {
@@ -20,8 +20,9 @@ class Collection extends CollectionContainer
      * If any of the keys in the given key is present in the current collection, it returns true
      * and no longer tests whether the other key exists in the current collection.
      *
-     * @param  iterable  $keys The given multiple keys.
-     * @return boolean
+     * @param iterable $keys The given multiple keys.
+     *
+     * @return bool
      */
     public function hasAny(iterable $keys): bool
     {
@@ -37,8 +38,9 @@ class Collection extends CollectionContainer
     /**
      * Gets the value of any given key from the current collection.
      *
-     * @param  iterable $keys    The given multiple keys.
-     * @param  mixed    $default The default value.
+     * @param iterable $keys    The given multiple keys.
+     * @param mixed    $default The default value.
+     *
      * @return mixed
      */
     public function getAny(iterable $keys, $default = null)
@@ -55,7 +57,8 @@ class Collection extends CollectionContainer
     /**
      * Replaces all elements in the current collection.
      *
-     * @param  mixed  $elements The collection elements.
+     * @param mixed $elements The collection elements.
+     *
      * @return self
      */
     public function replace($elements): self

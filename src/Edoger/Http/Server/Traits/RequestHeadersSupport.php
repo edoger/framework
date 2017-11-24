@@ -44,8 +44,9 @@ trait RequestHeadersSupport
     /**
      * Determines whether the given header name exists in the request headers collection.
      *
-     * @param  string    $name The given header name.
-     * @return boolean
+     * @param string $name The given header name.
+     *
+     * @return bool
      */
     public function hasHeader(string $name): bool
     {
@@ -55,8 +56,9 @@ trait RequestHeadersSupport
     /**
      * Gets the request header for the given header name.
      *
-     * @param  string   $name    The given header name.
-     * @param  string   $default The default value.
+     * @param string $name    The given header name.
+     * @param string $default The default value.
+     *
      * @return string
      */
     public function getHeader(string $name, string $default = ''): string

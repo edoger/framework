@@ -10,16 +10,17 @@
 
 namespace Edoger\Http\Server\Request;
 
-use Edoger\Http\Foundation\Headers as FoundationHeaders;
 use Edoger\Util\Arr;
 use Edoger\Util\Str;
+use Edoger\Http\Foundation\Headers as FoundationHeaders;
 
 class Headers extends FoundationHeaders
 {
     /**
      * The request headers constructor.
      *
-     * @param  mixed  $server Server and execution environment variables.
+     * @param mixed $server Server and execution environment variables.
+     *
      * @return void
      */
     public function __construct($server = [])
@@ -46,7 +47,8 @@ class Headers extends FoundationHeaders
     /**
      * Create request headers collection.
      *
-     * @param  iterable $server Server and execution environment variables.
+     * @param iterable $server Server and execution environment variables.
+     *
      * @return self
      */
     public static function create(iterable $server): self

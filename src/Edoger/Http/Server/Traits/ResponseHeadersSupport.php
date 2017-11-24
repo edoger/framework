@@ -24,7 +24,8 @@ trait ResponseHeadersSupport
     /**
      * Initialize the response headers collection.
      *
-     * @param  iterable $headers The response headers.
+     * @param iterable $headers The response headers.
+     *
      * @return void
      */
     protected function initResponseHeadersSupport(iterable $headers): void
@@ -45,8 +46,9 @@ trait ResponseHeadersSupport
     /**
      * Determines whether the given header name exists in the response headers collection.
      *
-     * @param  string    $name The given header name.
-     * @return boolean
+     * @param string $name The given header name.
+     *
+     * @return bool
      */
     public function hasHeader(string $name): bool
     {
@@ -56,8 +58,9 @@ trait ResponseHeadersSupport
     /**
      * Gets the response header for the given header name.
      *
-     * @param  string   $name    The given header name.
-     * @param  string   $default The default value.
+     * @param string $name    The given header name.
+     * @param string $default The default value.
+     *
      * @return string
      */
     public function getHeader(string $name, string $default = ''): string
@@ -68,8 +71,9 @@ trait ResponseHeadersSupport
     /**
      * Set a response header.
      *
-     * @param  string $name   The response header name.
-     * @param  string $header The response header.
+     * @param string $name   The response header name.
+     * @param string $header The response header.
+     *
      * @return void
      */
     public function setHeader(string $name, string $header): void
@@ -80,7 +84,8 @@ trait ResponseHeadersSupport
     /**
      * Remove a response header.
      *
-     * @param  string $name The given header name.
+     * @param string $name The given header name.
+     *
      * @return self
      */
     public function removeHeader(string $name)
@@ -105,7 +110,8 @@ trait ResponseHeadersSupport
     /**
      * Replace all response headers.
      *
-     * @param  iterable $headers The response headers.
+     * @param iterable $headers The response headers.
+     *
      * @return self
      */
     public function replaceHeaders(iterable $headers)

@@ -10,9 +10,9 @@
 
 namespace Edoger\Http\Server\Traits;
 
+use Edoger\Util\Arr;
 use Edoger\Http\Server\Response\Cookie;
 use Edoger\Http\Server\Response\ExpiredCookie;
-use Edoger\Util\Arr;
 
 trait ResponseCookiesSupport
 {
@@ -26,7 +26,7 @@ trait ResponseCookiesSupport
     /**
      * Determine if the cookies collection is empty.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEmptyCookies(): bool
     {
@@ -36,8 +36,9 @@ trait ResponseCookiesSupport
     /**
      * Determines whether the given cookie name exists in the cookies collection.
      *
-     * @param  string    $name The response cookie name.
-     * @return boolean
+     * @param string $name The response cookie name.
+     *
+     * @return bool
      */
     public function hasCookie(string $name): bool
     {
@@ -47,7 +48,8 @@ trait ResponseCookiesSupport
     /**
      * Get a cookie instance from the current cookie collection.
      *
-     * @param  string                                    $name The cookie name.
+     * @param string $name The cookie name.
+     *
      * @return Edoger\Http\Server\Response\Cookie|null
      */
     public function getCookie(string $name)
@@ -58,7 +60,8 @@ trait ResponseCookiesSupport
     /**
      * Get a cookie value from the current cookie collection.
      *
-     * @param  string        $name The cookie name.
+     * @param string $name The cookie name.
+     *
      * @return string|null
      */
     public function getCookieValue(string $name)
@@ -81,7 +84,8 @@ trait ResponseCookiesSupport
     /**
      * Add a cookie instance.
      *
-     * @param  Edoger\Http\Server\Response\Cookie $cookie The cookie instance.
+     * @param Edoger\Http\Server\Response\Cookie $cookie The cookie instance.
+     *
      * @return void
      */
     public function addCookie(Cookie $cookie): void
@@ -92,13 +96,14 @@ trait ResponseCookiesSupport
     /**
      * Set a response cookie.
      *
-     * @param  string  $name     The name of the cookie.
-     * @param  string  $value    The value of the cookie.
-     * @param  integer $expire   The time the cookie expires.
-     * @param  string  $path     The path on the server in which the cookie will be available on.
-     * @param  string  $domain   The (sub)domain that the cookie is available to.
-     * @param  boolean $secure   Whether the cookie can only be transmitted on the client's secure HTTPS connection.
-     * @param  boolean $httpOnly Whether the cookie will only be accessible via the HTTP protocol.
+     * @param string $name     The name of the cookie.
+     * @param string $value    The value of the cookie.
+     * @param int    $expire   The time the cookie expires.
+     * @param string $path     The path on the server in which the cookie will be available on.
+     * @param string $domain   The (sub)domain that the cookie is available to.
+     * @param bool   $secure   Whether the cookie can only be transmitted on the client's secure HTTPS connection.
+     * @param bool   $httpOnly Whether the cookie will only be accessible via the HTTP protocol.
+     *
      * @return void
      */
     public function setCookie(string $name, string $value = '', int $expire = 0, string $path = '/', string $domain = '', bool $secure = false, bool $httpOnly = false): void
@@ -109,12 +114,13 @@ trait ResponseCookiesSupport
     /**
      * Set a long-term effective response cookie.
      *
-     * @param  string  $name     The name of the cookie.
-     * @param  string  $value    The value of the cookie.
-     * @param  string  $path     The path on the server in which the cookie will be available on.
-     * @param  string  $domain   The (sub)domain that the cookie is available to.
-     * @param  boolean $secure   Whether the cookie can only be transmitted on the client's secure HTTPS connection.
-     * @param  boolean $httpOnly Whether the cookie will only be accessible via the HTTP protocol.
+     * @param string $name     The name of the cookie.
+     * @param string $value    The value of the cookie.
+     * @param string $path     The path on the server in which the cookie will be available on.
+     * @param string $domain   The (sub)domain that the cookie is available to.
+     * @param bool   $secure   Whether the cookie can only be transmitted on the client's secure HTTPS connection.
+     * @param bool   $httpOnly Whether the cookie will only be accessible via the HTTP protocol.
+     *
      * @return void
      */
     public function setForeverCookie(string $name, string $value = '', string $path = '/', string $domain = '', bool $secure = false, bool $httpOnly = false): void
@@ -126,12 +132,13 @@ trait ResponseCookiesSupport
     /**
      * Set a response session cookie.
      *
-     * @param  string  $name     The name of the cookie.
-     * @param  string  $value    The value of the cookie.
-     * @param  string  $path     The path on the server in which the cookie will be available on.
-     * @param  string  $domain   The (sub)domain that the cookie is available to.
-     * @param  boolean $secure   Whether the cookie can only be transmitted on the client's secure HTTPS connection.
-     * @param  boolean $httpOnly Whether the cookie will only be accessible via the HTTP protocol.
+     * @param string $name     The name of the cookie.
+     * @param string $value    The value of the cookie.
+     * @param string $path     The path on the server in which the cookie will be available on.
+     * @param string $domain   The (sub)domain that the cookie is available to.
+     * @param bool   $secure   Whether the cookie can only be transmitted on the client's secure HTTPS connection.
+     * @param bool   $httpOnly Whether the cookie will only be accessible via the HTTP protocol.
+     *
      * @return void
      */
     public function setSessionCookie(string $name, string $value = '', string $path = '/', string $domain = '', bool $secure = false, bool $httpOnly = false): void
@@ -142,7 +149,8 @@ trait ResponseCookiesSupport
     /**
      * Remove a cookie instance from the current cookie collection.
      *
-     * @param  string $name The name of the cookie.
+     * @param string $name The name of the cookie.
+     *
      * @return self
      */
     public function removeCookie(string $name)
@@ -157,11 +165,12 @@ trait ResponseCookiesSupport
     /**
      * Remove a cookie from client.
      *
-     * @param  string  $name     The name of the cookie.
-     * @param  string  $path     The path on the server in which the cookie will be available on.
-     * @param  string  $domain   The (sub)domain that the cookie is available to.
-     * @param  boolean $secure   Whether the cookie can only be transmitted on the client's secure HTTPS connection.
-     * @param  boolean $httpOnly Whether the cookie will only be accessible via the HTTP protocol.
+     * @param string $name     The name of the cookie.
+     * @param string $path     The path on the server in which the cookie will be available on.
+     * @param string $domain   The (sub)domain that the cookie is available to.
+     * @param bool   $secure   Whether the cookie can only be transmitted on the client's secure HTTPS connection.
+     * @param bool   $httpOnly Whether the cookie will only be accessible via the HTTP protocol.
+     *
      * @return self
      */
     public function removeCookieFromClient(string $name, string $path = '/', string $domain = '', bool $secure = false, bool $httpOnly = false)

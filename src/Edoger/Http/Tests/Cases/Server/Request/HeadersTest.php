@@ -10,9 +10,9 @@
 
 namespace Edoger\Http\Tests\Cases\Server\Request;
 
-use Edoger\Http\Foundation\Headers as FoundationHeaders;
-use Edoger\Http\Server\Request\Headers;
 use PHPUnit\Framework\TestCase;
+use Edoger\Http\Server\Request\Headers;
+use Edoger\Http\Foundation\Headers as FoundationHeaders;
 
 class HeadersTest extends TestCase
 {

@@ -10,12 +10,12 @@
 
 namespace Edoger\Http\Foundation;
 
-use ArrayIterator;
 use Countable;
+use ArrayIterator;
 use Edoger\Util\Arr;
-use Edoger\Util\Contracts\Arrayable;
 use Edoger\Util\Str;
 use IteratorAggregate;
+use Edoger\Util\Contracts\Arrayable;
 
 class Headers implements Arrayable, Countable, IteratorAggregate
 {
@@ -29,7 +29,8 @@ class Headers implements Arrayable, Countable, IteratorAggregate
     /**
      * The headers constructor.
      *
-     * @param  mixed  $headers All the HTTP headers.
+     * @param mixed $headers All the HTTP headers.
+     *
      * @return void
      */
     public function __construct($headers = [])
@@ -42,7 +43,8 @@ class Headers implements Arrayable, Countable, IteratorAggregate
     /**
      * Standardize the given HTTP header name.
      *
-     * @param  string   $name The given HTTP header name.
+     * @param string $name The given HTTP header name.
+     *
      * @return string
      */
     protected function standardize(string $name): string
@@ -53,8 +55,9 @@ class Headers implements Arrayable, Countable, IteratorAggregate
     /**
      * Determines whether the given HTTP header name exists in the current headers collection.
      *
-     * @param  string    $name The given HTTP header name.
-     * @return boolean
+     * @param string $name The given HTTP header name.
+     *
+     * @return bool
      */
     public function has(string $name): bool
     {
@@ -64,8 +67,9 @@ class Headers implements Arrayable, Countable, IteratorAggregate
     /**
      * Gets the HTTP header for the given HTTP header name.
      *
-     * @param  string   $name    The given HTTP header name.
-     * @param  string   $default The default value.
+     * @param string $name    The given HTTP header name.
+     * @param string $default The default value.
+     *
      * @return string
      */
     public function get(string $name, string $default = ''): string
@@ -86,7 +90,7 @@ class Headers implements Arrayable, Countable, IteratorAggregate
     /**
      * Gets the size of the HTTP headers.
      *
-     * @return integer
+     * @return int
      */
     public function count()
     {

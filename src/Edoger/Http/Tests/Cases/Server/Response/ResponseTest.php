@@ -10,15 +10,15 @@
 
 namespace Edoger\Http\Tests\Cases\Server\Response;
 
-use Edoger\Http\Foundation\Collection;
-use Edoger\Http\Server\Response\Cookie;
-use Edoger\Http\Server\Response\ExpiredCookie;
-use Edoger\Http\Server\Response\Headers;
-use Edoger\Http\Server\Response\Response;
-use Edoger\Http\Server\Traits\ResponseCookiesSupport;
-use Edoger\Http\Server\Traits\ResponseHeadersSupport;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Edoger\Http\Foundation\Collection;
+use Edoger\Http\Server\Response\Cookie;
+use Edoger\Http\Server\Response\Headers;
+use Edoger\Http\Server\Response\Response;
+use Edoger\Http\Server\Response\ExpiredCookie;
+use Edoger\Http\Server\Traits\ResponseCookiesSupport;
+use Edoger\Http\Server\Traits\ResponseHeadersSupport;
 
 class ResponseTest extends TestCase
 {

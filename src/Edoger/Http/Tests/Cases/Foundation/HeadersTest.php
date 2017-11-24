@@ -11,10 +11,10 @@
 namespace Edoger\Http\Tests\Cases\Foundation;
 
 use Countable;
-use Edoger\Http\Foundation\Headers;
-use Edoger\Util\Contracts\Arrayable;
 use IteratorAggregate;
 use PHPUnit\Framework\TestCase;
+use Edoger\Http\Foundation\Headers;
+use Edoger\Util\Contracts\Arrayable;
 
 class HeadersTest extends TestCase
 {

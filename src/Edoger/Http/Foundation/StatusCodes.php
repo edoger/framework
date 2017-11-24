@@ -26,7 +26,8 @@ class StatusCodes
      * Last Updated: 2017-04-14
      *
      * @var array
-     * @link https://www.iana.org/assignments/http-status-codes/http-status-codes.txt
+     *
+     * @see https://www.iana.org/assignments/http-status-codes/http-status-codes.txt
      */
     protected static $codes = [
         100 => 'Continue',                        // RFC7231
@@ -101,8 +102,9 @@ class StatusCodes
     /**
      * Determines whether the given status code is valid.
      *
-     * @param  integer   $code The given status code.
-     * @return boolean
+     * @param int $code The given status code.
+     *
+     * @return bool
      */
     public static function isValid(int $code): bool
     {
@@ -112,8 +114,10 @@ class StatusCodes
     /**
      * Gets the description text for a given HTTP status code.
      *
-     * @param  integer                  $code  The given status code.
+     * @param int $code The given status code.
+     *
      * @throws InvalidArgumentException Thrown when the HTTP status code is invalid.
+     *
      * @return string
      */
     public static function getText(int $code): string
@@ -132,9 +136,10 @@ class StatusCodes
     /**
      * Add a custom HTTP status code.
      *
-     * @param  integer   $code The given status code.
-     * @param  string    $text The given status text.
-     * @return boolean
+     * @param int    $code The given status code.
+     * @param string $text The given status text.
+     *
+     * @return bool
      */
     public static function addCustomStatusCode(int $code, string $text): bool
     {

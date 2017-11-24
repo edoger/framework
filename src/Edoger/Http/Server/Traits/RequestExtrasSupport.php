@@ -24,7 +24,7 @@ trait RequestExtrasSupport
     /**
      * Determines whether the current request extra data is empty.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEmptyExtras(): bool
     {
@@ -34,8 +34,9 @@ trait RequestExtrasSupport
     /**
      * Determines whether a given key exists in the current request extra data.
      *
-     * @param  string    $key The given key.
-     * @return boolean
+     * @param string $key The given key.
+     *
+     * @return bool
      */
     public function hasExtra(string $key): bool
     {
@@ -45,8 +46,9 @@ trait RequestExtrasSupport
     /**
      * Gets the value of the specified key in the current request extra data.
      *
-     * @param  string  $key     The given key.
-     * @param  mixed   $default The default value.
+     * @param string $key     The given key.
+     * @param mixed  $default The default value.
+     *
      * @return mixed
      */
     public function getExtra(string $key, $default = null)
@@ -67,8 +69,9 @@ trait RequestExtrasSupport
     /**
      * Sets the extra data for the current request.
      *
-     * @param  string $key   The extra data key.
-     * @param  mixed  $value The extra data value.
+     * @param string $key   The extra data key.
+     * @param mixed  $value The extra data value.
+     *
      * @return void
      */
     public function setExtra(string $key, $value): void
@@ -79,7 +82,8 @@ trait RequestExtrasSupport
     /**
      * Replace all the extra data for the current request.
      *
-     * @param  mixed  $extras The extra data.
+     * @param mixed $extras The extra data.
+     *
      * @return self
      */
     public function replaceExtras($extras)
@@ -92,7 +96,8 @@ trait RequestExtrasSupport
     /**
      * Delete the extra data for the current request.
      *
-     * @param  string $key The extra data key.
+     * @param string $key The extra data key.
+     *
      * @return void
      */
     public function deleteExtra(string $key): void
@@ -117,7 +122,7 @@ trait RequestExtrasSupport
     /**
      * Gets the size of all the extra data for the current request.
      *
-     * @return integer
+     * @return int
      */
     public function countExtras(): int
     {

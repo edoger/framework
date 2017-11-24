@@ -10,9 +10,9 @@
 
 namespace Edoger\Http\Tests\Cases\Foundation;
 
-use Edoger\Http\Foundation\StatusCodes;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Edoger\Http\Foundation\StatusCodes;
 
 class StatusCodesTest extends TestCase
 {

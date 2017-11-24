@@ -10,16 +10,17 @@
 
 namespace Edoger\Http\Server\Response;
 
-use Edoger\Http\Foundation\Headers as FoundationHeaders;
 use Edoger\Util\Arr;
+use Edoger\Http\Foundation\Headers as FoundationHeaders;
 
 class Headers extends FoundationHeaders
 {
     /**
      * Set a response header.
      *
-     * @param  string $name  The response header name.
-     * @param  string $value The response header value.
+     * @param string $name  The response header name.
+     * @param string $value The response header value.
+     *
      * @return void
      */
     public function set(string $name, string $value): void
@@ -30,7 +31,8 @@ class Headers extends FoundationHeaders
     /**
      * Delete a response header for a given name.
      *
-     * @param  string $name The given response header name.
+     * @param string $name The given response header name.
+     *
      * @return self
      */
     public function delete(string $name): self

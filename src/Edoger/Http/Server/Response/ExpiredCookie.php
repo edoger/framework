@@ -15,11 +15,12 @@ class ExpiredCookie extends Cookie
     /**
      * The expired cookie constructor.
      *
-     * @param  string  $name     The name of the cookie.
-     * @param  string  $path     The path on the server in which the cookie will be available on.
-     * @param  string  $domain   The (sub)domain that the cookie is available to.
-     * @param  boolean $secure   Whether the cookie can only be transmitted on the client's secure HTTPS connection.
-     * @param  boolean $httpOnly Whether the cookie will only be accessible via the HTTP protocol.
+     * @param string $name     The name of the cookie.
+     * @param string $path     The path on the server in which the cookie will be available on.
+     * @param string $domain   The (sub)domain that the cookie is available to.
+     * @param bool   $secure   Whether the cookie can only be transmitted on the client's secure HTTPS connection.
+     * @param bool   $httpOnly Whether the cookie will only be accessible via the HTTP protocol.
+     *
      * @return void
      */
     public function __construct(string $name, string $path = '/', string $domain = '', bool $secure = false, bool $httpOnly = false)

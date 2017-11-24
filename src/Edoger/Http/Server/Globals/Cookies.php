@@ -17,7 +17,9 @@ class Cookies extends Collection
     /**
      * Create request cookies collection.
      *
-     * @param  iterable $server The request cookies.
+     * @param iterable $server  The request cookies.
+     * @param iterable $cookies
+     *
      * @return self
      */
     public static function create(iterable $cookies): self

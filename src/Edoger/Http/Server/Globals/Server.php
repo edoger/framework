@@ -17,7 +17,8 @@ class Server extends Collection
     /**
      * Create server and execution environment variables collection.
      *
-     * @param  iterable $server Server and execution environment variables.
+     * @param iterable $server Server and execution environment variables.
+     *
      * @return self
      */
     public static function create(iterable $server): self

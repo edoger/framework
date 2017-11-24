@@ -10,9 +10,9 @@
 
 namespace Edoger\Http\Tests\Cases\Server\Globals;
 
-use Edoger\Http\Foundation\Collection;
-use Edoger\Http\Server\Globals\Body;
 use PHPUnit\Framework\TestCase;
+use Edoger\Http\Server\Globals\Body;
+use Edoger\Http\Foundation\Collection;
 
 class BodyTest extends TestCase
 {
