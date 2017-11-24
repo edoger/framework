@@ -11,11 +11,11 @@
 namespace Edoger\Container\Tests\Cases;
 
 use Countable;
-use Edoger\Container\Stack;
-use Edoger\Util\Contracts\Arrayable;
-use IteratorAggregate;
-use PHPUnit\Framework\TestCase;
 use RuntimeException;
+use IteratorAggregate;
+use Edoger\Container\Stack;
+use PHPUnit\Framework\TestCase;
+use Edoger\Util\Contracts\Arrayable;
 
 class StackTest extends TestCase
 {

@@ -26,7 +26,8 @@ class Container implements Arrayable, Countable
     /**
      * The container constructor.
      *
-     * @param  mixed  $elements The elements that are added into the container.
+     * @param mixed $elements The elements that are added into the container.
+     *
      * @return void
      */
     public function __construct($elements = [])
@@ -37,8 +38,9 @@ class Container implements Arrayable, Countable
     /**
      * Determines whether the given key exists in the current container.
      *
-     * @param  string    $key The given key.
-     * @return boolean
+     * @param string $key The given key.
+     *
+     * @return bool
      */
     public function has(string $key): bool
     {
@@ -49,8 +51,9 @@ class Container implements Arrayable, Countable
      * Gets the value of the given key from the current container,
      * and returns the given default if the given key does not exist in the current container.
      *
-     * @param  string  $key     The given key.
-     * @param  mixed   $default The default value.
+     * @param string $key     The given key.
+     * @param mixed  $default The default value.
+     *
      * @return mixed
      */
     public function get(string $key, $default = null)
@@ -71,7 +74,7 @@ class Container implements Arrayable, Countable
     /**
      * Gets the size of the current container.
      *
-     * @return integer
+     * @return int
      */
     public function count()
     {

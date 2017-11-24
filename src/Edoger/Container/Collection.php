@@ -20,8 +20,9 @@ class Collection extends Container implements IteratorAggregate
      * If the given key does not exist in the current collection, the system will automatically
      * create the given key.
      *
-     * @param  string $key   The given key.
-     * @param  mixed  $value The given value.
+     * @param string $key   The given key.
+     * @param mixed  $value The given value.
+     *
      * @return void
      */
     public function set(string $key, $value): void
@@ -32,7 +33,8 @@ class Collection extends Container implements IteratorAggregate
     /**
      * Removes the given key from the current collection.
      *
-     * @param  string $key The given key.
+     * @param string $key The given key.
+     *
      * @return void
      */
     public function delete(string $key): void

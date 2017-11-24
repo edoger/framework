@@ -12,8 +12,8 @@ namespace Edoger\Container\Tests\Cases;
 
 use Countable;
 use Edoger\Container\Container;
-use Edoger\Util\Contracts\Arrayable;
 use PHPUnit\Framework\TestCase;
+use Edoger\Util\Contracts\Arrayable;
 
 class ContainerTest extends TestCase
 {

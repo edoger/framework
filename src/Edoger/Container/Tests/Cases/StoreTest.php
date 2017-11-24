@@ -11,10 +11,10 @@
 namespace Edoger\Container\Tests\Cases;
 
 use Countable;
-use Edoger\Container\Store;
-use Edoger\Util\Contracts\Arrayable;
 use IteratorAggregate;
+use Edoger\Container\Store;
 use PHPUnit\Framework\TestCase;
+use Edoger\Util\Contracts\Arrayable;
 
 class StoreTest extends TestCase
 {

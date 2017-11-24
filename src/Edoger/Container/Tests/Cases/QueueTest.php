@@ -11,11 +11,11 @@
 namespace Edoger\Container\Tests\Cases;
 
 use Countable;
-use Edoger\Container\Queue;
-use Edoger\Util\Contracts\Arrayable;
-use IteratorAggregate;
-use PHPUnit\Framework\TestCase;
 use RuntimeException;
+use IteratorAggregate;
+use Edoger\Container\Queue;
+use PHPUnit\Framework\TestCase;
+use Edoger\Util\Contracts\Arrayable;
 
 class QueueTest extends TestCase
 {

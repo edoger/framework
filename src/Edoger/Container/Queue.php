@@ -12,9 +12,9 @@ namespace Edoger\Container;
 
 use Countable;
 use Edoger\Util\Arr;
-use Edoger\Util\Contracts\Arrayable;
-use IteratorAggregate;
 use RuntimeException;
+use IteratorAggregate;
+use Edoger\Util\Contracts\Arrayable;
 
 class Queue implements Arrayable, Countable, IteratorAggregate
 {
@@ -28,7 +28,8 @@ class Queue implements Arrayable, Countable, IteratorAggregate
     /**
      * The queue constructor.
      *
-     * @param  mixed  $elements The elements that are added into the queue.
+     * @param mixed $elements The elements that are added into the queue.
+     *
      * @return void
      */
     public function __construct($elements = [])
@@ -43,7 +44,7 @@ class Queue implements Arrayable, Countable, IteratorAggregate
     /**
      * Determines whether the current queue is empty.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEmpty(): bool
     {
@@ -53,8 +54,9 @@ class Queue implements Arrayable, Countable, IteratorAggregate
     /**
      * Append an element to the current queue.
      *
-     * @param  mixed     $element The given element.
-     * @return integer
+     * @param mixed $element The given element.
+     *
+     * @return int
      */
     public function enqueue($element): int
     {
@@ -65,6 +67,7 @@ class Queue implements Arrayable, Countable, IteratorAggregate
      * Removes an element from the current queue.
      *
      * @throws RuntimeException Throws when the current queue is empty.
+     *
      * @return mixed
      */
     public function dequeue()
@@ -101,7 +104,7 @@ class Queue implements Arrayable, Countable, IteratorAggregate
     /**
      * Gets the size of the current queue.
      *
-     * @return integer
+     * @return int
      */
     public function count()
     {

@@ -22,7 +22,8 @@ class Wrapper
     /**
      * The wrapper constructor.
      *
-     * @param  mixed  $original The original data.
+     * @param mixed $original The original data.
+     *
      * @return void
      */
     public function __construct($original)

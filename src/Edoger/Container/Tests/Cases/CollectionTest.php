@@ -10,10 +10,10 @@
 
 namespace Edoger\Container\Tests\Cases;
 
-use Edoger\Container\Collection;
-use Edoger\Container\Container;
 use IteratorAggregate;
+use Edoger\Container\Container;
 use PHPUnit\Framework\TestCase;
+use Edoger\Container\Collection;
 
 class CollectionTest extends TestCase
 {

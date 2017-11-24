@@ -12,9 +12,9 @@ namespace Edoger\Container;
 
 use Countable;
 use Edoger\Util\Arr;
-use Edoger\Util\Contracts\Arrayable;
-use IteratorAggregate;
 use RuntimeException;
+use IteratorAggregate;
+use Edoger\Util\Contracts\Arrayable;
 
 class Stack implements Arrayable, Countable, IteratorAggregate
 {
@@ -28,7 +28,8 @@ class Stack implements Arrayable, Countable, IteratorAggregate
     /**
      * The stack constructor.
      *
-     * @param  mixed  $elements The elements that are added into the stack.
+     * @param mixed $elements The elements that are added into the stack.
+     *
      * @return void
      */
     public function __construct($elements = [])
@@ -43,7 +44,7 @@ class Stack implements Arrayable, Countable, IteratorAggregate
     /**
      * Determines whether the current stack is empty.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEmpty(): bool
     {
@@ -53,8 +54,9 @@ class Stack implements Arrayable, Countable, IteratorAggregate
     /**
      * Add an element to the current stack.
      *
-     * @param  mixed     $element The given element.
-     * @return integer
+     * @param mixed $element The given element.
+     *
+     * @return int
      */
     public function push($element): int
     {
@@ -65,6 +67,7 @@ class Stack implements Arrayable, Countable, IteratorAggregate
      * Removes an element from the current stack.
      *
      * @throws RuntimeException Throws when the current stack is empty.
+     *
      * @return mixed
      */
     public function pop()
@@ -101,7 +104,7 @@ class Stack implements Arrayable, Countable, IteratorAggregate
     /**
      * Gets the size of the current stack.
      *
-     * @return integer
+     * @return int
      */
     public function count()
     {

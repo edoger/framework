@@ -10,11 +10,11 @@
 
 namespace Edoger\Container;
 
-use ArrayIterator;
 use Countable;
+use ArrayIterator;
 use Edoger\Util\Arr;
-use Edoger\Util\Contracts\Arrayable;
 use IteratorAggregate;
+use Edoger\Util\Contracts\Arrayable;
 
 class Store implements Arrayable, Countable, IteratorAggregate
 {
@@ -28,7 +28,8 @@ class Store implements Arrayable, Countable, IteratorAggregate
     /**
      * The store constructor.
      *
-     * @param  mixed  $elements The elements that are added into the store.
+     * @param mixed $elements The elements that are added into the store.
+     *
      * @return void
      */
     public function __construct($elements = [])
@@ -39,7 +40,7 @@ class Store implements Arrayable, Countable, IteratorAggregate
     /**
      * Determines whether the current store is empty.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEmpty(): bool
     {
@@ -49,9 +50,10 @@ class Store implements Arrayable, Countable, IteratorAggregate
     /**
      * Appends an element to the current store and returns the length of the current store.
      *
-     * @param  mixed     $element The given element.
-     * @param  boolean   $top     Whether to append an element to the top of the store.
-     * @return integer
+     * @param mixed $element The given element.
+     * @param bool  $top     Whether to append an element to the top of the store.
+     *
+     * @return int
      */
     public function append($element, bool $top = false): int
     {
@@ -66,7 +68,8 @@ class Store implements Arrayable, Countable, IteratorAggregate
      * Remove an element from the current store and return it.
      * Returns NULL if the current store is empty.
      *
-     * @param  boolean $top Whether to remove an element from the top of the current store.
+     * @param bool $top Whether to remove an element from the top of the current store.
+     *
      * @return mixed
      */
     public function remove(bool $top = true)
@@ -103,7 +106,7 @@ class Store implements Arrayable, Countable, IteratorAggregate
     /**
      * Gets the size of the current store.
      *
-     * @return integer
+     * @return int
      */
     public function count()
     {

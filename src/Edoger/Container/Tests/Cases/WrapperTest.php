@@ -10,9 +10,9 @@
 
 namespace Edoger\Container\Tests\Cases;
 
+use stdClass;
 use Edoger\Container\Wrapper;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 
 class WrapperTest extends TestCase
 {
