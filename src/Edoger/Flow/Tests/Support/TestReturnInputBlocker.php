@@ -10,9 +10,9 @@
 
 namespace Edoger\Flow\Tests\Support;
 
+use Throwable;
 use Edoger\Container\Container;
 use Edoger\Flow\Contracts\Blocker;
-use Throwable;
 
 class TestReturnInputBlocker implements Blocker
 {

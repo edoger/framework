@@ -10,12 +10,12 @@
 
 namespace Edoger\Flow\Tests\Cases\Processor;
 
-use Edoger\Flow\Contracts\Processor;
+use Exception;
 use Edoger\Flow\Flow;
+use PHPUnit\Framework\TestCase;
+use Edoger\Flow\Contracts\Processor;
 use Edoger\Flow\Tests\Support\TestExceptionProcessor;
 use Edoger\Flow\Tests\Support\TestReturnExceptionBlocker;
-use Exception;
-use PHPUnit\Framework\TestCase;
 
 class ProcessorExceptionTest extends TestCase
 {

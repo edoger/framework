@@ -11,9 +11,9 @@
 namespace Edoger\Flow\Tests\Support;
 
 use Closure;
+use Exception;
 use Edoger\Container\Container;
 use Edoger\Flow\Contracts\Processor;
-use Exception;
 
 class TestExceptionProcessor implements Processor
 {

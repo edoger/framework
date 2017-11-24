@@ -10,17 +10,18 @@
 
 namespace Edoger\Flow;
 
-use Edoger\Container\Container;
-use Edoger\Container\Wrapper;
-use Edoger\Flow\Contracts\Blocker;
 use Throwable;
+use Edoger\Container\Wrapper;
+use Edoger\Container\Container;
+use Edoger\Flow\Contracts\Blocker;
 
 class CallableBlocker extends Wrapper implements Blocker
 {
     /**
      * The flow blocker wrapper constructor.
      *
-     * @param  callable $blocker The call stack blocker.
+     * @param callable $blocker The call stack blocker.
+     *
      * @return void
      */
     public function __construct(callable $blocker)
@@ -31,8 +32,9 @@ class CallableBlocker extends Wrapper implements Blocker
     /**
      * Block the current flow.
      *
-     * @param  Edoger\Container\Container $input     The processor input parameter container.
-     * @param  Throwable|null             $exception The captured processor exception.
+     * @param Edoger\Container\Container $input     The processor input parameter container.
+     * @param Throwable|null             $exception The captured processor exception.
+     *
      * @return mixed
      */
     public function block(Container $input, Throwable $exception = null)

@@ -11,15 +11,15 @@
 namespace Edoger\Flow;
 
 use Countable;
-use Edoger\Container\Container;
+use Throwable;
+use RuntimeException;
 use Edoger\Container\Queue;
 use Edoger\Container\Store;
+use InvalidArgumentException;
+use Edoger\Container\Container;
 use Edoger\Flow\Contracts\Blocker;
 use Edoger\Flow\Contracts\Processor;
 use Edoger\Util\Contracts\Arrayable;
-use InvalidArgumentException;
-use RuntimeException;
-use Throwable;
 
 class Flow implements Arrayable, Countable
 {
@@ -40,8 +40,10 @@ class Flow implements Arrayable, Countable
     /**
      * The flow constructor.
      *
-     * @param  Edoger\Flow\Contracts\Blocker|callable $blocker The flow blocker.
-     * @throws InvalidArgumentException               Throws when the flow blocker is invalid.
+     * @param Edoger\Flow\Contracts\Blocker|callable $blocker The flow blocker.
+     *
+     * @throws InvalidArgumentException Throws when the flow blocker is invalid.
+     *
      * @return void
      */
     public function __construct($blocker)
@@ -60,7 +62,7 @@ class Flow implements Arrayable, Countable
     /**
      * Determines whether the current processor container is empty.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEmpty(): bool
     {
@@ -70,9 +72,10 @@ class Flow implements Arrayable, Countable
     /**
      * Append the given task processor to the current container.
      *
-     * @param  Edoger\Flow\Contracts\Processor $processor The task processor.
-     * @param  boolean                         $top       Append the processor to the top of the container.
-     * @return integer
+     * @param Edoger\Flow\Contracts\Processor $processor The task processor.
+     * @param bool                            $top       Append the processor to the top of the container.
+     *
+     * @return int
      */
     public function append(Processor $processor, bool $top = false): int
     {
@@ -82,8 +85,10 @@ class Flow implements Arrayable, Countable
     /**
      * Remove a processor from the current container.
      *
-     * @param  boolean                           $top   Remove the processor from the top of the container.
-     * @throws RuntimeException                  Throws when the current processor container is empty.
+     * @param bool $top Remove the processor from the top of the container.
+     *
+     * @throws RuntimeException Throws when the current processor container is empty.
+     *
      * @return Edoger\Flow\Contracts\Processor
      */
     public function remove(bool $top = true): Processor
@@ -110,7 +115,8 @@ class Flow implements Arrayable, Countable
     /**
      * Start the current task processor queue.
      *
-     * @param  mixed   $input The processor parameter list.
+     * @param mixed $input The processor parameter list.
+     *
      * @return mixed
      */
     public function start($input = [])
@@ -131,7 +137,7 @@ class Flow implements Arrayable, Countable
     /**
      * Gets the size of the current processor container.
      *
-     * @return integer
+     * @return int
      */
     public function count()
     {
@@ -141,9 +147,10 @@ class Flow implements Arrayable, Countable
     /**
      * Run the task in the processing queue.
      *
-     * @param  Edoger\Container\Queue     $queue The processor queue.
-     * @param  Edoger\Container\Container $input The processor input parameter container.
-     * @param  boolean                    $top   Whether it is the top call stack.
+     * @param Edoger\Container\Queue     $queue The processor queue.
+     * @param Edoger\Container\Container $input The processor input parameter container.
+     * @param bool                       $top   Whether it is the top call stack.
+     *
      * @return mixed
      */
     protected function run(Queue $queue, Container $input, bool $top)

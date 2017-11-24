@@ -10,12 +10,12 @@
 
 namespace Edoger\Flow\Tests\Cases;
 
-use Edoger\Container\Container;
+use Exception;
 use Edoger\Container\Wrapper;
+use Edoger\Container\Container;
+use PHPUnit\Framework\TestCase;
 use Edoger\Flow\CallableBlocker;
 use Edoger\Flow\Contracts\Blocker;
-use Exception;
-use PHPUnit\Framework\TestCase;
 
 class CallableBlockerTest extends TestCase
 {

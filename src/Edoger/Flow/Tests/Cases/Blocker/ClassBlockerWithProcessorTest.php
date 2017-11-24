@@ -10,14 +10,13 @@
 
 namespace Edoger\Flow\Tests\Cases\Blocker;
 
-use Edoger\Container\Container;
-use Edoger\Flow\Contracts\Blocker;
-use Edoger\Flow\Flow;
-use Edoger\Flow\Tests\Support\TestExceptionBlocker;
-use Edoger\Flow\Tests\Support\TestProcessor;
-use Edoger\Flow\Tests\Support\TestReturnInputBlocker;
 use Exception;
+use Edoger\Flow\Flow;
+use Edoger\Container\Container;
 use PHPUnit\Framework\TestCase;
+use Edoger\Flow\Tests\Support\TestProcessor;
+use Edoger\Flow\Tests\Support\TestExceptionBlocker;
+use Edoger\Flow\Tests\Support\TestReturnInputBlocker;
 
 class ClassBlockerWithProcessorTest extends TestCase
 {

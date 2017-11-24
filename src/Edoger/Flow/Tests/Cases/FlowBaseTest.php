@@ -12,14 +12,14 @@ namespace Edoger\Flow\Tests\Cases;
 
 use Closure;
 use Countable;
-use Edoger\Flow\CallableBlocker;
 use Edoger\Flow\Flow;
-use Edoger\Flow\Tests\Support\TestBlocker;
-use Edoger\Flow\Tests\Support\TestProcessor;
-use Edoger\Util\Contracts\Arrayable;
+use RuntimeException;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
+use Edoger\Flow\CallableBlocker;
+use Edoger\Util\Contracts\Arrayable;
+use Edoger\Flow\Tests\Support\TestBlocker;
+use Edoger\Flow\Tests\Support\TestProcessor;
 
 class FlowBaseTest extends TestCase
 {

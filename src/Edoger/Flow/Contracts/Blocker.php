@@ -10,16 +10,17 @@
 
 namespace Edoger\Flow\Contracts;
 
-use Edoger\Container\Container;
 use Throwable;
+use Edoger\Container\Container;
 
 interface Blocker
 {
     /**
      * Block the current call stack.
      *
-     * @param  Edoger\Container\Container $input     The processor input parameter container.
-     * @param  Throwable|null             $exception The captured processor exception.
+     * @param Edoger\Container\Container $input     The processor input parameter container.
+     * @param Throwable|null             $exception The captured processor exception.
+     *
      * @return mixed
      */
     public function block(Container $input, Throwable $exception = null);

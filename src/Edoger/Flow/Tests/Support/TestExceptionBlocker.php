@@ -10,10 +10,10 @@
 
 namespace Edoger\Flow\Tests\Support;
 
-use Edoger\Container\Container;
-use Edoger\Flow\Contracts\Blocker;
 use Exception;
 use Throwable;
+use Edoger\Container\Container;
+use Edoger\Flow\Contracts\Blocker;
 
 class TestExceptionBlocker implements Blocker
 {
