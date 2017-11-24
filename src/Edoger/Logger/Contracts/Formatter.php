@@ -17,8 +17,9 @@ interface Formatter
     /**
      * Format the contents of the log.
      *
-     * @param  string            $channel The logger channel name.
-     * @param  Edoger\Logger\Log $log     The log body instance.
+     * @param string            $channel The logger channel name.
+     * @param Edoger\Logger\Log $log     The log body instance.
+     *
      * @return string
      */
     public function format(string $channel, Log $log): string;

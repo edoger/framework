@@ -11,12 +11,12 @@
 namespace Edoger\Logger\Tests\Cases\Handlers;
 
 use Closure;
+use RuntimeException;
+use Edoger\Logger\Log;
+use Edoger\Logger\Levels;
+use PHPUnit\Framework\TestCase;
 use Edoger\Logger\AbstractHandler;
 use Edoger\Logger\Handlers\CallableHandler;
-use Edoger\Logger\Levels;
-use Edoger\Logger\Log;
-use PHPUnit\Framework\TestCase;
-use RuntimeException;
 
 class CallableHandlerTest extends TestCase
 {

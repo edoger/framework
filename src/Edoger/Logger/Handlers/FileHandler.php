@@ -11,11 +11,11 @@
 namespace Edoger\Logger\Handlers;
 
 use Closure;
+use Edoger\Logger\Log;
+use Edoger\Logger\Levels;
 use Edoger\Logger\AbstractHandler;
 use Edoger\Logger\Contracts\Formatter;
 use Edoger\Logger\Formatter\LineFormatter;
-use Edoger\Logger\Levels;
-use Edoger\Logger\Log;
 
 class FileHandler extends AbstractHandler
 {
@@ -29,7 +29,7 @@ class FileHandler extends AbstractHandler
     /**
      * The lowest processing log level.
      *
-     * @var integer
+     * @var int
      */
     protected $level;
 
@@ -43,17 +43,18 @@ class FileHandler extends AbstractHandler
     /**
      * Whether to automatically interrupt handler stack.
      *
-     * @var boolean
+     * @var bool
      */
     protected $autoInterrupt;
 
     /**
      * The file handler constructor.
      *
-     * @param  string                            $file          The log file path name.
-     * @param  integer                           $level         The lowest processing log level.
-     * @param  Edoger\Logger\Contracts\Formatter $formatter     The log formatter.
-     * @param  boolean                           $autoInterrupt Whether to automatically interrupt handler stack.
+     * @param string                            $file          The log file path name.
+     * @param int                               $level         The lowest processing log level.
+     * @param Edoger\Logger\Contracts\Formatter $formatter     The log formatter.
+     * @param bool                              $autoInterrupt Whether to automatically interrupt handler stack.
+     *
      * @return void
      */
     public function __construct(string $file, int $level = Levels::DEBUG, Formatter $formatter = null, bool $autoInterrupt = false)
@@ -81,8 +82,9 @@ class FileHandler extends AbstractHandler
     /**
      * Write log message to the log file.
      *
-     * @param  string    $message The log message.
-     * @return boolean
+     * @param string $message The log message.
+     *
+     * @return bool
      */
     protected function write(string $message): bool
     {
@@ -92,10 +94,11 @@ class FileHandler extends AbstractHandler
     /**
      * Handle a log.
      *
-     * @param  string            $channel The logger channel name.
-     * @param  Edoger\Logger\Log $log     The log body instance.
-     * @param  Closure           $next    The trigger for the next log handler.
-     * @return boolean
+     * @param string            $channel The logger channel name.
+     * @param Edoger\Logger\Log $log     The log body instance.
+     * @param Closure           $next    The trigger for the next log handler.
+     *
+     * @return bool
      */
     public function handle(string $channel, Log $log, Closure $next): bool
     {

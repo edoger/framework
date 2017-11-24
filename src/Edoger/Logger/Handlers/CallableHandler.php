@@ -11,9 +11,9 @@
 namespace Edoger\Logger\Handlers;
 
 use Closure;
-use Edoger\Logger\AbstractHandler;
-use Edoger\Logger\Log;
 use RuntimeException;
+use Edoger\Logger\Log;
+use Edoger\Logger\AbstractHandler;
 
 class CallableHandler extends AbstractHandler
 {
@@ -27,7 +27,8 @@ class CallableHandler extends AbstractHandler
     /**
      * The callable handler constructor.
      *
-     * @param  callable $handler The log callable handler.
+     * @param callable $handler The log callable handler.
+     *
      * @return void
      */
     public function __construct(callable $handler)
@@ -48,10 +49,11 @@ class CallableHandler extends AbstractHandler
     /**
      * Handle a log.
      *
-     * @param  string            $channel The logger channel name.
-     * @param  Edoger\Logger\Log $log     The log body instance.
-     * @param  Closure           $next    The trigger for the next log handler.
-     * @return boolean
+     * @param string            $channel The logger channel name.
+     * @param Edoger\Logger\Log $log     The log body instance.
+     * @param Closure           $next    The trigger for the next log handler.
+     *
+     * @return bool
      */
     public function handle(string $channel, Log $log, Closure $next): bool
     {

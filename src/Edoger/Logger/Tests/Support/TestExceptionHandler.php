@@ -11,9 +11,9 @@
 namespace Edoger\Logger\Tests\Support;
 
 use Closure;
-use Edoger\Logger\AbstractHandler;
-use Edoger\Logger\Log;
 use Exception;
+use Edoger\Logger\Log;
+use Edoger\Logger\AbstractHandler;
 
 class TestExceptionHandler extends AbstractHandler
 {

@@ -10,9 +10,9 @@
 
 namespace Edoger\Logger;
 
+use Throwable;
 use Edoger\Container\Container;
 use Edoger\Flow\Contracts\Blocker as BlockerContract;
-use Throwable;
 
 class Blocker implements BlockerContract
 {
@@ -23,15 +23,15 @@ class Blocker implements BlockerContract
      */
     public function __construct()
     {
-        //
     }
 
     /**
      * Block the current log handle stack.
      *
-     * @param  Edoger\Container\Container $input     The processor input parameter container.
-     * @param  Throwable|null             $exception The captured processor exception.
-     * @return boolean
+     * @param Edoger\Container\Container $input     The processor input parameter container.
+     * @param Throwable|null             $exception The captured processor exception.
+     *
+     * @return bool
      */
     public function block(Container $input, Throwable $exception = null)
     {

@@ -10,14 +10,14 @@
 
 namespace Edoger\Logger\Tests\Cases\Handlers;
 
-use Edoger\Logger\AbstractHandler;
-use Edoger\Logger\Formatter\LineFormatter;
-use Edoger\Logger\Handlers\FileHandler;
-use Edoger\Logger\Levels;
 use Edoger\Logger\Log;
-use Edoger\Logger\Tests\Support\TestFormatter;
-use PHPUnit\Framework\Error\Error;
+use Edoger\Logger\Levels;
 use PHPUnit\Framework\TestCase;
+use Edoger\Logger\AbstractHandler;
+use PHPUnit\Framework\Error\Error;
+use Edoger\Logger\Handlers\FileHandler;
+use Edoger\Logger\Formatter\LineFormatter;
+use Edoger\Logger\Tests\Support\TestFormatter;
 
 class FileHandlerTest extends TestCase
 {

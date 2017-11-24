@@ -10,11 +10,11 @@
 
 namespace Edoger\Logger\Tests\Cases;
 
-use Edoger\Container\Container;
-use Edoger\Flow\Contracts\Blocker as BlockerContract;
-use Edoger\Logger\Blocker;
 use Exception;
+use Edoger\Logger\Blocker;
+use Edoger\Container\Container;
 use PHPUnit\Framework\TestCase;
+use Edoger\Flow\Contracts\Blocker as BlockerContract;
 
 class BlockerTest extends TestCase
 {

@@ -10,11 +10,11 @@
 
 namespace Edoger\Logger\Tests\Cases\Formatter;
 
+use Edoger\Logger\Log;
+use Edoger\Logger\Levels;
+use PHPUnit\Framework\TestCase;
 use Edoger\Logger\Contracts\Formatter;
 use Edoger\Logger\Formatter\LineFormatter;
-use Edoger\Logger\Levels;
-use Edoger\Logger\Log;
-use PHPUnit\Framework\TestCase;
 
 class LineFormatterTest extends TestCase
 {

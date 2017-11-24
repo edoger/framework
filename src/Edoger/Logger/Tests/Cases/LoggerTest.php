@@ -10,15 +10,15 @@
 
 namespace Edoger\Logger\Tests\Cases;
 
-use Edoger\Logger\Handlers\CallableHandler;
-use Edoger\Logger\Levels;
+use RuntimeException;
 use Edoger\Logger\Log;
+use Edoger\Logger\Levels;
 use Edoger\Logger\Logger;
-use Edoger\Logger\Tests\Support\TestExceptionHandler;
-use Edoger\Logger\Tests\Support\TestHandler;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
+use Edoger\Logger\Handlers\CallableHandler;
+use Edoger\Logger\Tests\Support\TestHandler;
+use Edoger\Logger\Tests\Support\TestExceptionHandler;
 
 class LoggerTest extends TestCase
 {
@@ -247,7 +247,7 @@ class LoggerTest extends TestCase
         $logger->log(Levels::EMERGENCY, 'EMERGENCY');
 
         $logs = $logger->getLogs(function (Log $log) {
-            return $log->getLevel() === Levels::NOTICE;
+            return Levels::NOTICE === $log->getLevel();
         });
 
         $this->assertCount(1, $logs);

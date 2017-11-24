@@ -17,7 +17,7 @@ class Log
     /**
      * The log level.
      *
-     * @var integer
+     * @var int
      */
     protected $level;
 
@@ -38,7 +38,7 @@ class Log
     /**
      * The log generation timestamp.
      *
-     * @var integer
+     * @var int
      */
     protected $timestamp;
 
@@ -52,11 +52,12 @@ class Log
     /**
      * The log constructor.
      *
-     * @param  integer $level     The log level.
-     * @param  string  $message   The log message.
-     * @param  array   $context   The log context.
-     * @param  integer $timestamp The log generation timestamp.
-     * @param  mixed   $extra     Additional data for the current log.
+     * @param int    $level     The log level.
+     * @param string $message   The log message.
+     * @param array  $context   The log context.
+     * @param int    $timestamp The log generation timestamp.
+     * @param mixed  $extra     Additional data for the current log.
+     *
      * @return void
      */
     public function __construct(int $level, string $message, array $context = [], int $timestamp = 0, $extra = [])
@@ -71,7 +72,7 @@ class Log
     /**
      * Gets the current log level.
      *
-     * @return integer
+     * @return int
      */
     public function getLevel(): int
     {
@@ -111,7 +112,7 @@ class Log
     /**
      * Gets the current log generation timestamp.
      *
-     * @return integer
+     * @return int
      */
     public function getTimestamp(): int
     {
@@ -121,7 +122,8 @@ class Log
     /**
      * Gets the current log generation datetime.
      *
-     * @param  string   $format The format of the outputted date string.
+     * @param string $format The format of the outputted date string.
+     *
      * @return string
      */
     public function getDatetime(string $format = 'Y-m-d H:i:s'): string
@@ -132,7 +134,7 @@ class Log
     /**
      * Determines whether the current log extra data is empty.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEmptyExtras(): bool
     {
@@ -142,8 +144,9 @@ class Log
     /**
      * Determines whether a given key exists in the current log extra data.
      *
-     * @param  string    $key The given key.
-     * @return boolean
+     * @param string $key The given key.
+     *
+     * @return bool
      */
     public function hasExtra(string $key): bool
     {
@@ -153,8 +156,9 @@ class Log
     /**
      * Gets the value of the specified key in the current log extra data.
      *
-     * @param  string  $key     The given key.
-     * @param  mixed   $default The default value.
+     * @param string $key     The given key.
+     * @param mixed  $default The default value.
+     *
      * @return mixed
      */
     public function getExtra(string $key, $default = null)
@@ -175,8 +179,9 @@ class Log
     /**
      * Sets the extra data for the current log.
      *
-     * @param  string $key   The extra data key.
-     * @param  mixed  $value The extra data value.
+     * @param string $key   The extra data key.
+     * @param mixed  $value The extra data value.
+     *
      * @return void
      */
     public function setExtra(string $key, $value): void
@@ -187,7 +192,8 @@ class Log
     /**
      * Replace all the extra data for the current log.
      *
-     * @param  mixed  $extra The extra data.
+     * @param mixed $extra The extra data.
+     *
      * @return self
      */
     public function replaceExtras($extra)
@@ -200,7 +206,8 @@ class Log
     /**
      * Delete the extra data for the current log.
      *
-     * @param  string $key The extra data key.
+     * @param string $key The extra data key.
+     *
      * @return void
      */
     public function deleteExtra(string $key): void
@@ -225,7 +232,7 @@ class Log
     /**
      * Gets the size of all the extra data for the current log.
      *
-     * @return integer
+     * @return int
      */
     public function countExtras(): int
     {

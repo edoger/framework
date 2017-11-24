@@ -10,11 +10,11 @@
 
 namespace Edoger\Logger;
 
-use Edoger\Flow\Flow;
-use Edoger\Logger\Handlers\CallableHandler;
 use Edoger\Util\Arr;
-use InvalidArgumentException;
+use Edoger\Flow\Flow;
 use RuntimeException;
+use InvalidArgumentException;
+use Edoger\Logger\Handlers\CallableHandler;
 
 class Logger
 {
@@ -35,7 +35,7 @@ class Logger
     /**
      * The lowest processing log level.
      *
-     * @var integer
+     * @var int
      */
     protected $level;
 
@@ -49,8 +49,9 @@ class Logger
     /**
      * The logger constructor.
      *
-     * @param  string  $channel The logger channel name.
-     * @param  integer $level   The lowest processing log level.
+     * @param string $channel The logger channel name.
+     * @param int    $level   The lowest processing log level.
+     *
      * @return void
      */
     public function __construct(string $channel, int $level = Levels::DEBUG)
@@ -73,7 +74,7 @@ class Logger
     /**
      * Determines whether the current log handler collection is empty.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEmptyHandlers(): bool
     {
@@ -83,7 +84,7 @@ class Logger
     /**
      * Get the size of the current log handler collection.
      *
-     * @return integer
+     * @return int
      */
     public function countHandlers(): int
     {
@@ -105,9 +106,10 @@ class Logger
     /**
      * Append a log handler.
      *
-     * @param  Edoger\Logger\AbstractHandler|callable $handler The log handler.
-     * @param  boolean                                $top     Append the handler to the top of the stack.
-     * @return integer
+     * @param Edoger\Logger\AbstractHandler|callable $handler The log handler.
+     * @param bool                                   $top     Append the handler to the top of the stack.
+     *
+     * @return int
      */
     public function pushHandler($handler, bool $top = true): int
     {
@@ -123,8 +125,10 @@ class Logger
     /**
      * Delete and return a log handler.
      *
-     * @param  boolean                         $top   Remove the handler from the top of the stack.
-     * @throws RuntimeException                Throws when the log handle stack is empty.
+     * @param bool $top Remove the handler from the top of the stack.
+     *
+     * @throws RuntimeException Throws when the log handle stack is empty.
+     *
      * @return Edoger\Logger\AbstractHandler
      */
     public function popHandler(bool $top = true): AbstractHandler
@@ -153,12 +157,13 @@ class Logger
     /**
      * Record a log of a given log level.
      *
-     * @param  integer   $level     The log level.
-     * @param  string    $message   The log message.
-     * @param  array     $context   The log context.
-     * @param  integer   $timestamp The log generation timestamp.
-     * @param  mixed     $extra     Additional data for the current log.
-     * @return boolean
+     * @param int    $level     The log level.
+     * @param string $message   The log message.
+     * @param array  $context   The log context.
+     * @param int    $timestamp The log generation timestamp.
+     * @param mixed  $extra     Additional data for the current log.
+     *
+     * @return bool
      */
     public function log(int $level, string $message, array $context = [], int $timestamp = 0, $extra = []): bool
     {
@@ -177,7 +182,8 @@ class Logger
     /**
      * Get all captured logs.
      *
-     * @param  callable|null $filter The log filter.
+     * @param callable|null $filter The log filter.
+     *
      * @return array
      */
     public function getLogs(callable $filter = null): array
@@ -196,11 +202,12 @@ class Logger
     /**
      * Record a "DEBUG" level log.
      *
-     * @param  string    $message   The log message.
-     * @param  array     $context   The log context.
-     * @param  integer   $timestamp The log generation timestamp.
-     * @param  mixed     $extra     Additional data for the current log.
-     * @return boolean
+     * @param string $message   The log message.
+     * @param array  $context   The log context.
+     * @param int    $timestamp The log generation timestamp.
+     * @param mixed  $extra     Additional data for the current log.
+     *
+     * @return bool
      */
     public function debug(string $message, array $context = [], int $timestamp = 0, $extra = []): bool
     {
@@ -210,11 +217,12 @@ class Logger
     /**
      * Record a "INFO" level log.
      *
-     * @param  string    $message   The log message.
-     * @param  array     $context   The log context.
-     * @param  integer   $timestamp The log generation timestamp.
-     * @param  mixed     $extra     Additional data for the current log.
-     * @return boolean
+     * @param string $message   The log message.
+     * @param array  $context   The log context.
+     * @param int    $timestamp The log generation timestamp.
+     * @param mixed  $extra     Additional data for the current log.
+     *
+     * @return bool
      */
     public function info(string $message, array $context = [], int $timestamp = 0, $extra = []): bool
     {
@@ -224,11 +232,12 @@ class Logger
     /**
      * Record a "NOTICE" level log.
      *
-     * @param  string    $message   The log message.
-     * @param  array     $context   The log context.
-     * @param  integer   $timestamp The log generation timestamp.
-     * @param  mixed     $extra     Additional data for the current log.
-     * @return boolean
+     * @param string $message   The log message.
+     * @param array  $context   The log context.
+     * @param int    $timestamp The log generation timestamp.
+     * @param mixed  $extra     Additional data for the current log.
+     *
+     * @return bool
      */
     public function notice(string $message, array $context = [], int $timestamp = 0, $extra = []): bool
     {
@@ -238,11 +247,12 @@ class Logger
     /**
      * Record a "WARNING" level log.
      *
-     * @param  string    $message   The log message.
-     * @param  array     $context   The log context.
-     * @param  integer   $timestamp The log generation timestamp.
-     * @param  mixed     $extra     Additional data for the current log.
-     * @return boolean
+     * @param string $message   The log message.
+     * @param array  $context   The log context.
+     * @param int    $timestamp The log generation timestamp.
+     * @param mixed  $extra     Additional data for the current log.
+     *
+     * @return bool
      */
     public function warning(string $message, array $context = [], int $timestamp = 0, $extra = []): bool
     {
@@ -252,11 +262,12 @@ class Logger
     /**
      * Record a "ERROR" level log.
      *
-     * @param  string    $message   The log message.
-     * @param  array     $context   The log context.
-     * @param  integer   $timestamp The log generation timestamp.
-     * @param  mixed     $extra     Additional data for the current log.
-     * @return boolean
+     * @param string $message   The log message.
+     * @param array  $context   The log context.
+     * @param int    $timestamp The log generation timestamp.
+     * @param mixed  $extra     Additional data for the current log.
+     *
+     * @return bool
      */
     public function error(string $message, array $context = [], int $timestamp = 0, $extra = []): bool
     {
@@ -266,11 +277,12 @@ class Logger
     /**
      * Record a "CRITICAL" level log.
      *
-     * @param  string    $message   The log message.
-     * @param  array     $context   The log context.
-     * @param  integer   $timestamp The log generation timestamp.
-     * @param  mixed     $extra     Additional data for the current log.
-     * @return boolean
+     * @param string $message   The log message.
+     * @param array  $context   The log context.
+     * @param int    $timestamp The log generation timestamp.
+     * @param mixed  $extra     Additional data for the current log.
+     *
+     * @return bool
      */
     public function critical(string $message, array $context = [], int $timestamp = 0, $extra = []): bool
     {
@@ -280,11 +292,12 @@ class Logger
     /**
      * Record a "ALERT" level log.
      *
-     * @param  string    $message   The log message.
-     * @param  array     $context   The log context.
-     * @param  integer   $timestamp The log generation timestamp.
-     * @param  mixed     $extra     Additional data for the current log.
-     * @return boolean
+     * @param string $message   The log message.
+     * @param array  $context   The log context.
+     * @param int    $timestamp The log generation timestamp.
+     * @param mixed  $extra     Additional data for the current log.
+     *
+     * @return bool
      */
     public function alert(string $message, array $context = [], int $timestamp = 0, $extra = []): bool
     {
@@ -294,11 +307,12 @@ class Logger
     /**
      * Record a "EMERGENCY" level log.
      *
-     * @param  string    $message   The log message.
-     * @param  array     $context   The log context.
-     * @param  integer   $timestamp The log generation timestamp.
-     * @param  mixed     $extra     Additional data for the current log.
-     * @return boolean
+     * @param string $message   The log message.
+     * @param array  $context   The log context.
+     * @param int    $timestamp The log generation timestamp.
+     * @param mixed  $extra     Additional data for the current log.
+     *
+     * @return bool
      */
     public function emergency(string $message, array $context = [], int $timestamp = 0, $extra = []): bool
     {

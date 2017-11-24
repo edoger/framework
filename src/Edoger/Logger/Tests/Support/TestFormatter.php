@@ -10,8 +10,8 @@
 
 namespace Edoger\Logger\Tests\Support;
 
-use Edoger\Logger\Contracts\Formatter;
 use Edoger\Logger\Log;
+use Edoger\Logger\Contracts\Formatter;
 
 class TestFormatter implements Formatter
 {

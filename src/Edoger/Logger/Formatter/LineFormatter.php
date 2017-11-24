@@ -10,8 +10,8 @@
 
 namespace Edoger\Logger\Formatter;
 
-use Edoger\Logger\Contracts\Formatter;
 use Edoger\Logger\Log;
+use Edoger\Logger\Contracts\Formatter;
 
 class LineFormatter implements Formatter
 {
@@ -25,15 +25,16 @@ class LineFormatter implements Formatter
     /**
      * Whether to automatically append newline.
      *
-     * @var boolean
+     * @var bool
      */
     protected $linefeed;
 
     /**
      * The log line formatter constructor.
      *
-     * @param  string  $dateFormat The format of the outputted date string.
-     * @param  boolean $linefeed   Whether to automatically append newline.
+     * @param string $dateFormat The format of the outputted date string.
+     * @param bool   $linefeed   Whether to automatically append newline.
+     *
      * @return void
      */
     public function __construct(string $dateFormat = 'Y-m-d H:i:s', bool $linefeed = true)
@@ -45,8 +46,9 @@ class LineFormatter implements Formatter
     /**
      * Format the contents of the log.
      *
-     * @param  string            $channel The logger channel name.
-     * @param  Edoger\Logger\Log $log     The log body instance.
+     * @param string            $channel The logger channel name.
+     * @param Edoger\Logger\Log $log     The log body instance.
+     *
      * @return string
      */
     public function format(string $channel, Log $log): string

@@ -59,8 +59,9 @@ class Levels
     /**
      * Determines whether the given log level is a log level.
      *
-     * @param  integer   $level The given log level.
-     * @return boolean
+     * @param int $level The given log level.
+     *
+     * @return bool
      */
     public static function isLevel(int $level): bool
     {
@@ -70,8 +71,10 @@ class Levels
     /**
      * Gets the name of the given log level.
      *
-     * @param  integer                  $level The given log level.
+     * @param int $level The given log level.
+     *
      * @throws InvalidArgumentException Thrown when the log level is invalid.
+     *
      * @return string
      */
     public static function getLevelName(int $level): string
@@ -86,8 +89,9 @@ class Levels
     /**
      * Determines whether the given string is a log level name.
      *
-     * @param  string    $name The given log level name.
-     * @return boolean
+     * @param string $name The given log level name.
+     *
+     * @return bool
      */
     public static function isLevelName(string $name): bool
     {
@@ -97,9 +101,11 @@ class Levels
     /**
      * Gets the name of the given log level.
      *
-     * @param  string                   $name  The given log level name.
+     * @param string $name The given log level name.
+     *
      * @throws InvalidArgumentException Thrown when the log level name is invalid.
-     * @return integer
+     *
+     * @return int
      */
     public static function getLevel(string $name): int
     {

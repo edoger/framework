@@ -10,8 +10,8 @@
 
 namespace Edoger\Logger\Tests\Cases;
 
-use Edoger\Logger\Levels;
 use Edoger\Logger\Log;
+use Edoger\Logger\Levels;
 use PHPUnit\Framework\TestCase;
 
 class LogTest extends TestCase

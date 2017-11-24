@@ -19,8 +19,9 @@ abstract class AbstractHandler implements Processor
     /**
      * Process the current task.
      *
-     * @param  Edoger\Container\Container $input The processor input parameter container.
-     * @param  Closure                    $next  The trigger for the next processor.
+     * @param Edoger\Container\Container $input The processor input parameter container.
+     * @param Closure                    $next  The trigger for the next processor.
+     *
      * @return mixed
      */
     final public function process(Container $input, Closure $next)
@@ -31,10 +32,11 @@ abstract class AbstractHandler implements Processor
     /**
      * Handle a log.
      *
-     * @param  string            $channel The logger channel name.
-     * @param  Edoger\Logger\Log $log     The log body instance.
-     * @param  Closure           $next    The trigger for the next log handler.
-     * @return boolean
+     * @param string            $channel The logger channel name.
+     * @param Edoger\Logger\Log $log     The log body instance.
+     * @param Closure           $next    The trigger for the next log handler.
+     *
+     * @return bool
      */
     abstract public function handle(string $channel, Log $log, Closure $next): bool;
 }
