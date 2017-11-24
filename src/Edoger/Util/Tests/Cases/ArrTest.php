@@ -11,9 +11,9 @@
 namespace Edoger\Util\Tests\Cases;
 
 use Edoger\Util\Arr;
+use PHPUnit\Framework\TestCase;
 use Edoger\Util\Tests\Support\TestArrayable;
 use Edoger\Util\Tests\Support\TestIteratorAggregate;
-use PHPUnit\Framework\TestCase;
 
 class ArrTest extends TestCase
 {

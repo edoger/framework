@@ -15,8 +15,9 @@ class Str
     /**
      * Get string length.
      *
-     * @param  string    $str The given string.
-     * @return integer
+     * @param string $str The given string.
+     *
+     * @return int
      */
     public static function length(string $str): int
     {
@@ -26,7 +27,8 @@ class Str
     /**
      * Returns the uppercase form of the given string.
      *
-     * @param  string   $str The given string.
+     * @param string $str The given string.
+     *
      * @return string
      */
     public static function upper(string $str): string
@@ -37,7 +39,8 @@ class Str
     /**
      * Returns the lowercase form of the given string.
      *
-     * @param  string   $str The given string.
+     * @param string $str The given string.
+     *
      * @return string
      */
     public static function lower(string $str): string
@@ -48,9 +51,10 @@ class Str
     /**
      * Get part of the given string.
      *
-     * @param  string   $str    The given string.
-     * @param  integer  $start  The start position of the intercept string.
-     * @param  integer  $length Maximum number of characters to use from the given string.
+     * @param string $str    The given string.
+     * @param int    $start  The start position of the intercept string.
+     * @param int    $length Maximum number of characters to use from the given string.
+     *
      * @return string
      */
     public static function substr(string $str, int $start, int $length = null): string
@@ -61,8 +65,9 @@ class Str
     /**
      * Gets the beginning of a given string.
      *
-     * @param  string   $str  The given string.
-     * @param  integer  $size The maximum size.
+     * @param string $str  The given string.
+     * @param int    $size The maximum size.
+     *
      * @return string
      */
     public static function before(string $str, int $size = 1): string
@@ -81,8 +86,9 @@ class Str
     /**
      * Gets the end of the given string.
      *
-     * @param  string   $str  The given string.
-     * @param  integer  $size The maximum size.
+     * @param string $str  The given string.
+     * @param int    $size The maximum size.
+     *
      * @return string
      */
     public static function after(string $str, int $size = 1): string
@@ -101,7 +107,8 @@ class Str
     /**
      * Make a string's first character uppercase.
      *
-     * @param  string   $str The given string.
+     * @param string $str The given string.
+     *
      * @return string
      */
     public static function ucfirst(string $str): string
@@ -116,10 +123,11 @@ class Str
     /**
      * Find position of first occurrence of string in the given string.
      *
-     * @param  string          $str    The given string.
-     * @param  string          $needle The string to find in the given string.
-     * @param  integer         $offset The search offset.
-     * @return integer|false
+     * @param string $str    The given string.
+     * @param string $needle The string to find in the given string.
+     * @param int    $offset The search offset.
+     *
+     * @return int|false
      */
     public static function strpos(string $str, string $needle, int $offset = 0)
     {

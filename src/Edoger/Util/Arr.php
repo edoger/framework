@@ -10,17 +10,18 @@
 
 namespace Edoger\Util;
 
-use Edoger\Util\Contracts\Arrayable;
 use Traversable;
+use Edoger\Util\Contracts\Arrayable;
 
 class Arr
 {
     /**
      * Determines whether a given key exists in a given array.
      *
-     * @param  array     $arr The given array.
-     * @param  string    $key The given key name.
-     * @return boolean
+     * @param array  $arr The given array.
+     * @param string $key The given key name.
+     *
+     * @return bool
      */
     public static function has(array $arr, string $key): bool
     {
@@ -30,9 +31,10 @@ class Arr
     /**
      * Gets an element from a given array.
      *
-     * @param  array   $arr     An array.
-     * @param  string  $key     Key name.
-     * @param  mixed   $default The default value.
+     * @param array  $arr     An array.
+     * @param string $key     Key name.
+     * @param mixed  $default The default value.
+     *
      * @return mixed
      */
     public static function get(array $arr, string $key, $default = null)
@@ -43,8 +45,9 @@ class Arr
     /**
      * Gets the first element of the array.
      *
-     * @param  array   $arr     An array.
-     * @param  mixed   $default The default value.
+     * @param array $arr     An array.
+     * @param mixed $default The default value.
+     *
      * @return mixed
      */
     public static function first(array $arr, $default = null)
@@ -55,8 +58,9 @@ class Arr
     /**
      * Gets the last element of the array.
      *
-     * @param  array   $arr     An array.
-     * @param  mixed   $default The default value.
+     * @param array $arr     An array.
+     * @param mixed $default The default value.
+     *
      * @return mixed
      */
     public static function last(array $arr, $default = null)
@@ -67,8 +71,9 @@ class Arr
     /**
      * Wraps the given value into an array.
      *
-     * @param  mixed       $value The given value.
-     * @param  string|null $name  The given name. Valid when the given value is not an array.
+     * @param mixed       $value The given value.
+     * @param string|null $name  The given name. Valid when the given value is not an array.
+     *
      * @return array
      */
     public static function wrap($value, string $name = null): array
@@ -87,7 +92,8 @@ class Arr
     /**
      * Converts a given value to an array.
      *
-     * @param  mixed   $value The given value.
+     * @param mixed $value The given value.
+     *
      * @return array
      */
     public static function convert($value): array
@@ -106,7 +112,8 @@ class Arr
     /**
      * Gets all the keys from the given array.
      *
-     * @param  array   $arr The given array.
+     * @param array $arr The given array.
+     *
      * @return array
      */
     public static function keys(array $arr): array
@@ -117,7 +124,8 @@ class Arr
     /**
      * Gets all the values from the given array and indexes the array numerically.
      *
-     * @param  array   $arr The given array.
+     * @param array $arr The given array.
+     *
      * @return array
      */
     public static function values(array $arr): array
@@ -128,8 +136,9 @@ class Arr
     /**
      * Append elements to a given array.
      *
-     * @param  array   $arr    The given array.
-     * @param  mixed   $values The given elements.
+     * @param array $arr    The given array.
+     * @param mixed $values The given elements.
+     *
      * @return array
      */
     public static function append(array $arr, $values): array
@@ -144,8 +153,9 @@ class Arr
     /**
      * Determines whether the given array is an associative array.
      *
-     * @param  array     $arr The given array.
-     * @return boolean
+     * @param array $arr The given array.
+     *
+     * @return bool
      */
     public static function isAssoc(array $arr): bool
     {
