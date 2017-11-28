@@ -16,3 +16,6 @@ coverage.xml
 
 # For Mac
 .DS_Store
+
+# For php-cs-fixer
+.php_cs.cache
