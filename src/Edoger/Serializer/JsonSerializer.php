@@ -11,7 +11,7 @@
 namespace Edoger\Serializer;
 
 use Edoger\Serializer\Contracts\Serializer;
-use Edoger\Serializer\Exception\SerializerException;
+use Edoger\Serializer\Exceptions\SerializerException;
 
 class JsonSerializer implements Serializer
 {

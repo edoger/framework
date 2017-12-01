@@ -8,7 +8,7 @@
  * @license   GNU Lesser General Public License 3.0
  */
 
-namespace Edoger\Serializer\Exception;
+namespace Edoger\Serializer\Exceptions;
 
 use Exception;
 
