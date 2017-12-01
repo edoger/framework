@@ -87,7 +87,6 @@ class JsonSerializer implements Serializer
      */
     public function serialize($value): string
     {
-        // Serialization failed:
         $json = json_encode($value, $this->encodeOptions, $this->encodeDepth);
 
         if (JSON_ERROR_NONE !== $code = json_last_error()) {
