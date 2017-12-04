@@ -15,18 +15,20 @@ interface Serializer
     /**
      * Serialize the given value into a string.
      *
-     * @param mixed $value The given value.
+     * @param mixed $value   The given value.
+     * @param array $options The serializer encoding options.
      *
      * @return string
      */
-    public function serialize($value): string;
+    public function serialize($value, array $options = []): string;
 
     /**
      * Deserialize the given string.
      *
-     * @param string $str The given string.
+     * @param string $str     The given string.
+     * @param array  $options The serializer decoding options.
      *
      * @return mixed
      */
-    public function deserialize(string $str);
+    public function deserialize(string $str, array $options = []);
 }

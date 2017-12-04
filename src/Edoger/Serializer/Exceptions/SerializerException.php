@@ -14,4 +14,5 @@ use Exception;
 
 class SerializerException extends Exception
 {
+    // The edoger serializer exception.
 }

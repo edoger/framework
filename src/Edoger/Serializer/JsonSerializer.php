@@ -10,88 +10,70 @@
 
 namespace Edoger\Serializer;
 
+use Edoger\Util\Arr;
 use Edoger\Serializer\Contracts\Serializer;
 use Edoger\Serializer\Exceptions\SerializerException;
 
 class JsonSerializer implements Serializer
 {
     /**
-     * Bitmask of JSON encode options.
+     * The serializer default encoding options.
      *
-     * @var int
+     * @var array
      */
-    protected $encodeOptions = 0;
+    protected $encodeOptions = ['options' => 0, 'depth' => 512];
 
     /**
-     * Set the maximum depth. Must be greater than zero.
+     * The serializer default decoding options.
      *
-     * @var int
+     * @var array
      */
-    protected $encodeDepth = 512;
-
-    /**
-     * When TRUE, returned objects will be converted into associative arrays.
-     *
-     * @var bool
-     */
-    protected $associative = false;
-
-    /**
-     * User specified recursion depth.
-     *
-     * @var int
-     */
-    protected $decodeDepth = 512;
-
-    /**
-     * Bitmask of JSON decode options.
-     *
-     * @var int
-     */
-    protected $decodeOptions = 0;
+    protected $decodeOptions = ['options' => 0, 'depth' => 512, 'assoc' => false];
 
     /**
      * The json serializer constructor.
      *
-     * @param array $options The serialization options.
+     * @param array $options       The serialization options.
+     * @param array $encodeOptions The serializer default encoding options.
+     * @param array $decodeOptions The serializer default decoding options.
      *
      * @return void
      */
-    public function __construct(array $options = [])
+    public function __construct(array $encodeOptions = [], array $decodeOptions = [])
     {
-        if (!empty($options)) {
-            $merged = array_merge([
-                'encodeOptions' => 0,
-                'encodeDepth'   => 512,
-                'associative'   => false,
-                'decodeDepth'   => 512,
-                'decodeOptions' => 0,
-            ], $options);
+        if (!empty($encodeOptions)) {
+            // Set the default encoding options.
+            foreach ($this->encodeOptions as $name => $value) {
+                $this->encodeOptions[$name] = Arr::get($encodeOptions, $name, $value);
+            }
+        }
 
-            $this->encodeOptions = (int) $merged['encodeOptions'];
-            $this->encodeDepth   = (int) $merged['encodeDepth'];
-            $this->associative   = (bool) $merged['associative'];
-            $this->decodeDepth   = (int) $merged['decodeDepth'];
-            $this->decodeOptions = (int) $merged['decodeOptions'];
+        if (!empty($decodeOptions)) {
+            // Set the default decoding options.
+            foreach ($this->decodeOptions as $name => $value) {
+                $this->decodeOptions[$name] = Arr::get($decodeOptions, $name, $value);
+            }
         }
     }
 
     /**
-     * Serialize the given value into a string.
+     * Serialize the given value into a json string.
      *
-     * @param mixed $value The given value.
+     * @param mixed $value   The given value.
+     * @param array $options The serializer encoding options.
      *
      * @throws Edoger\Serializer\Exception\SerializerException Thrown when serialization fails.
      *
      * @return string
      */
-    public function serialize($value): string
+    public function serialize($value, array $options = []): string
     {
-        $json = json_encode($value, $this->encodeOptions, $this->encodeDepth);
+        $options = array_merge($this->encodeOptions, $options);
+        $json    = json_encode($value, $options['options'], $options['depth']);
 
         if (JSON_ERROR_NONE !== $code = json_last_error()) {
             throw new SerializerException(
-                'Serialization failed: '.json_last_error_msg(),
+                sprintf('Serialization failed: %s.', json_last_error_msg()),
                 $code
             );
         }
@@ -100,21 +82,23 @@ class JsonSerializer implements Serializer
     }
 
     /**
-     * Deserialize the given string.
+     * Deserialize the given json.
      *
-     * @param string $str The given string.
+     * @param string $str     The given json.
+     * @param array  $options The serializer decoding options.
      *
      * @throws Edoger\Serializer\Exception\SerializerException Thrown when deserialization fails.
      *
      * @return mixed
      */
-    public function deserialize(string $str)
+    public function deserialize(string $str, array $options = [])
     {
-        $value = json_decode($str, $this->associative, $this->decodeDepth, $this->decodeOptions);
+        $options = array_merge($this->decodeOptions, $options);
+        $value   = json_decode($str, $options['assoc'], $options['depth'], $options['options']);
 
         if (JSON_ERROR_NONE !== $code = json_last_error()) {
             throw new SerializerException(
-                'Deserialization failed: '.json_last_error_msg(),
+                sprintf('Deserialization failed: %s.', json_last_error_msg()),
                 $code
             );
         }
