@@ -111,4 +111,11 @@ class ArrTest extends TestCase
         $this->assertFalse(Arr::isAssoc([1, 2]));
         $this->assertFalse(Arr::isAssoc([0 => 1, 2]));
     }
+
+    public function testArrMerge()
+    {
+        $this->assertEquals(['bar'], Arr::merge(['foo'], ['bar']));
+        $this->assertEquals(['foo' => 'foo', 'bar'], Arr::merge(['foo' => 'foo'], ['bar']));
+        $this->assertEquals(['foo' => 'bar'], Arr::merge(['foo' => 'foo'], ['foo' => 'bar']));
+    }
 }
