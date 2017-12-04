@@ -161,4 +161,21 @@ class Arr
     {
         return empty($arr) || static::keys($arr) !== range(0, count($arr) - 1);
     }
+
+    /**
+     * Merge two given arrays.
+     *
+     * @param array $original The original array.
+     * @param array $values   The array to be merged.
+     *
+     * @return array
+     */
+    public static function merge(array $original, array $values): array
+    {
+        foreach ($values as $key => $value) {
+            $original[$key] = $value;
+        }
+
+        return $original;
+    }
 }
