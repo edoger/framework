@@ -43,16 +43,12 @@ class JsonSerializer implements Serializer
     {
         if (!empty($encodeOptions)) {
             // Set the default encoding options.
-            foreach ($this->encodeOptions as $name => $value) {
-                $this->encodeOptions[$name] = Arr::get($encodeOptions, $name, $value);
-            }
+            $this->encodeOptions = Arr::merge($this->encodeOptions, $encodeOptions);
         }
 
         if (!empty($decodeOptions)) {
             // Set the default decoding options.
-            foreach ($this->decodeOptions as $name => $value) {
-                $this->decodeOptions[$name] = Arr::get($decodeOptions, $name, $value);
-            }
+            $this->decodeOptions = Arr::merge($this->decodeOptions, $decodeOptions);
         }
     }
 
