@@ -28,7 +28,7 @@ class ConfigEventTest extends TestCase
         $config = new Config([$loader]);
 
         $config->on('loading', function (Event $event, Dispatcher $dispatcher) {
-            $this->assertEquals('loading', $event->getName());
+            $this->assertEquals('config.loading', $event->getName());
             $this->assertEquals(['group' => 'test', 'reload' => false], $event->toArray());
         });
 
@@ -43,7 +43,7 @@ class ConfigEventTest extends TestCase
         $config->group('test'); // loading
 
         $config->on('loading', function (Event $event, Dispatcher $dispatcher) {
-            $this->assertEquals('loading', $event->getName());
+            $this->assertEquals('config.loading', $event->getName());
             $this->assertEquals(['group' => 'test', 'reload' => true], $event->toArray());
         });
 
@@ -56,7 +56,7 @@ class ConfigEventTest extends TestCase
         $config = new Config([$loader]);
 
         $config->on('loaded', function (Event $event, Dispatcher $dispatcher) {
-            $this->assertEquals('loaded', $event->getName());
+            $this->assertEquals('config.loaded', $event->getName());
             $this->assertEquals('test', $event->get('group'));
             $this->assertFalse($event->get('reload'));
             $this->assertEquals(3, count($event));
@@ -78,7 +78,7 @@ class ConfigEventTest extends TestCase
         $config->group('test'); // loading
 
         $config->on('loaded', function (Event $event, Dispatcher $dispatcher) {
-            $this->assertEquals('loaded', $event->getName());
+            $this->assertEquals('config.loaded', $event->getName());
             $this->assertEquals('test', $event->get('group'));
             $this->assertTrue($event->get('reload'));
             $this->assertEquals(3, count($event));
@@ -97,7 +97,7 @@ class ConfigEventTest extends TestCase
         $config = new Config();
 
         $config->on('missed', function (Event $event, Dispatcher $dispatcher) {
-            $this->assertEquals('missed', $event->getName());
+            $this->assertEquals('config.missed', $event->getName());
             $this->assertEquals(['group' => 'test', 'reload' => false], $event->toArray());
         });
 
@@ -111,7 +111,7 @@ class ConfigEventTest extends TestCase
         $config->group('test'); // missed
 
         $config->on('missed', function (Event $event, Dispatcher $dispatcher) {
-            $this->assertEquals('missed', $event->getName());
+            $this->assertEquals('config.missed', $event->getName());
             $this->assertEquals(['group' => 'test', 'reload' => true], $event->toArray());
         });
 
@@ -124,7 +124,7 @@ class ConfigEventTest extends TestCase
         $config = new Config([$loader]);
 
         $config->on('error', function (Event $event, Dispatcher $dispatcher) {
-            $this->assertEquals('error', $event->getName());
+            $this->assertEquals('config.error', $event->getName());
             $this->assertEquals('test', $event->get('group'));
             $this->assertFalse($event->get('reload'));
             $this->assertEquals(3, count($event));
@@ -144,7 +144,7 @@ class ConfigEventTest extends TestCase
         $config = new Config([$loader]);
 
         $config->on('error', function (Event $event, Dispatcher $dispatcher) {
-            $this->assertEquals('error', $event->getName());
+            $this->assertEquals('config.error', $event->getName());
             $this->assertEquals('', $event->get('group'));
             $this->assertFalse($event->get('reload'));
             $this->assertEquals(3, count($event));
@@ -166,7 +166,7 @@ class ConfigEventTest extends TestCase
         $config->group('test'); // error
 
         $config->on('error', function (Event $event, Dispatcher $dispatcher) {
-            $this->assertEquals('error', $event->getName());
+            $this->assertEquals('config.error', $event->getName());
             $this->assertEquals('test', $event->get('group'));
             $this->assertTrue($event->get('reload'));
             $this->assertEquals(3, count($event));
