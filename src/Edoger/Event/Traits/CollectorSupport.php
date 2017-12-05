@@ -15,6 +15,13 @@ use Edoger\Event\Dispatcher;
 trait CollectorSupport
 {
     /**
+     * The private event name prefix.
+     *
+     * @var string
+     */
+    protected $privateEventNamePrefix = '';
+
+    /**
      * Gets the current event dispatcher instance.
      *
      * @return Edoger\Event\Dispatcher
@@ -31,6 +38,11 @@ trait CollectorSupport
      */
     public function on(string $name, $listener)
     {
+        // Automatically add a private event name prefix.
+        if ('' !== $this->privateEventNamePrefix) {
+            $name = $this->privateEventNamePrefix.'.'.$name;
+        }
+
         $this->getEventDispatcher()->addListener($name, $listener);
 
         return $this;
