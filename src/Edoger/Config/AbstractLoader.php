@@ -34,7 +34,7 @@ abstract class AbstractLoader implements Processor
 
         // The configuration group name must be a non-empty string.
         // This exception will be automatically captured, and you will get it in the blocker.
-        if (!is_string($group) || '' === $group) {
+        if ('' === $group) {
             throw new InvalidArgumentException('Invalid configuration group name.');
         }
 
