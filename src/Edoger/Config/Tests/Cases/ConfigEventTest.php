@@ -15,6 +15,7 @@ use Edoger\Event\Event;
 use Edoger\Config\Config;
 use Edoger\Event\Dispatcher;
 use Edoger\Config\Repository;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Edoger\Config\Tests\Support\TestLoader;
 use Edoger\Config\Tests\Support\TestExceptionLoader;
@@ -135,6 +136,26 @@ class ConfigEventTest extends TestCase
         });
 
         $config->group('test');
+    }
+
+    public function testErrorEventByEmptyGroupName()
+    {
+        $loader = new TestExceptionLoader();
+        $config = new Config([$loader]);
+
+        $config->on('error', function (Event $event, Dispatcher $dispatcher) {
+            $this->assertEquals('error', $event->getName());
+            $this->assertEquals('', $event->get('group'));
+            $this->assertFalse($event->get('reload'));
+            $this->assertEquals(3, count($event));
+
+            $exception = $event->get('exception');
+
+            $this->assertInstanceOf(InvalidArgumentException::class, $exception);
+            $this->assertEquals('Invalid configuration group name.', $exception->getMessage());
+        });
+
+        $config->group('');
     }
 
     public function testErrorEventWithReload()

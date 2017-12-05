@@ -83,4 +83,15 @@ class ConfigGroupTest extends TestCase
         $this->assertEquals(spl_object_hash($groupA), spl_object_hash($groupB));
         $this->assertNotEquals(spl_object_hash($groupB), spl_object_hash($groupC));
     }
+
+    public function testConfigGroupByEmptyName()
+    {
+        $loader = new TestLoader('test', ['test']);
+        $config = new Config([$loader]);
+
+        $group = $config->group('');
+
+        $this->assertInstanceOf(Repository::class, $group);
+        $this->assertEquals([], $group->toArray());
+    }
 }
