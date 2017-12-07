@@ -11,21 +11,12 @@
 namespace Edoger\Event\Tests\Cases;
 
 use Edoger\Event\Dispatcher;
-use Edoger\Container\Wrapper;
 use PHPUnit\Framework\TestCase;
 use Edoger\Event\DispatcherContainer;
 use Edoger\Event\Contracts\DispatcherContainer as DispatcherContainerContract;
 
 class DispatcherContainerTest extends TestCase
 {
-    public function testDispatcherContainerExtendsWrapper()
-    {
-        $dispatcher = new Dispatcher();
-        $container  = new DispatcherContainer($dispatcher);
-
-        $this->assertInstanceOf(Wrapper::class, $container);
-    }
-
     public function testDispatcherContainerInstanceOfDispatcherContainerContract()
     {
         $dispatcher = new Dispatcher();
@@ -41,5 +32,18 @@ class DispatcherContainerTest extends TestCase
 
         $this->assertInstanceOf(Dispatcher::class, $container->getEventDispatcher());
         $this->assertEquals($dispatcher, $container->getEventDispatcher());
+    }
+
+    public function testDispatcherContainerGetSubcomponentEventName()
+    {
+        $dispatcher = new Dispatcher();
+        $container  = new DispatcherContainer($dispatcher);
+
+        $this->assertEquals('', $container->getSubcomponentEventName());
+
+        $dispatcher = new Dispatcher();
+        $container  = new DispatcherContainer($dispatcher, 'foo');
+
+        $this->assertEquals('foo', $container->getSubcomponentEventName());
     }
 }

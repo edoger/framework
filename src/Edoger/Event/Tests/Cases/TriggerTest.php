@@ -56,6 +56,19 @@ class TriggerTest extends TestCase
         $this->assertEquals($dispatcher, $trigger->getEventDispatcher());
     }
 
+    public function testTriggerGetSubcomponentEventName()
+    {
+        $dispatcher = new Dispatcher();
+        $trigger    = new Trigger($dispatcher);
+
+        $this->assertEquals('', $trigger->getSubcomponentEventName());
+
+        $dispatcher = new Dispatcher();
+        $trigger    = new Trigger($dispatcher, 'foo');
+
+        $this->assertEquals('foo', $trigger->getSubcomponentEventName());
+    }
+
     public function testTriggerHasEventListener()
     {
         $listener   = new TestListener();

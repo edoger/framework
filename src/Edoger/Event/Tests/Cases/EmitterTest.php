@@ -91,6 +91,19 @@ class EmitterTest extends TestCase
         $this->assertEquals($dispatcher, $emitter->getEventDispatcher());
     }
 
+    public function testEmitterGetSubcomponentEventName()
+    {
+        $dispatcher = new Dispatcher();
+        $emitter    = new Emitter($dispatcher);
+
+        $this->assertEquals('', $emitter->getSubcomponentEventName());
+
+        $dispatcher = new Dispatcher();
+        $emitter    = new Emitter($dispatcher, 'foo');
+
+        $this->assertEquals('foo', $emitter->getSubcomponentEventName());
+    }
+
     public function testEmitterOn()
     {
         $listener   = new TestListener();

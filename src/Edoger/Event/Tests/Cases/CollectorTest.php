@@ -55,6 +55,19 @@ class CollectorTest extends TestCase
         $this->assertEquals($dispatcher, $collector->getEventDispatcher());
     }
 
+    public function testCollectorGetSubcomponentEventName()
+    {
+        $dispatcher = new Dispatcher();
+        $collector  = new Collector($dispatcher);
+
+        $this->assertEquals('', $collector->getSubcomponentEventName());
+
+        $dispatcher = new Dispatcher();
+        $collector  = new Collector($dispatcher, 'foo');
+
+        $this->assertEquals('foo', $collector->getSubcomponentEventName());
+    }
+
     public function testCollectorOn()
     {
         $listener   = new TestListener();
