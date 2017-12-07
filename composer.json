@@ -21,7 +21,7 @@
         "edoger/flow": "self.version",
         "edoger/logger": "self.version",
         "edoger/serializer": "self.version",
-        "edoger/util": "self.version",
+        "edoger/util": "self.version"
     },
     "require-dev": {
         "phpunit/phpunit": ">=6.4.0",
