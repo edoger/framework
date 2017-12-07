@@ -10,21 +10,36 @@
 
 namespace Edoger\Event;
 
-use Edoger\Container\Wrapper;
 use Edoger\Event\Contracts\DispatcherContainer as DispatcherContainerContract;
 
-class DispatcherContainer extends Wrapper implements DispatcherContainerContract
+class DispatcherContainer implements DispatcherContainerContract
 {
+    /**
+     * The event dispatcher.
+     *
+     * @var Edoger\Event\Dispatcher
+     */
+    protected $dispatcher;
+
+    /**
+     * The subcomponent event name.
+     *
+     * @var string
+     */
+    protected $subcomponentEventName;
+
     /**
      * The event dispatcher container constructor.
      *
-     * @param Edoger\Event\Dispatcher $dispatcher The event dispatcher.
+     * @param Edoger\Event\Dispatcher $dispatcher            The event dispatcher.
+     * @param string                  $subcomponentEventName The subcomponent event name.
      *
      * @return void
      */
-    public function __construct(Dispatcher $dispatcher)
+    public function __construct(Dispatcher $dispatcher, string $subcomponentEventName = '')
     {
-        parent::__construct($dispatcher);
+        $this->dispatcher            = $dispatcher;
+        $this->subcomponentEventName = $subcomponentEventName;
     }
 
     /**
@@ -34,6 +49,16 @@ class DispatcherContainer extends Wrapper implements DispatcherContainerContract
      */
     public function getEventDispatcher(): Dispatcher
     {
-        return $this->getOriginal();
+        return $this->dispatcher;
+    }
+
+    /**
+     * Get the current subcomponent event name.
+     *
+     * @return string
+     */
+    public function getSubcomponentEventName(): string
+    {
+        return $this->subcomponentEventName;
     }
 }

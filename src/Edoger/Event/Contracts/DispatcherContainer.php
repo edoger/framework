@@ -20,4 +20,11 @@ interface DispatcherContainer
      * @return Edoger\Event\Dispatcher
      */
     public function getEventDispatcher(): Dispatcher;
+
+    /**
+     * Get the current subcomponent event name.
+     *
+     * @return string
+     */
+    public function getSubcomponentEventName(): string;
 }

@@ -23,6 +23,13 @@ trait TriggerSupport
     abstract public function getEventDispatcher(): Dispatcher;
 
     /**
+     * Get the current subcomponent event name.
+     *
+     * @return string
+     */
+    abstract public function getSubcomponentEventName(): string;
+
+    /**
      * Determines whether the listener for the specified event exists.
      *
      * @param string $name The event name.
@@ -31,6 +38,11 @@ trait TriggerSupport
      */
     public function hasEventListener(string $name): bool
     {
+        // Automatically add subcomponent event name.
+        if ('' !== $subcomponentEventName = $this->getSubcomponentEventName()) {
+            $name = $subcomponentEventName.'.'.$name;
+        }
+
         return !$this->getEventDispatcher()->isEmptyListeners($name);
     }
 
@@ -44,6 +56,11 @@ trait TriggerSupport
      */
     public function emit(string $name, $body = []): Event
     {
+        // Automatically add subcomponent event name.
+        if ('' !== $subcomponentEventName = $this->getSubcomponentEventName()) {
+            $name = $subcomponentEventName.'.'.$name;
+        }
+
         return $this->getEventDispatcher()->dispatch($name, $body);
     }
 }

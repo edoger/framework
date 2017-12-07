@@ -15,18 +15,18 @@ use Edoger\Event\Dispatcher;
 trait CollectorSupport
 {
     /**
-     * The private event name prefix.
-     *
-     * @var string
-     */
-    protected $privateEventNamePrefix = '';
-
-    /**
      * Gets the current event dispatcher instance.
      *
      * @return Edoger\Event\Dispatcher
      */
     abstract public function getEventDispatcher(): Dispatcher;
+
+    /**
+     * Get the current subcomponent event name.
+     *
+     * @return string
+     */
+    abstract public function getSubcomponentEventName(): string;
 
     /**
      * Add an event listener for the specified event.
@@ -38,9 +38,9 @@ trait CollectorSupport
      */
     public function on(string $name, $listener)
     {
-        // Automatically add a private event name prefix.
-        if ('' !== $this->privateEventNamePrefix) {
-            $name = $this->privateEventNamePrefix.'.'.$name;
+        // Automatically add subcomponent event name.
+        if ('' !== $subcomponentEventName = $this->getSubcomponentEventName()) {
+            $name = $subcomponentEventName.'.'.$name;
         }
 
         $this->getEventDispatcher()->addListener($name, $listener);
