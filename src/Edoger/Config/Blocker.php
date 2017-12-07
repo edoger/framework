@@ -44,13 +44,13 @@ class Blocker extends Wrapper implements BlockerContract
 
         if (is_null($exception)) {
             // Trigger the "config.missed" event.
-            if ($trigger->hasEventListener('config.missed')) {
-                $trigger->emit('config.missed', $input);
+            if ($trigger->hasEventListener('missed')) {
+                $trigger->emit('missed', $input);
             }
         } else {
             // Trigger the "config.error" event.
-            if ($trigger->hasEventListener('config.error')) {
-                $trigger->emit('config.error', array_merge($input->toArray(), [
+            if ($trigger->hasEventListener('error')) {
+                $trigger->emit('error', array_merge($input->toArray(), [
                     'exception' => $exception,
                 ]));
             }

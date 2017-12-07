@@ -23,13 +23,6 @@ use Edoger\Config\Loaders\CallableLoader;
 class Config extends Collector
 {
     /**
-     * The private event name prefix.
-     *
-     * @var string
-     */
-    protected $privateEventNamePrefix = 'config';
-    
-    /**
      * The event trigger.
      *
      * @var Edoger\Event\Trigger
@@ -66,9 +59,9 @@ class Config extends Collector
             $dispatcher = Factory::createEdogerDispatcher();
         }
 
-        parent::__construct($dispatcher);
+        parent::__construct($dispatcher, 'config');
 
-        $this->trigger = new Trigger($dispatcher);
+        $this->trigger = new Trigger($dispatcher, 'config');
         $this->flow    = new Flow(new Blocker($this->getTrigger()));
 
         foreach ($loaders as $loader) {
@@ -191,8 +184,8 @@ class Config extends Collector
             $trigger = $this->getTrigger();
 
             // Trigger the "config.loading" event.
-            if ($trigger->hasEventListener('config.loading')) {
-                $trigger->emit('config.loading', [
+            if ($trigger->hasEventListener('loading')) {
+                $trigger->emit('loading', [
                     'group'  => $group,
                     'reload' => $reload,
                 ]);
@@ -204,8 +197,8 @@ class Config extends Collector
             ]);
 
             // Trigger the "config.loaded" event.
-            if ($trigger->hasEventListener('config.loaded')) {
-                $trigger->emit('config.loaded', [
+            if ($trigger->hasEventListener('loaded')) {
+                $trigger->emit('loaded', [
                     'group'      => $group,
                     'reload'     => $reload,
                     'repository' => $repository,
