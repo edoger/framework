@@ -21,10 +21,14 @@ use Edoger\Http\Server\Globals\Cookies;
 use Edoger\Http\Server\Traits\RequestExtrasSupport;
 use Edoger\Http\Server\Traits\RequestHeadersSupport;
 use Edoger\Http\Server\Traits\RequestAttributesSupport;
+use Edoger\Http\Server\Traits\RequestPostContentSupport;
 
 class Request implements Arrayable
 {
-    use RequestHeadersSupport, RequestExtrasSupport, RequestAttributesSupport;
+    use RequestHeadersSupport,
+        RequestExtrasSupport,
+        RequestAttributesSupport,
+        RequestPostContentSupport;
 
     /**
      * The server and execution environment variables collection.
@@ -76,6 +80,9 @@ class Request implements Arrayable
 
         // Initialize the client's request attributes collection.
         $this->initRequestAttributesSupport();
+
+        // Initialize the client's original request post content.
+        $this->initRequestPostContentSupport();
     }
 
     /**
