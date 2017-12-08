@@ -498,6 +498,22 @@ class RequestTest extends TestCase
         $this->assertEquals(2, $request->countExtras());
     }
 
+    public function testRequestGetPostContent()
+    {
+        $request = $this->createRequest();
+
+        $this->assertEquals('', $request->getPostContent());
+    }
+
+    public function testRequestSetPostContent()
+    {
+        $request = $this->createRequest();
+
+        $this->assertEquals('', $request->getPostContent());
+        $request->setPostContent('{"foo":"foo"}');
+        $this->assertEquals('{"foo":"foo"}', $request->getPostContent());
+    }
+
     public function testRequestArrayable()
     {
         $request = $this->createRequest();
