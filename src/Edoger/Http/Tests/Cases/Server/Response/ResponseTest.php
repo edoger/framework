@@ -12,6 +12,7 @@ namespace Edoger\Http\Tests\Cases\Server\Response;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Edoger\Util\Contracts\Arrayable;
 use Edoger\Http\Foundation\Collection;
 use Edoger\Http\Server\Response\Cookie;
 use Edoger\Http\Server\Response\Headers;
@@ -22,6 +23,13 @@ use Edoger\Http\Server\Traits\ResponseHeadersSupport;
 
 class ResponseTest extends TestCase
 {
+    public function testResponseInstanceOfArrayable()
+    {
+        $response = new Response(200, []);
+
+        $this->assertInstanceOf(Arrayable::class, $response);
+    }
+
     public function testRequestUseTraitResponseHeadersSupport()
     {
         $uses = class_uses(new Response(200, []));
@@ -320,5 +328,14 @@ class ResponseTest extends TestCase
         $this->assertFalse($response->hasCookie('test'));
         $this->assertFalse($response->hasCookie('foo'));
         $this->assertTrue($response->isEmptyCookies());
+    }
+
+    public function testResponseArrayable()
+    {
+        $response = new Response(200, []);
+        $this->assertEquals([], $response->toArray());
+
+        $response = new Response(200, ['foo' => 'foo']);
+        $this->assertEquals(['foo' => 'foo'], $response->toArray());
     }
 }

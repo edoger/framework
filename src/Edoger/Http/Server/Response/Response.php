@@ -11,12 +11,13 @@
 namespace Edoger\Http\Server\Response;
 
 use InvalidArgumentException;
+use Edoger\Util\Contracts\Arrayable;
 use Edoger\Http\Foundation\Collection;
 use Edoger\Http\Foundation\StatusCodes;
 use Edoger\Http\Server\Traits\ResponseCookiesSupport;
 use Edoger\Http\Server\Traits\ResponseHeadersSupport;
 
-class Response
+class Response implements Arrayable
 {
     use ResponseHeadersSupport, ResponseCookiesSupport;
 
@@ -109,5 +110,15 @@ class Response
         }
 
         return $this;
+    }
+
+    /**
+     * Returns the current response instance as an array.
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return $this->content->toArray();
     }
 }
