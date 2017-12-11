@@ -119,6 +119,6 @@ class Response implements Arrayable
      */
     public function toArray(): array
     {
-        return $this->content->toArray();
+        return $this->getResponseContent()->toArray();
     }
 }
