@@ -126,6 +126,45 @@ class Request implements Arrayable
     }
 
     /**
+     * Get the client's request protocol version.
+     *
+     * @return string
+     */
+    public function getRequestProtocolVersion(): string
+    {
+        if (null !== $version = $this->getAttribute('REQUEST_PROTOCOL_VERSION')) {
+            return $version;
+        }
+
+        // If this property is not applicable, an empty string is returned.
+        return $this->putAttribute(
+            'REQUEST_PROTOCOL_VERSION',
+            $this->getServer()->get('SERVER_PROTOCOL', '')
+        );
+    }
+
+    /**
+     * Determine if the current protocol version is equal to the given protocol version.
+     *
+     * @param string $version The given protocol version.
+     *
+     * @return bool
+     */
+    public function isRequestProtocolVersion(string $version): bool
+    {
+        if ('' === $protocolVersion = $this->getRequestProtocolVersion()) {
+            return false;
+        }
+
+        // Automatically add "HTTP/" prefix.
+        if (in_array($version, ['1.0', '1.1', '2.0'], true)) {
+            $version = 'HTTP/'.$version;
+        }
+
+        return $version === $protocolVersion;
+    }
+
+    /**
      * Get the client's request path.
      *
      * @return string
