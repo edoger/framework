@@ -8,6 +8,7 @@ script:
   - vendor/bin/phpunit --process-isolation
 
 before_script:
+  - echo "extension = apcu.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - composer install --no-interaction
 
 after_success:
