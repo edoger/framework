@@ -36,7 +36,11 @@ class ApcuDriver implements Driver
      */
     public static function isEnabled(): bool
     {
-        return extension_loaded('apcu') && ini_get('apc.enabled');
+        if (extension_loaded('apcu')) {
+            return 'cli' === PHP_SAPI ? ini_get('apc.enable_cli') : ini_get('apc.enabled');
+        }
+
+        return false;
     }
 
     /**
