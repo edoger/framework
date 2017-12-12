@@ -61,10 +61,10 @@ class Request implements Arrayable
     /**
      * The request constructor.
      *
-     * @param array $server  The server and execution environment variables.
-     * @param array $body    The request body parameters.
-     * @param array $query   The request query parameters.
-     * @param array $cookies The request cookies.
+     * @param iterable $server  The server and execution environment variables.
+     * @param iterable $body    The request body parameters.
+     * @param iterable $query   The request query parameters.
+     * @param iterable $cookies The request cookies.
      *
      * @return void
      */
