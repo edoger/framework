@@ -193,6 +193,56 @@ class RequestTest extends TestCase
         $this->assertEquals('Default', $this->createRequest()->getHeader('Not-Exists-Header-Name', 'Default'));
     }
 
+    public function testRequestGetRequestProtocolVersion()
+    {
+        $this->assertEquals('HTTP/1.1', $this->createRequest()->getRequestProtocolVersion());
+
+        $this->server['SERVER_PROTOCOL'] = 'HTTP/1.0';
+        $this->assertEquals('HTTP/1.0', $this->createRequest()->getRequestProtocolVersion());
+
+        $this->server['SERVER_PROTOCOL'] = 'HTTP/2.0';
+        $this->assertEquals('HTTP/2.0', $this->createRequest()->getRequestProtocolVersion());
+
+        unset($this->server['SERVER_PROTOCOL']);
+
+        $this->assertEquals('', $this->createRequest()->getRequestProtocolVersion());
+    }
+
+    public function testRequestIsRequestProtocolVersion()
+    {
+        $this->assertTrue($this->createRequest()->isRequestProtocolVersion('HTTP/1.1'));
+        $this->assertTrue($this->createRequest()->isRequestProtocolVersion('1.1'));
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('HTTP/1.0'));
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('1.0'));
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('HTTP/2.0'));
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('2.0'));
+
+        $this->server['SERVER_PROTOCOL'] = 'HTTP/1.0';
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('HTTP/1.1'));
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('1.1'));
+        $this->assertTrue($this->createRequest()->isRequestProtocolVersion('HTTP/1.0'));
+        $this->assertTrue($this->createRequest()->isRequestProtocolVersion('1.0'));
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('HTTP/2.0'));
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('2.0'));
+
+        $this->server['SERVER_PROTOCOL'] = 'HTTP/2.0';
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('HTTP/1.1'));
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('1.1'));
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('HTTP/1.0'));
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('1.0'));
+        $this->assertTrue($this->createRequest()->isRequestProtocolVersion('HTTP/2.0'));
+        $this->assertTrue($this->createRequest()->isRequestProtocolVersion('2.0'));
+
+        unset($this->server['SERVER_PROTOCOL']);
+
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('HTTP/1.1'));
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('1.1'));
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('HTTP/1.0'));
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('1.0'));
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('HTTP/2.0'));
+        $this->assertFalse($this->createRequest()->isRequestProtocolVersion('2.0'));
+    }
+
     public function testRequestGetRequestPath()
     {
         $this->assertEquals('/', $this->createRequest()->getRequestPath());
