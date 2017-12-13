@@ -27,6 +27,11 @@ class ApcuDriver implements Driver
         if (!static::isEnabled()) {
             throw new RuntimeException('The "apcu" extension is not loaded or not enabled.');
         }
+
+        // Not use the SAPI request start time for TTL.
+        if ('cli' === PHP_SAPI) {
+            ini_set('apc.use_request_time', 0);
+        }
     }
 
     /**
@@ -36,8 +41,13 @@ class ApcuDriver implements Driver
      */
     public static function isEnabled(): bool
     {
-        if (extension_loaded('apcu')) {
-            return 'cli' === PHP_SAPI ? ini_get('apc.enable_cli') : ini_get('apc.enabled');
+        if (extension_loaded('apcu') && ini_get('apc.enabled')) {
+            // In CLI mode, the "apc.enable_cli" option must be enabled.
+            if ('cli' === PHP_SAPI) {
+                return (bool) ini_get('apc.enable_cli');
+            }
+            
+            return true;
         }
 
         return false;
