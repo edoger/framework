@@ -200,7 +200,7 @@ class Cache
      *
      * @return bool
      */
-    public function setMultiple(iterable $values, int $ttl = 0, array &$failed = []): bool
+    public function setMultiple(iterable $values, int $ttl = 0, array &$failed = null): bool
     {
         $failed = [];
 
@@ -231,15 +231,21 @@ class Cache
      * @param iterable $keys    A list of string-based keys to be deleted.
      * @param array    &$failed The failed key list.
      *
+     * @throws InvalidArgumentException Throws when the cache key is invalid.
+     *
      * @return bool
      */
-    public function deleteMultiple(iterable $keys, array &$failed = []): bool
+    public function deleteMultiple(iterable $keys, array &$failed = null): bool
     {
         $failed = [];
 
         foreach ($keys as $key) {
-            if (!$this->delete($key)) {
-                $failed[] = $key;
+            if (is_string($key) || is_numeric($key)) {
+                if (!$this->delete($key)) {
+                    $failed[] = $key;
+                }
+            } else {
+                throw new InvalidArgumentException('The cache key must be a string.');
             }
         }
 
