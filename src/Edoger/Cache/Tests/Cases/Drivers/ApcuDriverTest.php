@@ -23,6 +23,10 @@ class ApcuDriverTest extends TestCase
     public static function setUpBeforeClass()
     {
         self::$supported = extension_loaded('apcu') && ini_get('apc.enabled');
+
+        if (self::$supported && 'cli' === PHP_SAPI) {
+            self::$supported = ini_get('apc.enable_cli');
+        }
     }
 
     protected function setUp()
@@ -65,7 +69,11 @@ class ApcuDriverTest extends TestCase
 
     public function testApcuDriverIsEnabled()
     {
-        $this->assertTrue(ApcuDriver::isEnabled());
+        if (self::$supported) {
+            $this->assertTrue(ApcuDriver::isEnabled());
+        } else {
+            $this->assertFalse(ApcuDriver::isEnabled());
+        }
     }
 
     public function testApcuDriverInstanceOfDriver()
