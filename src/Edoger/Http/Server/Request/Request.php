@@ -363,6 +363,67 @@ class Request implements Arrayable
     }
 
     /**
+     * Get the base URL from the current client request.
+     *
+     * @return string
+     */
+    public function getRequestBaseUrl(): string
+    {
+        if (null !== $url = $this->getAttribute('REQUEST_BASE_URL')) {
+            return $url;
+        }
+
+        $port = $this->getServerPort();
+
+        // For the default port, I do not think it should appear in the URL.
+        if (80 === $port || 443 === $port) {
+            $url = $this->getRequestScheme().'://'.$this->getHostName();
+        } else {
+            $url = $this->getRequestScheme().'://'.$this->getHostName().':'.$port;
+        }
+
+        return $this->putAttribute('REQUEST_BASE_URL', $url);
+    }
+
+    /**
+     * Generate a request URL using the current request base URL.
+     *
+     * @param string $path  The URL path.
+     * @param array  $query The URL query parameters.
+     *
+     * @return string
+     */
+    public function generateRequestUrl(string $path = '', array $query = []): string
+    {
+        // Remove extra slashes.
+        if ('' !== $path) {
+            $path = '/' === $path ? '' : '/'.trim($path, '/');
+        }
+
+        if (empty($query)) {
+            return $this->getRequestBaseUrl().$path;
+        } else {
+            return $this->getRequestBaseUrl().$path.'?'.http_build_query($query, '', '&');
+        }
+    }
+
+    /**
+     * Get the URL from the current client request.
+     *
+     * @param bool $appendQueryString Whether to automatically append the query string.
+     *
+     * @return string
+     */
+    public function getRequestUrl(bool $appendQueryString = false): string
+    {
+        if ($appendQueryString) {
+            return $this->generateRequestUrl($this->getRequestPath(), $this->getQuery()->toArray());
+        } else {
+            return $this->generateRequestUrl($this->getRequestPath());
+        }
+    }
+
+    /**
      * Returns the extra data as an array.
      *
      * @return array
