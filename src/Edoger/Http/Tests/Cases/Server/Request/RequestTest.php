@@ -405,6 +405,58 @@ class RequestTest extends TestCase
         $this->assertEquals('localhost', $this->createRequest()->getHostName());
     }
 
+    public function testRequestGetRequestBaseUrl()
+    {
+        $this->assertEquals('http://www.test.org', $this->createRequest()->getRequestBaseUrl());
+
+        $this->server['REQUEST_SCHEME'] = 'https';
+        $this->assertEquals('https://www.test.org', $this->createRequest()->getRequestBaseUrl());
+
+        $this->server['SERVER_PORT'] = 8080;
+        $this->assertEquals('https://www.test.org:8080', $this->createRequest()->getRequestBaseUrl());
+    }
+
+    public function testRequestGenerateRequestUrl()
+    {
+        $this->assertEquals('http://www.test.org', $this->createRequest()->generateRequestUrl());
+        $this->assertEquals('http://www.test.org', $this->createRequest()->generateRequestUrl('/'));
+        $this->assertEquals('http://www.test.org/test', $this->createRequest()->generateRequestUrl('/test'));
+        $this->assertEquals('http://www.test.org?a=b', $this->createRequest()->generateRequestUrl('/', ['a' => 'b']));
+        $this->assertEquals('http://www.test.org/test?a=b', $this->createRequest()->generateRequestUrl('/test', ['a' => 'b']));
+
+        $this->server['REQUEST_SCHEME'] = 'https';
+        $this->assertEquals('https://www.test.org', $this->createRequest()->generateRequestUrl());
+        $this->assertEquals('https://www.test.org', $this->createRequest()->generateRequestUrl('/'));
+        $this->assertEquals('https://www.test.org/test', $this->createRequest()->generateRequestUrl('/test'));
+        $this->assertEquals('https://www.test.org?a=b', $this->createRequest()->generateRequestUrl('/', ['a' => 'b']));
+        $this->assertEquals('https://www.test.org/test?a=b', $this->createRequest()->generateRequestUrl('/test', ['a' => 'b']));
+
+        $this->server['SERVER_PORT'] = 8080;
+        $this->assertEquals('https://www.test.org:8080', $this->createRequest()->generateRequestUrl());
+        $this->assertEquals('https://www.test.org:8080', $this->createRequest()->generateRequestUrl('/'));
+        $this->assertEquals('https://www.test.org:8080/test', $this->createRequest()->generateRequestUrl('/test'));
+        $this->assertEquals('https://www.test.org:8080?a=b', $this->createRequest()->generateRequestUrl('/', ['a' => 'b']));
+        $this->assertEquals('https://www.test.org:8080/test?a=b', $this->createRequest()->generateRequestUrl('/test', ['a' => 'b']));
+    }
+
+    public function testRequestGetRequestUrl()
+    {
+        $this->assertEquals('http://www.test.org', $this->createRequest()->getRequestUrl());
+        $this->assertEquals('http://www.test.org?test=query', $this->createRequest()->getRequestUrl(true));
+
+        $this->server['REQUEST_URI'] = '/test';
+        $this->assertEquals('http://www.test.org/test', $this->createRequest()->getRequestUrl());
+        $this->assertEquals('http://www.test.org/test?test=query', $this->createRequest()->getRequestUrl(true));
+
+        $this->server['REQUEST_SCHEME'] = 'https';
+        $this->assertEquals('https://www.test.org/test', $this->createRequest()->getRequestUrl());
+        $this->assertEquals('https://www.test.org/test?test=query', $this->createRequest()->getRequestUrl(true));
+
+        $this->server['SERVER_PORT'] = 8080;
+        $this->assertEquals('https://www.test.org:8080/test', $this->createRequest()->getRequestUrl());
+        $this->assertEquals('https://www.test.org:8080/test?test=query', $this->createRequest()->getRequestUrl(true));
+    }
+
     public function testRequestFlushAttributes()
     {
         $request = $this->createRequest();
