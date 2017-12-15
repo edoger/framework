@@ -280,6 +280,26 @@ class Request implements Arrayable
     }
 
     /**
+     * Gets the client referrer url.
+     *
+     * @return string
+     */
+    public function getReferer(): string
+    {
+        return $this->getHeader('Referer');
+    }
+
+    /**
+     * Gets the client referrer url, alias of getReferer() method.
+     *
+     * @return string
+     */
+    public function getReferrer(): string
+    {
+        return $this->getReferer();
+    }
+
+    /**
      * Gets the client IP address.
      *
      * @return string
