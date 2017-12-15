@@ -333,6 +333,22 @@ class RequestTest extends TestCase
         $this->assertEquals('', $this->createRequest()->getUserAgent());
     }
 
+    public function testRequestGetReferer()
+    {
+        $this->assertEquals('', $this->createRequest()->getReferer());
+
+        $this->server['HTTP_REFERER'] = 'http://www.foo.com/';
+        $this->assertEquals('http://www.foo.com/', $this->createRequest()->getReferer());
+    }
+
+    public function testRequestGetReferrer()
+    {
+        $this->assertEquals('', $this->createRequest()->getReferrer());
+
+        $this->server['HTTP_REFERER'] = 'http://www.foo.com/';
+        $this->assertEquals('http://www.foo.com/', $this->createRequest()->getReferrer());
+    }
+
     public function testRequestGetClientIp()
     {
         $this->assertEquals('127.0.0.1', $this->createRequest()->getClientIp());
