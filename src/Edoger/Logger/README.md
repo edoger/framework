@@ -1,7 +1,5 @@
 # Logger Component #
 
-[![Build Status](https://travis-ci.org/edoger/logger.svg?branch=master)](https://travis-ci.org/edoger/logger)
-[![codecov](https://codecov.io/gh/edoger/logger/branch/master/graph/badge.svg)](https://codecov.io/gh/edoger/logger)
 [![Latest Stable Version](https://poser.pugx.org/edoger/logger/v/stable)](https://packagist.org/packages/edoger/logger)
 [![Latest Unstable Version](https://poser.pugx.org/edoger/logger/v/unstable)](https://packagist.org/packages/edoger/logger)
 [![License](https://poser.pugx.org/edoger/logger/license)](https://packagist.org/packages/edoger/logger)

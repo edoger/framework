@@ -1,7 +1,5 @@
 # Event Component #
 
-[![Build Status](https://travis-ci.org/edoger/event.svg?branch=master)](https://travis-ci.org/edoger/event)
-[![codecov](https://codecov.io/gh/edoger/event/branch/master/graph/badge.svg)](https://codecov.io/gh/edoger/event)
 [![Latest Stable Version](https://poser.pugx.org/edoger/event/v/stable)](https://packagist.org/packages/edoger/event)
 [![Latest Unstable Version](https://poser.pugx.org/edoger/event/v/unstable)](https://packagist.org/packages/edoger/event)
 [![License](https://poser.pugx.org/edoger/event/license)](https://packagist.org/packages/edoger/event)

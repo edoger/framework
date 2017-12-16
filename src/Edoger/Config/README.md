@@ -1,7 +1,5 @@
 # Configuration Component #
 
-[![Build Status](https://travis-ci.org/edoger/config.svg?branch=master)](https://travis-ci.org/edoger/config)
-[![codecov](https://codecov.io/gh/edoger/config/branch/master/graph/badge.svg)](https://codecov.io/gh/edoger/config)
 [![Latest Stable Version](https://poser.pugx.org/edoger/config/v/stable)](https://packagist.org/packages/edoger/config)
 [![Latest Unstable Version](https://poser.pugx.org/edoger/config/v/unstable)](https://packagist.org/packages/edoger/config)
 [![License](https://poser.pugx.org/edoger/config/license)](https://packagist.org/packages/edoger/config)
