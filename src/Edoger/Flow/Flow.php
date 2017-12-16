@@ -40,15 +40,17 @@ class Flow implements Arrayable, Countable
     /**
      * The flow constructor.
      *
-     * @param Edoger\Flow\Contracts\Blocker|callable $blocker The flow blocker.
+     * @param Edoger\Flow\Contracts\Blocker|callable|null $blocker The flow blocker.
      *
      * @throws InvalidArgumentException Throws when the flow blocker is invalid.
      *
      * @return void
      */
-    public function __construct($blocker)
+    public function __construct($blocker = null)
     {
-        if ($blocker instanceof Blocker) {
+        if (is_null($blocker)) {
+            $this->blocker = new DefaultBlocker();
+        } elseif ($blocker instanceof Blocker) {
             $this->blocker = $blocker;
         } elseif (is_callable($blocker)) {
             $this->blocker = new CallableBlocker($blocker);
