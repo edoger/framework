@@ -8,7 +8,7 @@
  * @license   GNU Lesser General Public License 3.0
  */
 
-namespace Edoger\Session\Tests\Cases\Handlers;
+namespace Edoger\Session\Tests\Cases;
 
 use Countable;
 use IteratorAggregate;
