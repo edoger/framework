@@ -70,7 +70,7 @@ class ApcuHandler implements SessionHandler
      *
      * @return bool
      */
-    public function destroy(string $sessionId): bool
+    public function destroy($sessionId): bool
     {
         return $this->driver->delete($this->prefix.$sessionId);
     }
@@ -82,7 +82,7 @@ class ApcuHandler implements SessionHandler
      *
      * @return bool
      */
-    public function gc(int $maxLifeTime): bool
+    public function gc($maxLifeTime): bool
     {
         return true;
     }
@@ -95,7 +95,7 @@ class ApcuHandler implements SessionHandler
      *
      * @return bool
      */
-    public function open(string $savePath, string $sessionName): bool
+    public function open($savePath, $sessionName): bool
     {
         return true;
     }
@@ -107,7 +107,7 @@ class ApcuHandler implements SessionHandler
      *
      * @return string
      */
-    public function read(string $sessionId): string
+    public function read($sessionId): string
     {
         return $this->driver->get($this->prefix.$sessionId, '');
     }
@@ -120,7 +120,7 @@ class ApcuHandler implements SessionHandler
      *
      * @return bool
      */
-    public function write(string $sessionId, string $sessionData): bool
+    public function write($sessionId, $sessionData): bool
     {
         return $this->driver->set($this->prefix.$sessionId, $sessionData, $this->ttl);
     }

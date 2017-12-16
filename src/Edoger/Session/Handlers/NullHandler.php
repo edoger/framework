@@ -41,7 +41,7 @@ class NullHandler implements SessionHandler
      *
      * @return bool
      */
-    public function destroy(string $sessionId): bool
+    public function destroy($sessionId): bool
     {
         return true;
     }
@@ -53,7 +53,7 @@ class NullHandler implements SessionHandler
      *
      * @return bool
      */
-    public function gc(int $maxLifeTime): bool
+    public function gc($maxLifeTime): bool
     {
         return true;
     }
@@ -66,7 +66,7 @@ class NullHandler implements SessionHandler
      *
      * @return bool
      */
-    public function open(string $savePath, string $sessionName): bool
+    public function open($savePath, $sessionName): bool
     {
         return true;
     }
@@ -78,7 +78,7 @@ class NullHandler implements SessionHandler
      *
      * @return string
      */
-    public function read(string $sessionId): string
+    public function read($sessionId): string
     {
         return '';
     }
@@ -91,7 +91,7 @@ class NullHandler implements SessionHandler
      *
      * @return bool
      */
-    public function write(string $sessionId, string $sessionData): bool
+    public function write($sessionId, $sessionData): bool
     {
         return true;
     }
