@@ -17,8 +17,7 @@ use Edoger\Flow\Contracts\Blocker;
 class ExceptionBlocker implements Blocker
 {
     /**
-     * The flow default blocker constructor.
-     *
+     * The flow exception blocker constructor.
      *
      * @return void
      */
