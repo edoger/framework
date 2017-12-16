@@ -14,7 +14,7 @@ use Throwable;
 use Edoger\Container\Container;
 use Edoger\Flow\Contracts\Blocker;
 
-class DefaultBlocker implements Blocker
+class ExceptionBlocker implements Blocker
 {
     /**
      * The flow default blocker constructor.

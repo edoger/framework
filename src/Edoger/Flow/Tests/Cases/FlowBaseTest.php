@@ -15,16 +15,16 @@ use Countable;
 use Edoger\Flow\Flow;
 use RuntimeException;
 use InvalidArgumentException;
-use Edoger\Flow\DefaultBlocker;
 use PHPUnit\Framework\TestCase;
 use Edoger\Flow\CallableBlocker;
+use Edoger\Flow\ExceptionBlocker;
 use Edoger\Util\Contracts\Arrayable;
 use Edoger\Flow\Tests\Support\TestBlocker;
 use Edoger\Flow\Tests\Support\TestProcessor;
 
 class FlowBaseTest extends TestCase
 {
-    public function testCreateFlowUseDefaultBlocker()
+    public function testCreateFlowUseExceptionBlocker()
     {
         $flow = new Flow();
 
@@ -32,7 +32,7 @@ class FlowBaseTest extends TestCase
             return $this->blocker;
         }, $flow, $flow));
 
-        $this->assertInstanceOf(DefaultBlocker::class, $flowBlocker);
+        $this->assertInstanceOf(ExceptionBlocker::class, $flowBlocker);
     }
 
     public function testCreateFlowUseClassBlocker()

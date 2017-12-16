@@ -49,7 +49,7 @@ class Flow implements Arrayable, Countable
     public function __construct($blocker = null)
     {
         if (is_null($blocker)) {
-            $this->blocker = new DefaultBlocker();
+            $this->blocker = new ExceptionBlocker();
         } elseif ($blocker instanceof Blocker) {
             $this->blocker = $blocker;
         } elseif (is_callable($blocker)) {

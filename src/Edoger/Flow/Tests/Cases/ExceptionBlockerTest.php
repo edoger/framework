@@ -12,32 +12,32 @@ namespace Edoger\Flow\Tests\Cases;
 
 use Exception;
 use Edoger\Container\Container;
-use Edoger\Flow\DefaultBlocker;
 use PHPUnit\Framework\TestCase;
+use Edoger\Flow\ExceptionBlocker;
 use Edoger\Flow\Contracts\Blocker;
 
-class DefaultBlockerTest extends TestCase
+class ExceptionBlockerTest extends TestCase
 {
-    public function testDefaultBlockerInstanceOfBlocker()
+    public function testExceptionBlockerInstanceOfBlocker()
     {
-        $blocker = new DefaultBlocker();
+        $blocker = new ExceptionBlocker();
 
         $this->assertInstanceOf(Blocker::class, $blocker);
     }
 
-    public function testDefaultBlockerReturnInput()
+    public function testExceptionBlockerReturnInput()
     {
         $input   = new Container();
-        $blocker = new DefaultBlocker();
+        $blocker = new ExceptionBlocker();
 
         $this->assertNull($blocker->block($input));
     }
 
-    public function testDefaultBlockerReturnException()
+    public function testExceptionBlockerReturnException()
     {
         $input     = new Container();
         $exception = new Exception();
-        $blocker   = new DefaultBlocker();
+        $blocker   = new ExceptionBlocker();
 
         $this->assertEquals($exception, $blocker->block($input, $exception));
         $this->assertEquals(spl_object_hash($exception), spl_object_hash($blocker->block($input, $exception)));
