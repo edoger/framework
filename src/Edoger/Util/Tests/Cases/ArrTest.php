@@ -118,4 +118,14 @@ class ArrTest extends TestCase
         $this->assertEquals(['foo' => 'foo', 'bar'], Arr::merge(['foo' => 'foo'], ['bar']));
         $this->assertEquals(['foo' => 'bar'], Arr::merge(['foo' => 'foo'], ['foo' => 'bar']));
     }
+
+    public function testArrIsOneDimensional()
+    {
+        $this->assertTrue(Arr::isOneDimensional([]));
+        $this->assertTrue(Arr::isOneDimensional(['foo' => 'foo', 'bar' => 'bar']));
+        $this->assertTrue(Arr::isOneDimensional(['foo', 'bar']));
+        $this->assertTrue(Arr::isOneDimensional(['foo' => 'foo', 'bar']));
+        $this->assertFalse(Arr::isOneDimensional([['foo' => 'foo'], ['foo' => 'bar']]));
+        $this->assertFalse(Arr::isOneDimensional([[], []]));
+    }
 }

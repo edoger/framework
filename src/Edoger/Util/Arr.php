@@ -178,4 +178,26 @@ class Arr
 
         return $original;
     }
+
+    /**
+     * Determines if the given array is a one-dimensional array.
+     *
+     * @param array $arr The given array.
+     *
+     * @return bool
+     */
+    public static function isOneDimensional(array $arr): bool
+    {
+        if (empty($arr)) {
+            return true;
+        }
+
+        foreach ($arr as $value) {
+            if (is_array($value)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
