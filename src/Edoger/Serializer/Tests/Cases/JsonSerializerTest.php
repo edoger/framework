@@ -62,8 +62,6 @@ class JsonSerializerTest extends TestCase
     public function testJsonSerializerSerializeFail()
     {
         $this->expectException(SerializerException::class);
-        $this->expectExceptionMessage('Serialization failed: Inf and NaN cannot be JSON encoded.');
-        $this->expectExceptionCode(JSON_ERROR_INF_OR_NAN);
 
         // Just try an exception.
         JsonSerializer::create()->serialize(NAN);
@@ -110,8 +108,6 @@ class JsonSerializerTest extends TestCase
     public function testJsonSerializerDeserializeFail()
     {
         $this->expectException(SerializerException::class);
-        $this->expectExceptionMessage('Deserialization failed: Syntax error.');
-        $this->expectExceptionCode(JSON_ERROR_SYNTAX);
 
         // Just try an exception.
         JsonSerializer::create()->deserialize('{foo:bar}');
