@@ -10,62 +10,45 @@
 
 namespace Edoger\Serializer;
 
-use Edoger\Util\Arr;
 use Edoger\Serializer\Contracts\Serializer;
 use Edoger\Serializer\Exceptions\SerializerException;
 
 class JsonSerializer implements Serializer
 {
     /**
-     * The serializer default encoding options.
-     *
-     * @var array
-     */
-    protected $encodeOptions = ['options' => 0, 'depth' => 512];
-
-    /**
-     * The serializer default decoding options.
-     *
-     * @var array
-     */
-    protected $decodeOptions = ['options' => 0, 'depth' => 512, 'assoc' => false];
-
-    /**
      * The json serializer constructor.
-     *
-     * @param array $options       The serialization options.
-     * @param array $encodeOptions The serializer default encoding options.
-     * @param array $decodeOptions The serializer default decoding options.
      *
      * @return void
      */
-    public function __construct(array $encodeOptions = [], array $decodeOptions = [])
+    public function __construct()
     {
-        if (!empty($encodeOptions)) {
-            // Set the default encoding options.
-            $this->encodeOptions = Arr::merge($this->encodeOptions, $encodeOptions);
-        }
+        // do nothing
+    }
 
-        if (!empty($decodeOptions)) {
-            // Set the default decoding options.
-            $this->decodeOptions = Arr::merge($this->decodeOptions, $decodeOptions);
-        }
+    /**
+     * Create a json serializer.
+     *
+     * @return self
+     */
+    public static function create(): self
+    {
+        return new static();
     }
 
     /**
      * Serialize the given value into a json string.
      *
      * @param mixed $value   The given value.
-     * @param array $options The serializer encoding options.
+     * @param int   $options The serializer encoding options.
+     * @param int   $depth   The maximum depth.
      *
      * @throws Edoger\Serializer\Exception\SerializerException Thrown when serialization fails.
      *
      * @return string
      */
-    public function serialize($value, array $options = []): string
+    public function serialize($value, int $options = 0, int $depth = 512): string
     {
-        $options = array_merge($this->encodeOptions, $options);
-        $json    = json_encode($value, $options['options'], $options['depth']);
+        $json = json_encode($value, $options, $depth);
 
         if (JSON_ERROR_NONE !== $code = json_last_error()) {
             throw new SerializerException(
@@ -81,16 +64,17 @@ class JsonSerializer implements Serializer
      * Deserialize the given json.
      *
      * @param string $str     The given json.
-     * @param array  $options The serializer decoding options.
+     * @param bool   $assoc   Whether to convert the object into an associative array.
+     * @param int    $depth   User specified recursion depth.
+     * @param int    $options The serializer decoding options.
      *
      * @throws Edoger\Serializer\Exception\SerializerException Thrown when deserialization fails.
      *
      * @return mixed
      */
-    public function deserialize(string $str, array $options = [])
+    public function deserialize(string $str, bool $assoc = false, int $depth = 512, int $options = 0)
     {
-        $options = array_merge($this->decodeOptions, $options);
-        $value   = json_decode($str, $options['assoc'], $options['depth'], $options['options']);
+        $value = json_decode($str, $assoc, $depth, $options);
 
         if (JSON_ERROR_NONE !== $code = json_last_error()) {
             throw new SerializerException(
