@@ -25,6 +25,18 @@ class Str
     }
 
     /**
+     * Get string width.
+     *
+     * @param string $str The given string.
+     *
+     * @return int
+     */
+    public static function width(string $str): int
+    {
+        return mb_strwidth($str, 'UTF-8');
+    }
+
+    /**
      * Returns the uppercase form of the given string.
      *
      * @param string $str The given string.

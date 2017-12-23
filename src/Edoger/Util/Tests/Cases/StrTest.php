@@ -22,6 +22,14 @@ class StrTest extends TestCase
         $this->assertEquals(3, Str::length('foo'));
     }
 
+    public function testStrWidth()
+    {
+        $this->assertEquals(0, Str::width(''));
+        $this->assertEquals(8, Str::width('程序测试'));
+        $this->assertEquals(3, Str::width('foo'));
+        $this->assertEquals(7, Str::width('foo测试'));
+    }
+
     public function testStrUpper()
     {
         $this->assertEquals('', Str::upper(''));
