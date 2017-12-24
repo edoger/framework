@@ -10,6 +10,7 @@
 
 namespace Edoger\Serializer;
 
+use RuntimeException;
 use Edoger\Serializer\Contracts\Serializer;
 use Edoger\Serializer\Exceptions\SerializerException;
 
@@ -22,7 +23,19 @@ class JsonSerializer implements Serializer
      */
     public function __construct()
     {
-        // do nothing
+        if (!static::isEnabled()) {
+            throw new RuntimeException('The "json" extension is not loaded or does not exist.');
+        }
+    }
+
+    /**
+     * Determines if the current serializer is enabled.
+     *
+     * @return bool
+     */
+    public static function isEnabled(): bool
+    {
+        return extension_loaded('json');
     }
 
     /**

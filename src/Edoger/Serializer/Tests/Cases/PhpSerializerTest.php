@@ -19,6 +19,11 @@ use Edoger\Serializer\Exceptions\SerializerException;
 
 class PhpSerializerTest extends TestCase
 {
+    public function testPhpSerializerIsEnabled()
+    {
+        $this->assertTrue(PhpSerializer::isEnabled());
+    }
+
     public function testPhpSerializerInstanceOfSerializer()
     {
         $serializer = new PhpSerializer();
