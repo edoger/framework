@@ -25,6 +25,18 @@ class Validator
     }
 
     /**
+     * Determines if the given value is a non-empty array.
+     *
+     * @param mixed $value The given value.
+     *
+     * @return bool
+     */
+    public static function isNotEmptyArray($value): bool
+    {
+        return is_array($value) && !empty($value);
+    }
+
+    /**
      * Determines if the given value is a numeric value.
      * Notice: Any string will not be considered a numeric value.
      *

@@ -25,6 +25,16 @@ class ValidatorTest extends TestCase
         $this->assertTrue(Validator::isNotEmptyString('foo'));
     }
 
+    public function testValidatorIsNotEmptyArray()
+    {
+        $this->assertFalse(Validator::isNotEmptyArray(''));
+        $this->assertFalse(Validator::isNotEmptyArray(null));
+        $this->assertFalse(Validator::isNotEmptyArray(1));
+        $this->assertFalse(Validator::isNotEmptyArray([]));
+        $this->assertTrue(Validator::isNotEmptyArray(['0']));
+        $this->assertTrue(Validator::isNotEmptyArray(['foo' => 'foo']));
+    }
+
     public function testValidatorIsNumber()
     {
         $this->assertFalse(Validator::isNumber(''));
