@@ -26,6 +26,47 @@ class ArrTest extends TestCase
         $this->assertFalse(Arr::has($arr, 'foobar'));
     }
 
+    public function testArrHasAny()
+    {
+        $arr = ['foo' => 'foo', 'bar' => null];
+
+        $this->assertTrue(Arr::hasAny($arr, ['foo']));
+        $this->assertTrue(Arr::hasAny($arr, ['bar', 'foo']));
+        $this->assertTrue(Arr::hasAny($arr, ['baz', 'foo']));
+        $this->assertFalse(Arr::hasAny($arr, ['baz']));
+        $this->assertFalse(Arr::hasAny($arr, ['non', 'baz']));
+
+        $this->assertTrue(Arr::hasAny($arr, ['baz', 'foo'], $hit1));
+        $this->assertEquals('foo', $hit1);
+
+        $this->assertTrue(Arr::hasAny($arr, ['baz', 'bar', 'foo'], $hit2));
+        $this->assertEquals('bar', $hit2);
+
+        $this->assertFalse(Arr::hasAny($arr, ['baz', 'non'], $hit3));
+        $this->assertNull($hit3);
+    }
+
+    public function testArrHasEvery()
+    {
+        $arr = ['foo' => 'foo', 'bar' => null];
+
+        $this->assertTrue(Arr::hasEvery($arr, ['foo']));
+        $this->assertTrue(Arr::hasEvery($arr, ['bar', 'foo']));
+        $this->assertTrue(Arr::hasEvery($arr, ['foo', 'bar']));
+        $this->assertFalse(Arr::hasEvery($arr, ['baz']));
+        $this->assertFalse(Arr::hasEvery($arr, ['foo', 'baz']));
+        $this->assertFalse(Arr::hasEvery($arr, ['foo', 'bar', 'baz']));
+
+        $this->assertTrue(Arr::hasEvery($arr, ['bar', 'foo'], $missed1));
+        $this->assertNull($missed1);
+
+        $this->assertFalse(Arr::hasEvery($arr, ['foo', 'bar', 'baz'], $missed2));
+        $this->assertEquals('baz', $missed2);
+
+        $this->assertFalse(Arr::hasEvery($arr, ['non', 'baz'], $missed3));
+        $this->assertEquals('non', $missed3);
+    }
+
     public function testArrGet()
     {
         $arr = ['foo' => 'foo'];

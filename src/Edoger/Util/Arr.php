@@ -29,6 +29,50 @@ class Arr
     }
 
     /**
+     * Determines if any of the given multiple keys exist in the given array.
+     *
+     * @param array       $arr  The given array.
+     * @param iterable    $keys The given keys.
+     * @param string|null &$hit The hit key.
+     *
+     * @return bool
+     */
+    public static function hasAny(array $arr, iterable $keys, string &$hit = null): bool
+    {
+        foreach ($keys as $key) {
+            if (static::has($arr, $key)) {
+                $hit = $key;
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Determines if each key in a given array exists in a given array.
+     *
+     * @param array       $arr     The given array.
+     * @param iterable    $keys    The given keys.
+     * @param string|null &$missed The missed key.
+     *
+     * @return bool
+     */
+    public static function hasEvery(array $arr, iterable $keys, string &$missed = null): bool
+    {
+        foreach ($keys as $key) {
+            if (!static::has($arr, $key)) {
+                $missed = $key;
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Gets an element from a given array.
      *
      * @param array  $arr     An array.
