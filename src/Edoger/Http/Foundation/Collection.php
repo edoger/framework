@@ -16,6 +16,16 @@ use Edoger\Container\Collection as CollectionContainer;
 class Collection extends CollectionContainer
 {
     /**
+     * Determines whether the current collection is empty.
+     *
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return empty($this->elements);
+    }
+
+    /**
      * Determines whether a given key exists in the current collection.
      * If any of the keys in the given key is present in the current collection, it returns true
      * and no longer tests whether the other key exists in the current collection.
@@ -26,13 +36,7 @@ class Collection extends CollectionContainer
      */
     public function hasAny(iterable $keys): bool
     {
-        foreach ($keys as $key) {
-            if ($this->has($key)) {
-                return true;
-            }
-        }
-
-        return false;
+        return !$this->isEmpty() && Arr::hasAny($this->elements, $keys);
     }
 
     /**

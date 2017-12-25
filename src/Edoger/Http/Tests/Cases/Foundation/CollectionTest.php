@@ -23,6 +23,15 @@ class CollectionTest extends TestCase
         $this->assertInstanceOf(CollectionContainer::class, $collection);
     }
 
+    public function testCollectionIsEmpty()
+    {
+        $collection = new Collection();
+        $this->assertTrue($collection->isEmpty());
+
+        $collection = new Collection(['test' => 'test']);
+        $this->assertFalse($collection->isEmpty());
+    }
+
     public function testCollectionHasAny()
     {
         $collection = new Collection(['test' => 'test']);
