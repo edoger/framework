@@ -10,16 +10,18 @@
 
 namespace Edoger\Http\Server\Response;
 
+use Edoger\Util\Validator;
 use InvalidArgumentException;
 use Edoger\Util\Contracts\Arrayable;
 use Edoger\Http\Foundation\Collection;
 use Edoger\Http\Foundation\StatusCodes;
 use Edoger\Http\Server\Traits\ResponseCookiesSupport;
 use Edoger\Http\Server\Traits\ResponseHeadersSupport;
+use Edoger\Http\Server\Traits\ResponseRendererSupport;
 
 class Response implements Arrayable
 {
-    use ResponseHeadersSupport, ResponseCookiesSupport;
+    use ResponseHeadersSupport, ResponseCookiesSupport, ResponseRendererSupport;
 
     /**
      * The HTTP response status code.
@@ -100,13 +102,90 @@ class Response implements Arrayable
      */
     public function withResponseContent(iterable $content): self
     {
-        if ($this->content) {
+        if (is_null($this->content)) {
+            $this->content = new Collection($content);
+        } else {
             // This is to ensure that the collection referenced by the renderer are always the same.
             // When the application resets the response content,
             // all the renderers immediately receive the new content.
             $this->content->replace($content);
-        } else {
-            $this->content = new Collection($content);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Clear the HTTP response content collection.
+     *
+     * @return self
+     */
+    public function clearResponseContent(): self
+    {
+        $this->getResponseContent()->clear();
+
+        return $this;
+    }
+
+    /**
+     * Send the response headers to the client.
+     *
+     * @codeCoverageIgnore
+     *
+     * @return self
+     */
+    public function sendHeaders(): self
+    {
+        if (headers_sent()) {
+            return $this;
+        }
+
+        // Send HTTP response status code.
+        if (http_response_code() !== $status = $this->getStatusCode()) {
+            http_response_code($status);
+        }
+
+        // Sends HTTP response headers (excluding cookie headers).
+        foreach ($this->getHeaders() as $name => $header) {
+            header(
+                implode('-', array_map('ucfirst', explode('-', $name))).': '.$header,
+                true,
+                $status
+            );
+        }
+
+        // Send cookie headers.
+        foreach ($this->getCookies() as $cookie) {
+            // Handle cookie expiration date.
+            if (0 !== $expire = $cookie->getExpiresTime()) {
+                $expire += time();
+            }
+
+            setcookie(
+                $cookie->getName(),
+                $cookie->getValue(),
+                $expire,
+                $cookie->getPath(),
+                $cookie->getDomain(),
+                $cookie->isSecure(),
+                $cookie->isHttpOnly()
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Send the response body to the client.
+     *
+     * @return self
+     */
+    public function sendBody(): self
+    {
+        $body = $this->getResponseRenderer()->render($this->getResponseContent());
+
+        // Output only when the response body is not empty.
+        if (Validator::isNotEmptyString($body)) {
+            echo $body;
         }
 
         return $this;

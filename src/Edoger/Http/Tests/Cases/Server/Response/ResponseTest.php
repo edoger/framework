@@ -18,8 +18,12 @@ use Edoger\Http\Server\Response\Cookie;
 use Edoger\Http\Server\Response\Headers;
 use Edoger\Http\Server\Response\Response;
 use Edoger\Http\Server\Response\ExpiredCookie;
+use Edoger\Http\Server\Contracts\ResponseRenderer;
+use Edoger\Http\Tests\Support\TestResponseRenderer;
 use Edoger\Http\Server\Traits\ResponseCookiesSupport;
 use Edoger\Http\Server\Traits\ResponseHeadersSupport;
+use Edoger\Http\Server\Traits\ResponseRendererSupport;
+use Edoger\Http\Server\Response\Renderers\EmptyRenderer;
 
 class ResponseTest extends TestCase
 {
@@ -44,6 +48,14 @@ class ResponseTest extends TestCase
 
         $this->assertArrayHasKey(ResponseCookiesSupport::class, $uses);
         $this->assertEquals(ResponseCookiesSupport::class, $uses[ResponseCookiesSupport::class]);
+    }
+
+    public function testRequestUseTraitResponseRendererSupport()
+    {
+        $uses = class_uses(new Response(200, []));
+
+        $this->assertArrayHasKey(ResponseRendererSupport::class, $uses);
+        $this->assertEquals(ResponseRendererSupport::class, $uses[ResponseRendererSupport::class]);
     }
 
     public function testResponseGetStatusCode()
@@ -100,6 +112,16 @@ class ResponseTest extends TestCase
         $this->assertEquals([], $content->toArray());
         $this->assertEquals($response, $response->withResponseContent(['test' => 'test']));
         $this->assertEquals(['test' => 'test'], $content->toArray());
+    }
+
+    public function testResponseClearResponseContent()
+    {
+        $response = new Response(200, ['foo' => 'foo', 'bar' => 'bar']);
+        $content  = $response->getResponseContent();
+
+        $this->assertEquals(['foo' => 'foo', 'bar' => 'bar'], $content->toArray());
+        $this->assertEquals($response, $response->clearResponseContent());
+        $this->assertEquals([], $content->toArray());
     }
 
     public function testResponseGetHeaders()
@@ -328,6 +350,69 @@ class ResponseTest extends TestCase
         $this->assertFalse($response->hasCookie('test'));
         $this->assertFalse($response->hasCookie('foo'));
         $this->assertTrue($response->isEmptyCookies());
+    }
+
+    public function testResponseSetResponseRenderer()
+    {
+        $response = new Response(200, []);
+        $renderer = new TestResponseRenderer();
+
+        $response->setResponseRenderer($renderer);
+        $this->assertEquals($renderer, $response->getResponseRenderer());
+    }
+
+    public function testResponseGetResponseRenderer()
+    {
+        $response = new Response(200, []);
+
+        $this->assertInstanceOf(ResponseRenderer::class, $response->getResponseRenderer());
+        $this->assertInstanceOf(EmptyRenderer::class, $response->getResponseRenderer());
+
+        $renderer = new TestResponseRenderer();
+        $response->setResponseRenderer($renderer);
+
+        $this->assertEquals($renderer, $response->getResponseRenderer());
+    }
+
+    public function testResponseRemoveResponseRenderer()
+    {
+        $response = new Response(200, []);
+        $renderer = new TestResponseRenderer();
+
+        $response->setResponseRenderer($renderer);
+
+        $this->assertInstanceOf(TestResponseRenderer::class, $response->getResponseRenderer());
+        $this->assertEquals($renderer, $response->getResponseRenderer());
+
+        $response->removeResponseRenderer($renderer);
+
+        $this->assertInstanceOf(EmptyRenderer::class, $response->getResponseRenderer());
+    }
+
+    public function testResponseSendHeaders()
+    {
+        $response = new Response(200, []);
+        $this->assertEquals($response, $response->sendHeaders());
+    }
+
+    public function testResponseSendBody()
+    {
+        $this->expectOutputString('');
+
+        $response = new Response(200, []);
+        $this->assertEquals($response, $response->sendBody());
+    }
+
+    public function testResponseSendBodyWithRenderer()
+    {
+        $this->expectOutputString(print_r(['foo' => 'foo'], true));
+
+        $renderer = new TestResponseRenderer();
+        $response = new Response(200, ['foo' => 'foo']);
+
+        $response->setResponseRenderer($renderer);
+
+        $this->assertEquals($response, $response->sendBody());
     }
 
     public function testResponseArrayable()
