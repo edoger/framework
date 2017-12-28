@@ -59,7 +59,7 @@ class NativeSession extends AbstractSession
             session_id(session_create_id());
         }
 
-        if (session_set_save_handler($this->getSessionHandler(), true)) {
+        if (!session_set_save_handler($this->getSessionHandler(), true)) {
             return false;
         }
 
