@@ -56,13 +56,20 @@ class NativeSession extends AbstractSession
 
         // If there is no session id, the system will automatically create a session id.
         if ('' === $sessionId) {
-            session_id(session_create_id());
+            $sessionId = session_create_id();
         }
 
+        // Bind the session id.
+        session_id($sessionId);
+
+        // Set the session handler.
+        // We only try to start the session if it is set up successfully.
         if (!session_set_save_handler($this->getSessionHandler(), true)) {
             return false;
         }
 
+        // Attempt to start the session, while forbidding the system to automatically send
+        // the session cookie header.
         if (session_start(['use_cookies' => 0])) {
             $this->sessionId = session_id();
 
