@@ -76,6 +76,35 @@ class ArrTest extends TestCase
         $this->assertEquals('bar', Arr::get($arr, 'bar', 'bar'));
     }
 
+    public function testArrQuery()
+    {
+        $arr = [
+            'a' => 1,
+            'b' => [
+                1,
+                'm' => 1,
+                'n' => null,
+                'o' => ['k' => 1],
+            ],
+            'c' => null,
+        ];
+
+        $this->assertEquals($arr['a'], Arr::query($arr, 'a'));
+        $this->assertEquals($arr['b'], Arr::query($arr, 'b'));
+        $this->assertEquals($arr['c'], Arr::query($arr, 'c'));
+        $this->assertEquals($arr['b'][0], Arr::query($arr, 'b.0'));
+        $this->assertEquals($arr['b']['m'], Arr::query($arr, 'b.m'));
+        $this->assertEquals($arr['b']['n'], Arr::query($arr, 'b.n'));
+        $this->assertEquals($arr['b']['o'], Arr::query($arr, 'b.o'));
+        $this->assertEquals($arr['b']['o']['k'], Arr::query($arr, 'b.o.k'));
+        $this->assertNull(Arr::query($arr, 'non'));
+        $this->assertNull(Arr::query($arr, 'b.non'));
+        $this->assertNull(Arr::query($arr, 'b.o.non'));
+        $this->assertEquals(1, Arr::query($arr, 'non', 1));
+        $this->assertEquals(1, Arr::query($arr, 'b.non', 1));
+        $this->assertEquals(1, Arr::query($arr, 'b.o.non', 1));
+    }
+
     public function testArrFirst()
     {
         $this->assertEquals('foo', Arr::first(['foo' => 'foo', 'bar' => 'bar']));

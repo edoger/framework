@@ -87,6 +87,40 @@ class Arr
     }
 
     /**
+     * Query an element from the given array.
+     *
+     * @param array  $arr     The given array.
+     * @param string $name    The query key name.
+     * @param mixed  $default The default value.
+     *
+     * @return mixed
+     */
+    public static function query(array $arr, string $name, $default = null)
+    {
+        // If there is a query key in the given array, the value is returned immediately.
+        if (static::has($arr, $name)) {
+            return $arr[$name];
+        }
+
+        // If the given name is not a query key, the default value is returned.
+        if (1 === count($queries = explode('.', $name))) {
+            return $default;
+        }
+
+        $result = $arr;
+
+        foreach ($queries as $query) {
+            if (is_array($result) && static::has($result, $query)) {
+                $result = $result[$query];
+            } else {
+                return $default;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Gets the first element of the array.
      *
      * @param array $arr     An array.
