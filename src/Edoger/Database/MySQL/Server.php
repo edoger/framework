@@ -71,7 +71,7 @@ class Server implements ServerContract
     protected $charset;
 
     /**
-     * The abstract server constructor.
+     * The server constructor.
      *
      * @param string $name     The current server name.
      * @param string $username The current server user name.
