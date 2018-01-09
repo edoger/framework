@@ -20,20 +20,6 @@ interface Server
     public function getName(): string;
 
     /**
-     * Get the current server user name.
-     *
-     * @return string
-     */
-    public function getUserName(): string;
-
-    /**
-     * Get the current server user password.
-     *
-     * @return string
-     */
-    public function getPassword(): string;
-
-    /**
      * Get the current server host name.
      *
      * @return string
@@ -53,6 +39,20 @@ interface Server
      * @return string
      */
     public function getUnixSocketPath(): string;
+
+    /**
+     * Get the current server user name.
+     *
+     * @return string
+     */
+    public function getUserName(): string;
+
+    /**
+     * Get the current server user password.
+     *
+     * @return string
+     */
+    public function getPassword(): string;
 
     /**
      * Get the current server default database name.

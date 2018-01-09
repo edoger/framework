@@ -22,20 +22,6 @@ class Server implements ServerContract
     protected $name;
 
     /**
-     * The current server user name.
-     *
-     * @var string
-     */
-    protected $username;
-
-    /**
-     * The current server user password.
-     *
-     * @var string
-     */
-    protected $password;
-
-    /**
      * The current server host name.
      *
      * @var string
@@ -57,6 +43,20 @@ class Server implements ServerContract
     protected $socket;
 
     /**
+     * The current server user name.
+     *
+     * @var string
+     */
+    protected $username;
+
+    /**
+     * The current server user password.
+     *
+     * @var string
+     */
+    protected $password;
+
+    /**
      * The current server default database name.
      *
      * @var string
@@ -74,24 +74,24 @@ class Server implements ServerContract
      * The server constructor.
      *
      * @param string $name     The current server name.
-     * @param string $username The current server user name.
-     * @param string $password The current server user password.
      * @param string $host     The current server host name.
      * @param int    $port     The current server port number.
      * @param string $socket   The current server unix socket path.
+     * @param string $username The current server user name.
+     * @param string $password The current server user password.
      * @param string $dbname   The current server default database name.
      * @param string $charset  The current server default client charset.
      *
      * @return void
      */
-    public function __construct(string $name, string $username = 'root', string $password = '', string $host = '127.0.0.1', int $port = 3306, string $socket = '', string $dbname = '', string $charset = 'utf8mb4')
+    public function __construct(string $name, string $host = '127.0.0.1', int $port = 3306, string $socket = '', string $username = 'root', string $password = '', string $dbname = '', string $charset = 'utf8mb4')
     {
         $this->name     = $name;
-        $this->username = $username;
-        $this->password = $password;
         $this->host     = $host;
         $this->port     = $port;
         $this->socket   = $socket;
+        $this->username = $username;
+        $this->password = $password;
         $this->dbname   = $dbname;
         $this->charset  = $charset;
     }
@@ -104,26 +104,6 @@ class Server implements ServerContract
     public function getName(): string
     {
         return $this->name;
-    }
-
-    /**
-     * Get the current server user name.
-     *
-     * @return string
-     */
-    public function getUserName(): string
-    {
-        return $this->username;
-    }
-
-    /**
-     * Get the current server user password.
-     *
-     * @return string
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
     }
 
     /**
@@ -154,6 +134,26 @@ class Server implements ServerContract
     public function getUnixSocketPath(): string
     {
         return $this->socket;
+    }
+
+    /**
+     * Get the current server user name.
+     *
+     * @return string
+     */
+    public function getUserName(): string
+    {
+        return $this->username;
+    }
+
+    /**
+     * Get the current server user password.
+     *
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
     }
 
     /**
