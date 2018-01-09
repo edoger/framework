@@ -19,23 +19,17 @@ class JsonSerializer implements Serializer
     /**
      * The json serializer constructor.
      *
+     * @codeCoverageIgnore
+     *
+     * @throws RuntimeException Thrown when the "json" extension is not enabled.
+     *
      * @return void
      */
     public function __construct()
     {
-        if (!static::isEnabled()) {
+        if (!extension_loaded('json')) {
             throw new RuntimeException('The "json" extension is not loaded or does not exist.');
         }
-    }
-
-    /**
-     * Determines if the current serializer is enabled.
-     *
-     * @return bool
-     */
-    public static function isEnabled(): bool
-    {
-        return extension_loaded('json');
     }
 
     /**

@@ -11,29 +11,24 @@
 namespace Edoger\Serializer\Tests\Cases;
 
 use stdClass;
-use RuntimeException;
 use PHPUnit\Framework\TestCase;
 use Edoger\Serializer\JsonSerializer;
 use Edoger\Serializer\Contracts\Serializer;
 use Edoger\Serializer\Exceptions\SerializerException;
-use Edoger\Serializer\Tests\Support\DisabledJsonSerializer;
 
 class JsonSerializerTest extends TestCase
 {
-    public function testJsonSerializerConstructorFail()
-    {
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('The "json" extension is not loaded or does not exist.');
+    protected static $supported;
 
-        new DisabledJsonSerializer(); // exception
+    public static function setUpBeforeClass()
+    {
+        self::$supported = extension_loaded('json');
     }
 
-    public function testJsonSerializerIsEnabled()
+    protected function setUp()
     {
-        if (extension_loaded('json')) {
-            $this->assertTrue(JsonSerializer::isEnabled());
-        } else {
-            $this->assertFalse(JsonSerializer::isEnabled());
+        if (!self::$supported) {
+            $this->markTestSkipped('The "json" extension is not loaded or not enabled.');
         }
     }
 

@@ -27,16 +27,6 @@ class PhpSerializer implements Serializer
     }
 
     /**
-     * Determines if the current serializer is enabled.
-     *
-     * @return bool
-     */
-    public static function isEnabled(): bool
-    {
-        return true;
-    }
-
-    /**
      * Create a php serializer.
      *
      * @return self
