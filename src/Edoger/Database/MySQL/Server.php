@@ -91,6 +91,7 @@ class Server implements ServerContract
         $this->password = $password;
         $this->host     = $host;
         $this->port     = $port;
+        $this->socket   = $socket;
         $this->dbname   = $dbname;
         $this->charset  = $charset;
     }
