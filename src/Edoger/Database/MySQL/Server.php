@@ -185,7 +185,7 @@ class Server implements ServerContract
     {
         // If MySQL unix sockets are provided, unix sockets are preferred and TCP network
         // connections are automatically disabled.
-        if ('' === $socket = $this->getUnixSocketPath()) {
+        if ('' !== $socket = $this->getUnixSocketPath()) {
             $dsn = 'mysql:unix_socket='.$socket;
         } else {
             $dsn = 'mysql:host='.$this->getHost().';port='.$this->getPort();
