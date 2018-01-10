@@ -34,6 +34,6 @@ class SocketServer extends Server
             throw new InvalidArgumentException('Invalid MySQL unix socket path.');
         }
 
-        parent::__construct($name, $username, $password, '', 0, $socket, $dbname, $charset);
+        parent::__construct($name, '', 0, $socket, $username, $password, $dbname, $charset);
     }
 }
