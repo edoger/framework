@@ -87,6 +87,29 @@ class Arr
     }
 
     /**
+     * Gets any one of the elements in the given array within the given range.
+     *
+     * @param array       $arr     The given array.
+     * @param iterable    $keys    The given keys.
+     * @param mixed       $default The default value.
+     * @param string|null &$hit    The hit key.
+     *
+     * @return mixed
+     */
+    public static function getAny(array $arr, iterable $keys, $default = null, string &$hit = null)
+    {
+        foreach ($keys as $key) {
+            if (static::has($arr, $key)) {
+                $hit = $key;
+
+                return $arr[$key];
+            }
+        }
+
+        return $default;
+    }
+
+    /**
      * Query an element from the given array.
      *
      * @param array  $arr     The given array.

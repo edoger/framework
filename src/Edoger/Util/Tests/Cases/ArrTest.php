@@ -76,6 +76,27 @@ class ArrTest extends TestCase
         $this->assertEquals('bar', Arr::get($arr, 'bar', 'bar'));
     }
 
+    public function testArrGetAny()
+    {
+        $arr = ['foo' => 'foo', 'bar' => null];
+
+        $this->assertEquals('foo', Arr::getAny($arr, ['foo']));
+        $this->assertNull(Arr::getAny($arr, ['bar', 'foo']));
+        $this->assertEquals('foo', Arr::getAny($arr, ['baz', 'foo']));
+        $this->assertNull(Arr::getAny($arr, ['baz']));
+        $this->assertNull(Arr::getAny($arr, ['non', 'baz']));
+        $this->assertEquals('test', Arr::getAny($arr, ['non', 'baz'], 'test'));
+
+        $this->assertEquals('foo', Arr::getAny($arr, ['baz', 'foo'], null, $hit1));
+        $this->assertEquals('foo', $hit1);
+
+        $this->assertNull(Arr::getAny($arr, ['baz', 'bar', 'foo'], 'test', $hit2));
+        $this->assertEquals('bar', $hit2);
+
+        $this->assertEquals('test', Arr::getAny($arr, ['baz', 'non'], 'test', $hit3));
+        $this->assertNull($hit3);
+    }
+
     public function testArrQuery()
     {
         $arr = [
