@@ -260,4 +260,16 @@ class Validator
 
         return (bool) preg_match('/^[a-zA-Z_]\w*$/', $value);
     }
+
+    /**
+     * Determine whether a given value is a port number.
+     *
+     * @param mixed $value The given value.
+     *
+     * @return bool
+     */
+    public static function isPortNumber($value): bool
+    {
+        return static::isPositiveInteger($value) && $value <= 65535;
+    }
 }

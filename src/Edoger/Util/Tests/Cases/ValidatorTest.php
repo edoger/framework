@@ -226,4 +226,16 @@ class ValidatorTest extends TestCase
         $this->assertTrue(Validator::isAttributeName('abc1'));
         $this->assertTrue(Validator::isAttributeName('abc_5'));
     }
+
+    public function testValidatorIsPortNumber()
+    {
+        $this->assertFalse(Validator::isPortNumber(''));
+        $this->assertFalse(Validator::isPortNumber('123'));
+        $this->assertFalse(Validator::isPortNumber(-123));
+        $this->assertFalse(Validator::isPortNumber(70000));
+        $this->assertFalse(Validator::isPortNumber(12.5));
+        $this->assertTrue(Validator::isPortNumber(123));
+        $this->assertTrue(Validator::isPortNumber(1));
+        $this->assertTrue(Validator::isPortNumber(65535));
+    }
 }
