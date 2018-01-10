@@ -12,7 +12,7 @@ namespace Edoger\Database\Tests\Cases\MySQL;
 
 use PHPUnit\Framework\TestCase;
 use Edoger\Database\MySQL\Server;
-use Edoger\Database\Contracts\Server as ServerContract;
+use Edoger\Database\MySQL\Contracts\Server as ServerContract;
 
 class ServerTest extends TestCase
 {

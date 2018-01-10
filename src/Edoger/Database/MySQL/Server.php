@@ -10,7 +10,7 @@
 
 namespace Edoger\Database\MySQL;
 
-use Edoger\Database\Contracts\Server as ServerContract;
+use Edoger\Database\MySQL\Contracts\Server as ServerContract;
 
 class Server implements ServerContract
 {
