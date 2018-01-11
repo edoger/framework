@@ -15,6 +15,13 @@ use PDO;
 interface Connection
 {
     /**
+     * Get the server definition instance.
+     *
+     * @return Edoger\Database\MySQL\Contracts\Server
+     */
+    public function getServer(): Server;
+
+    /**
      * Get the current connection name.
      *
      * @return string

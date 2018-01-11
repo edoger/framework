@@ -45,13 +45,23 @@ class Connection implements ConnectionContract
     }
 
     /**
+     * Get the server definition instance.
+     *
+     * @return Edoger\Database\MySQL\Contracts\Server
+     */
+    public function getServer(): Server
+    {
+        return $this->server;
+    }
+
+    /**
      * Get the current connection name.
      *
      * @return string
      */
     public function getName(): string
     {
-        return $this->server->getName();
+        return $this->getServer()->getName();
     }
 
     /**
@@ -69,9 +79,9 @@ class Connection implements ConnectionContract
             return $this->pdo;
         }
 
-        $dsn      = $this->server->generateDsn();
-        $username = $this->server->getUserName();
-        $password = $this->server->getPassword();
+        $dsn      = $this->getServer()->generateDsn();
+        $username = $this->getServer()->getUserName();
+        $password = $this->getServer()->getPassword();
 
         try {
             $pdo = new PDO($dsn, $username, $password);
