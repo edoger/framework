@@ -177,15 +177,23 @@ class Response implements Arrayable
     /**
      * Send the response body to the client.
      *
+     * @param callable|null $handler The response body data handler.
+     *
      * @return self
      */
-    public function sendBody(): self
+    public function sendBody(callable $handler = null): self
     {
         $body = $this->getResponseRenderer()->render($this->getResponseContent());
 
         // Output only when the response body is not empty.
         if (Validator::isNotEmptyString($body)) {
-            echo $body;
+            if (is_null($handler)) {
+                echo $body;
+            } else {
+                // Disabling the system automatically outputs response body dataif the response
+                // body data handler is available.
+                call_user_func($handler, $body);
+            }
         }
 
         return $this;

@@ -24,6 +24,7 @@ use Edoger\Http\Server\Traits\ResponseCookiesSupport;
 use Edoger\Http\Server\Traits\ResponseHeadersSupport;
 use Edoger\Http\Server\Traits\ResponseRendererSupport;
 use Edoger\Http\Server\Response\Renderers\EmptyRenderer;
+use Edoger\Http\Tests\Support\TestReturnTestKeyResponseRenderer;
 
 class ResponseTest extends TestCase
 {
@@ -413,6 +414,18 @@ class ResponseTest extends TestCase
         $response->setResponseRenderer($renderer);
 
         $this->assertEquals($response, $response->sendBody());
+    }
+
+    public function testResponseSendBodyWithHandler()
+    {
+        $renderer = new TestReturnTestKeyResponseRenderer();
+        $response = new Response(200, ['test' => 'test']);
+
+        $response->setResponseRenderer($renderer);
+
+        $this->assertEquals($response, $response->sendBody(function ($body) {
+            $this->assertEquals('test', $body);
+        }));
     }
 
     public function testResponseArrayable()
