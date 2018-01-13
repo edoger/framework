@@ -54,8 +54,7 @@ class Actuator
      *
      * @param string $statement The given SQL statement.
      *
-     * @throws InvalidArgumentException                            Thrown when the SQL statement is invalid.
-     * @throws Edoger\Database\MySQL\Exceptions\ExecutionException Thrown when the SQL statement fails to execute.
+     * @throws InvalidArgumentException Thrown when the SQL statement is invalid.
      *
      * @return void
      */
