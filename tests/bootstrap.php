@@ -13,4 +13,4 @@
 define('TEST_ENV', $_ENV['TEST_ENV'] ?? $_SERVER['TEST_ENV'] ?? 'LOCAL');
 
 // Enable Composer autoloader.
-return __DIR__.'/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
