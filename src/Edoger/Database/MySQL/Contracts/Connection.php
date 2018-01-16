@@ -29,6 +29,13 @@ interface Connection
     public function getName(): string;
 
     /**
+     * Determine if the current database connection is already connected.
+     *
+     * @return bool
+     */
+    public function isConnected(): bool;
+
+    /**
      * Connect to the server and create a PDO instance.
      * If the connection has been completed, the created PDO instance is returned directly.
      *

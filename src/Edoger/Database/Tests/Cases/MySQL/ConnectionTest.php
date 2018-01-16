@@ -56,6 +56,17 @@ class ConnectionTest extends TestCase
         $this->assertEquals('test', $connection->getName());
     }
 
+    public function testConnectionIsConnected()
+    {
+        $connection = new Connection($this->server);
+
+        $this->assertFalse($connection->isConnected());
+        $connection->connect();
+        $this->assertTrue($connection->isConnected());
+        $connection->close();
+        $this->assertFalse($connection->isConnected());
+    }
+
     public function testConnectionConnect()
     {
         $connection = new Connection($this->server);

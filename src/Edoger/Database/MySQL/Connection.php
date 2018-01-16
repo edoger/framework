@@ -28,9 +28,9 @@ class Connection implements ConnectionContract
     /**
      * The PDO instance.
      *
-     * @var PDO
+     * @var PDO|null
      */
-    protected $pdo;
+    protected $pdo = null;
 
     /**
      * The connection constructor.
@@ -65,6 +65,16 @@ class Connection implements ConnectionContract
     }
 
     /**
+     * Determine if the current database connection is already connected.
+     *
+     * @return bool
+     */
+    public function isConnected(): bool
+    {
+        return !is_null($this->pdo);
+    }
+
+    /**
      * Connect to the server and create a PDO instance.
      * If the connection has been completed, the created PDO instance is returned directly.
      *
@@ -75,7 +85,7 @@ class Connection implements ConnectionContract
     public function connect(): PDO
     {
         // Make sure to create only one PDO instance before closing the current connection.
-        if ($this->pdo) {
+        if ($this->isConnected()) {
             return $this->pdo;
         }
 
