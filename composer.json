@@ -1,10 +1,10 @@
 {
-	"name": "edoger/example",
-	"description": "The Edoger framework example component.",
-	"keywords": ["edoger", "example"],
+	"name": "edoger/message-queue",
+	"description": "The Edoger framework message queue component.",
+	"keywords": ["edoger", "mq", "message-queue"],
 	"license": "LGPL-3.0",
 	"type": "library",
-	"homepage": "https://github.com/edoger/example",
+	"homepage": "https://github.com/edoger/message-queue",
 	"authors": [
 		{
 			"name": "Qingshan Luo",
@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Edoger\\Example\\": ""
+            "Edoger\\MessageQueue\\": ""
         },
         "exclude-from-classmap": [
             "/Tests/"
