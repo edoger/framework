@@ -19,18 +19,18 @@ use Edoger\Database\MySQL\Foundation\Util;
 class Database
 {
     /**
-     * The database name.
-     *
-     * @var string
-     */
-    protected $name;
-
-    /**
      * The SQL statement actuator.
      *
      * @var Edoger\Database\MySQL\Actuator
      */
     protected $actuator;
+
+    /**
+     * The database name.
+     *
+     * @var string
+     */
+    protected $name;
 
     /**
      * The database constructor.
@@ -44,33 +44,47 @@ class Database
      */
     public function __construct(Actuator $actuator, string $name = '')
     {
-        $this->name     = $name;
         $this->actuator = $actuator;
+        $this->name     = $this->formatDatabaseName($name);
+    }
 
-        if (!Validator::isNotEmptyString($name)) {
-            // Get the actuator bound connection, maybe we will use it multiple times.
-            $connection = $actuator->getConnection();
+    /**
+     * Format the database name.
+     *
+     * @param string $name The database name.
+     *
+     * @return string
+     */
+    protected function formatDatabaseName(string $name): string
+    {
+        if (Validator::isNotEmptyString($name)) {
+            return $name;
+        }
 
-            // If the default database name is empty, automatically try to get the database name
-            // from the server configuration.
-            $name = $connection->getServer()->getDatabaseName();
+        // Get the actuator bound connection, maybe we will use it multiple times.
+        $connection = $this->getActuator()->getConnection();
 
-            if (!Validator::isNotEmptyString($name) && $connection->isConnected()) {
-                // If we can not get the default database name from the server configuration and
-                // the database is already connected, we will automatically try to query
-                // the default database name used by the current connection.
-                $name = $this->getDatabaseNameFromConnection();
-            }
+        // If the default database name is empty, automatically try to get the database name
+        // from the server configuration.
+        $name = $connection->getServer()->getDatabaseName();
+
+        if (Validator::isNotEmptyString($name)) {
+            return $name;
+        }
+
+        // If we can not get the default database name from the server configuration and
+        // the database is already connected, we will automatically try to query
+        // the default database name used by the current connection.
+        if ($connection->isConnected()) {
+            $name = $this->getDatabaseNameFromConnection();
 
             if (Validator::isNotEmptyString($name)) {
-                $this->name = $name;
-            } else {
-                // We really can not determine the database name.
-                throw new InvalidArgumentException(
-                    'Unable to determine the database name.'
-                );
+                return $name;
             }
         }
+
+        // We really can not determine the database name.
+        throw new InvalidArgumentException('Unable to determine the database name.');
     }
 
     /**
