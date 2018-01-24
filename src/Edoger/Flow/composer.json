@@ -2,7 +2,7 @@
 	"name": "edoger/flow",
 	"description": "The Edoger framework flow component.",
 	"keywords": ["edoger", "flow"],
-	"license": "LGPL-3.0",
+	"license": "LGPL-3.0-only",
 	"type": "library",
 	"homepage": "https://github.com/edoger/flow",
 	"authors": [

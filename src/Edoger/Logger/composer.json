@@ -2,7 +2,7 @@
 	"name": "edoger/logger",
 	"description": "The Edoger framework logger component.",
 	"keywords": ["edoger", "logger"],
-	"license": "LGPL-3.0",
+	"license": "LGPL-3.0-only",
 	"type": "library",
 	"homepage": "https://github.com/edoger/logger",
 	"authors": [

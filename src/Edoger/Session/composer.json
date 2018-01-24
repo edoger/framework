@@ -2,7 +2,7 @@
 	"name": "edoger/session",
 	"description": "The Edoger framework session component.",
 	"keywords": ["edoger", "session"],
-	"license": "LGPL-3.0",
+	"license": "LGPL-3.0-only",
 	"type": "library",
 	"homepage": "https://github.com/edoger/session",
 	"authors": [

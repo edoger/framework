@@ -2,7 +2,7 @@
 	"name": "edoger/database",
 	"description": "The Edoger framework database component.",
 	"keywords": ["edoger", "database"],
-	"license": "LGPL-3.0",
+	"license": "LGPL-3.0-only",
 	"type": "library",
 	"homepage": "https://github.com/edoger/database",
 	"authors": [

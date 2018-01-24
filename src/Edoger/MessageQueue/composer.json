@@ -2,7 +2,7 @@
 	"name": "edoger/message-queue",
 	"description": "The Edoger framework message queue component.",
 	"keywords": ["edoger", "mq", "message-queue"],
-	"license": "LGPL-3.0",
+	"license": "LGPL-3.0-only",
 	"type": "library",
 	"homepage": "https://github.com/edoger/message-queue",
 	"authors": [
