@@ -101,7 +101,7 @@ class Database
     public function getDatabaseNameFromConnection(): string
     {
         $row = $this->getActuator()->query('SELECT DATABASE()')->fetch(PDO::FETCH_NUM);
-        
+
         return (string) Arr::first($row);
     }
 
