@@ -66,4 +66,32 @@ class DatabaseTest extends TestCase
 
         $this->assertEquals($this->actuator, $database->getActuator());
     }
+
+    public function testDatabaseGetDatabaseNameFromConnection()
+    {
+        $database = new Database($this->actuator, 'edoger');
+
+        $this->assertEquals('', $database->getDatabaseNameFromConnection());
+        $this->actuator->execute('USE edoger');
+        $this->assertEquals('edoger', $database->getDatabaseNameFromConnection());
+    }
+
+    public function testDatabaseUseDatabaseName()
+    {
+        $database = new Database($this->actuator, 'edoger');
+
+        $this->assertEquals('', $database->getDatabaseNameFromConnection());
+        $this->assertEquals($database, $database->useDatabaseName());
+        $this->assertEquals('edoger', $database->getDatabaseNameFromConnection());
+
+        $database->useDatabaseName('mysql');
+        $this->assertEquals('mysql', $database->getDatabaseNameFromConnection());
+    }
+
+    public function testDatabaseGetDatabaseTables()
+    {
+        $database = new Database($this->actuator, 'edoger');
+
+        $this->assertEquals(['users'], $database->getDatabaseTables());
+    }
 }
