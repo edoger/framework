@@ -15,6 +15,16 @@ use PHPUnit\Framework\TestCase;
 
 class ValidatorTest extends TestCase
 {
+    public function testValidatorIsEmptyString()
+    {
+        $this->assertTrue(Validator::isEmptyString(''));
+        $this->assertFalse(Validator::isEmptyString(null));
+        $this->assertFalse(Validator::isEmptyString(1));
+        $this->assertFalse(Validator::isEmptyString([]));
+        $this->assertFalse(Validator::isEmptyString('0'));
+        $this->assertFalse(Validator::isEmptyString('foo'));
+    }
+
     public function testValidatorIsNotEmptyString()
     {
         $this->assertFalse(Validator::isNotEmptyString(''));
@@ -23,6 +33,16 @@ class ValidatorTest extends TestCase
         $this->assertFalse(Validator::isNotEmptyString([]));
         $this->assertTrue(Validator::isNotEmptyString('0'));
         $this->assertTrue(Validator::isNotEmptyString('foo'));
+    }
+
+    public function testValidatorIsEmptyArray()
+    {
+        $this->assertFalse(Validator::isEmptyArray(''));
+        $this->assertFalse(Validator::isEmptyArray(null));
+        $this->assertFalse(Validator::isEmptyArray(1));
+        $this->assertTrue(Validator::isEmptyArray([]));
+        $this->assertFalse(Validator::isEmptyArray(['0']));
+        $this->assertFalse(Validator::isEmptyArray(['foo' => 'foo']));
     }
 
     public function testValidatorIsNotEmptyArray()

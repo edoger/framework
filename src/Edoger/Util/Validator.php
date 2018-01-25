@@ -13,6 +13,18 @@ namespace Edoger\Util;
 class Validator
 {
     /**
+     * Determines if the given value is a empty string.
+     *
+     * @param mixed $value The given value.
+     *
+     * @return bool
+     */
+    public static function isEmptyString($value): bool
+    {
+        return '' === $value;
+    }
+
+    /**
      * Determines if the given value is a non-empty string.
      *
      * @param mixed $value The given value.
@@ -22,6 +34,18 @@ class Validator
     public static function isNotEmptyString($value): bool
     {
         return is_string($value) && '' !== $value;
+    }
+
+    /**
+     * Determines if the given value is a empty array.
+     *
+     * @param mixed $value The given value.
+     *
+     * @return bool
+     */
+    public static function isEmptyArray($value): bool
+    {
+        return is_array($value) && empty($value);
     }
 
     /**
