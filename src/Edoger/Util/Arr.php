@@ -301,4 +301,19 @@ class Arr
 
         return true;
     }
+
+    /**
+     * Converts the given XML string to an array.
+     * If the conversion fails will return an empty array.
+     *
+     * @param string $xml The given XML string.
+     *
+     * @return array
+     */
+    public static function convertFromXml(string $xml): array
+    {
+        $arr = json_decode(json_encode(@simplexml_load_string($xml)), true);
+
+        return is_array($arr) ? $arr : [];
+    }
 }
