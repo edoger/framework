@@ -10,12 +10,14 @@
 
 namespace Edoger\Database\Tests\Cases\MySQL;
 
+use PDO;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Edoger\Database\MySQL\Actuator;
 use Edoger\Database\MySQL\Database;
 use Edoger\Database\MySQL\TcpServer;
 use Edoger\Database\MySQL\Connection;
+use Edoger\Database\MySQL\Transaction;
 
 class DatabaseTest extends TestCase
 {
@@ -93,5 +95,57 @@ class DatabaseTest extends TestCase
         $database = new Database($this->actuator, 'edoger');
 
         $this->assertEquals(['users'], $database->getDatabaseTables());
+    }
+
+    public function testDatabaseGetTransaction()
+    {
+        $database = new Database($this->actuator, 'edoger');
+
+        $this->assertInstanceOf(Transaction::class, $database->getTransaction());
+    }
+
+    public function testDatabaseTransact()
+    {
+        $database = new Database($this->actuator, 'edoger');
+
+        // Clear and truncate the database table.
+        $this->actuator->execute('TRUNCATE TABLE edoger.users');
+
+        $this->assertTrue($database->transact(function () {
+            $this->actuator->execute(
+                "INSERT INTO edoger.users (name, age, hobbies) VALUES ('Edoger', 5, 'Painting')"
+            );
+
+            return true;
+        }));
+
+        $this->assertEquals(
+            [
+                ['name' => 'Edoger', 'age' => '5', 'hobbies' => 'Painting'],
+            ],
+            $this
+                ->actuator
+                ->query('SELECT name, age, hobbies FROM edoger.users')
+                ->fetchAll(PDO::FETCH_ASSOC)
+        );
+
+        // Clear and truncate the database table.
+        $this->actuator->execute('TRUNCATE TABLE edoger.users');
+
+        $this->assertFalse($database->transact(function () {
+            $this->actuator->execute(
+                "INSERT INTO edoger.users (name, age, hobbies) VALUES ('Edoger', 5, 'Painting')"
+            );
+
+            return false;
+        }));
+
+        $this->assertEquals(
+            [],
+            $this
+                ->actuator
+                ->query('SELECT name, age, hobbies FROM edoger.users')
+                ->fetchAll(PDO::FETCH_ASSOC)
+        );
     }
 }

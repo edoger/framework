@@ -26,6 +26,13 @@ class Database
     protected $actuator;
 
     /**
+     * The transaction manager.
+     *
+     * @var Edoger\Database\MySQL\Transaction
+     */
+    protected $transaction;
+
+    /**
      * The database name.
      *
      * @var string
@@ -35,8 +42,8 @@ class Database
     /**
      * The database constructor.
      *
-     * @param Actuator $actuator The SQL statement actuator.
-     * @param string   $name     The database name.
+     * @param Edoger\Database\MySQL\Actuator $actuator The SQL statement actuator.
+     * @param string                         $name     The database name.
      *
      * @throws InvalidArgumentException Thrown when the database name can not be determined.
      *
@@ -44,8 +51,9 @@ class Database
      */
     public function __construct(Actuator $actuator, string $name = '')
     {
-        $this->actuator = $actuator;
-        $this->name     = $this->formatDatabaseName($name);
+        $this->actuator    = $actuator;
+        $this->transaction = new Transaction($actuator->getConnection());
+        $this->name        = $this->formatDatabaseName($name);
     }
 
     /**
@@ -151,5 +159,40 @@ class Database
             ->fetchAll(PDO::FETCH_FUNC, function ($table) {
                 return $table;
             });
+    }
+
+    /**
+     * Get the current transaction manager.
+     *
+     * @return Edoger\Database\MySQL\Transaction
+     */
+    public function getTransaction(): Transaction
+    {
+        return $this->transaction;
+    }
+
+    /**
+     * Run a given task in a transaction.
+     *
+     * @param callable $task The given task.
+     *
+     * @return bool
+     */
+    public function transact(callable $task): bool
+    {
+        $transaction = $this->getTransaction();
+
+        if ($transaction->open()) {
+            // Run the task in transaction.
+            // The task needs to return a boolean to determine if it succeeded.
+            if (call_user_func($task)) {
+                return $transaction->commit();
+            }
+
+            // Only try to roll back the transaction.
+            $transaction->back();
+        }
+
+        return false;
     }
 }
