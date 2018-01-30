@@ -296,4 +296,44 @@ class Validator
     {
         return static::isPositiveInteger($value) && $value <= 65535;
     }
+
+    /**
+     * Determines if the given value is a finite length string.
+     *
+     * @param mixed $value The given value.
+     * @param int   $max   The maximum length.
+     * @param int   $min   The minimum length.
+     *
+     * @return bool
+     */
+    public static function isFiniteLengthString($value, int $max, int $min = 0): bool
+    {
+        if (!is_string($value)) {
+            return false;
+        }
+
+        $length = Str::length($value);
+
+        return $length >= $min && $length <= $max;
+    }
+
+    /**
+     * Determines if the given value is a finite-width string.
+     *
+     * @param mixed $value The given value.
+     * @param int   $max   The maximum width.
+     * @param int   $min   The minimum width.
+     *
+     * @return bool
+     */
+    public static function isFiniteWidthString($value, int $max, int $min = 0): bool
+    {
+        if (!is_string($value)) {
+            return false;
+        }
+
+        $width = Str::width($value);
+
+        return $width >= $min && $width <= $max;
+    }
 }

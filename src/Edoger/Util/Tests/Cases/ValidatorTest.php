@@ -258,4 +258,27 @@ class ValidatorTest extends TestCase
         $this->assertTrue(Validator::isPortNumber(1));
         $this->assertTrue(Validator::isPortNumber(65535));
     }
+
+    public function testValidatorIsFiniteLengthString()
+    {
+        $this->assertTrue(Validator::isFiniteLengthString('', 5));
+        $this->assertFalse(Validator::isFiniteLengthString('', 5, 2));
+        $this->assertFalse(Validator::isFiniteLengthString('1234567890', 5));
+        $this->assertFalse(Validator::isFiniteLengthString(123, 5));
+        $this->assertFalse(Validator::isFiniteLengthString([], 5));
+        $this->assertTrue(Validator::isFiniteLengthString('测试字符串', 5));
+        $this->assertFalse(Validator::isFiniteLengthString('测试字符串', 3));
+        $this->assertTrue(Validator::isFiniteLengthString('测试字符串', 5, 5));
+    }
+
+    public function testValidatorIsFiniteWidthString()
+    {
+        $this->assertTrue(Validator::isFiniteWidthString('', 5));
+        $this->assertFalse(Validator::isFiniteWidthString('', 5, 2));
+        $this->assertFalse(Validator::isFiniteWidthString('1234567890', 5));
+        $this->assertFalse(Validator::isFiniteWidthString(123, 5));
+        $this->assertFalse(Validator::isFiniteWidthString([], 5));
+        $this->assertFalse(Validator::isFiniteWidthString('测试字符串', 5));
+        $this->assertTrue(Validator::isFiniteWidthString('测试字符串', 10));
+    }
 }
