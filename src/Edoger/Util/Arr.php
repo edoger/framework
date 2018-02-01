@@ -10,6 +10,7 @@
 
 namespace Edoger\Util;
 
+use Closure;
 use Traversable;
 use Edoger\Util\Contracts\Arrayable;
 
@@ -141,6 +142,32 @@ class Arr
         }
 
         return $result;
+    }
+
+    /**
+     * Use the given handler to iterate through each element of the given array.
+     *
+     * @param array    $arr       The given array.
+     * @param callable $handler   The given array element handler.
+     * @param mixed    $parameter Additional parameter for the handler.
+     *
+     * @return array
+     */
+    public static function each(array $arr, callable $handler, $parameter = null): array
+    {
+        // Converting to closure can support handler reference parameters.
+        $handler = Closure::fromCallable($handler);
+        $handled = [];
+
+        foreach ($arr as $key => $value) {
+            if (true === $handler($value, $key, $parameter)) {
+                // Save the handled key and value.
+                // The key may be modified in the handler.
+                $handled[$key] = $value;
+            } 
+        }
+
+        return $handled;
     }
 
     /**

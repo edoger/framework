@@ -12,6 +12,7 @@ namespace Edoger\Util\Tests\Cases;
 
 use Edoger\Util\Arr;
 use PHPUnit\Framework\TestCase;
+use Edoger\Util\Tests\Support\TestCallable;
 use Edoger\Util\Tests\Support\TestArrayable;
 use Edoger\Util\Tests\Support\TestIteratorAggregate;
 
@@ -124,6 +125,58 @@ class ArrTest extends TestCase
         $this->assertEquals(1, Arr::query($arr, 'non', 1));
         $this->assertEquals(1, Arr::query($arr, 'b.non', 1));
         $this->assertEquals(1, Arr::query($arr, 'b.o.non', 1));
+    }
+
+    public function testArrEach()
+    {
+        $this->assertEquals(['foo' => 'foo'], Arr::each(['foo' => 'foo'], function ($v, $k, $p) {
+            $this->assertEquals('foo', $v);
+            $this->assertEquals('foo', $k);
+            $this->assertNull($p);
+
+            return true;
+        }));
+
+        $this->assertEquals(['foo' => 'foo'], Arr::each(['foo' => 'foo'], function ($v, $k, $p) {
+            $this->assertEquals('foo', $v);
+            $this->assertEquals('foo', $k);
+            $this->assertEquals('foo', $p);
+
+            return true;
+        }, 'foo'));
+
+        $this->assertEquals(['test' => 'foo'], Arr::each(['foo' => 'foo'], function ($v, &$k, $p) {
+            $k = 'test';
+
+            return true;
+        }));
+
+        $this->assertEquals(['foo' => 'test'], Arr::each(['foo' => 'foo'], function (&$v, $k, $p) {
+            $v = 'test';
+
+            return true;
+        }));
+
+        $this->assertEquals(['test' => 'test'], Arr::each(['foo' => 'foo'], function (&$v, &$k, $p) {
+            $k = 'test';
+            $v = 'test';
+
+            return true;
+        }));
+
+        $this->assertEquals([], Arr::each(['foo' => 'foo'], function ($v, &$k, $p) {
+            return false;
+        }));
+
+        $obj = new TestCallable();
+
+        $handler1 = [$obj, 'f1'];
+        $this->assertEquals(['test1' => 'test1'], Arr::each(['foo' => 'foo'], $handler1));
+
+        $handler2 = [TestCallable::class, 'f2'];
+        $this->assertEquals(['test2' => 'test2'], Arr::each(['foo' => 'foo'], $handler2));
+
+        $this->assertEquals(['test2' => 'test2'], Arr::each(['foo' => 'foo'], TestCallable::class.'::f2'));
     }
 
     public function testArrFirst()
