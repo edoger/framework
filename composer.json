@@ -14,26 +14,19 @@
 	"require": {
         "php": ">=7.1.0"
     },
-    "replace": {
-        "edoger/config": "self.version",
-        "edoger/container": "self.version",
-        "edoger/event": "self.version",
-        "edoger/flow": "self.version",
-        "edoger/logger": "self.version",
-        "edoger/serializer": "self.version",
-        "edoger/util": "self.version"
-    },
     "require-dev": {
-        "phpunit/phpunit": ">=6.4.0",
-        "friendsofphp/php-cs-fixer": ">=2.8.0"
+        "phpunit/phpunit": "^6.5",
+        "friendsofphp/php-cs-fixer": "^2.10"
     },
     "autoload": {
         "psr-4": {
             "Edoger\\": "src/Edoger/"
-        },
-        "exclude-from-classmap": [
-            "**/Tests/"
-        ]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "EdogerTests\\": "tests/EdogerTests/"
+        }
     },
     "extra": {
         "branch-alias": {

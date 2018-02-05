@@ -8,6 +8,15 @@
  * @license   GNU Lesser General Public License 3.0
  */
 
+// The Edoger framework library root directory.
+define('EDOGER_ROOT', realpath(__DIR__.'/../'));
+
+// The Edoger framework library tests root directory.
+define('EDOGER_TESTS_ROOT', EDOGER_ROOT.'/tests');
+
+// The Edoger framework library tests temp directory.
+define('EDOGER_TESTS_TEMP', EDOGER_TESTS_ROOT.'/temp');
+
 // The test environment.
 // This is to be compatible with the Travis-CI test environment and the local test environment.
 define('TEST_ENV', $_ENV['TEST_ENV'] ?? $_SERVER['TEST_ENV'] ?? 'LOCAL');

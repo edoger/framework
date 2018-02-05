@@ -6,16 +6,12 @@
          verbose="true">
     <testsuites>
         <testsuite name="Edoger framework tests uites.">
-            <directory suffix="Test.php">./src/Edoger/*/Tests</directory>
+            <directory suffix="Test.php">./tests/EdogerTests/*/Cases</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src/Edoger</directory>
-            <exclude>
-                <directory>./src/Edoger/*/Tests</directory>
-                <directory>./src/Edoger/*/vendor</directory>
-            </exclude>
         </whitelist>
     </filter>
     <logging>
