@@ -10,7 +10,6 @@
 
 namespace EdogerTests\Database\Cases\MySQL;
 
-use PDO;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Edoger\Database\MySQL\Actuator;
@@ -58,6 +57,15 @@ class DatabaseTest extends TestCase
         $database = new Database($this->actuator);
 
         $this->assertEquals('edoger', $database->getDatabaseName());
+    }
+
+    public function testDatabaseGetWrappedDatabaseName()
+    {
+        $this->actuator->execute('USE edoger');
+
+        $database = new Database($this->actuator);
+
+        $this->assertEquals('`edoger`', $database->getWrappedDatabaseName());
     }
 
     public function testDatabaseGetActuator()

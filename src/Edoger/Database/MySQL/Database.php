@@ -106,6 +106,16 @@ class Database
     }
 
     /**
+     * Get the current wrapped default database name.
+     *
+     * @return string
+     */
+    public function getWrappedDatabaseName(): string
+    {
+        return Util::wrap($this->getDatabaseName());
+    }
+
+    /**
      * Get the current SQL statement actuator.
      *
      * @return Edoger\Database\MySQL\Actuator
