@@ -103,49 +103,4 @@ class DatabaseTest extends TestCase
 
         $this->assertInstanceOf(Transaction::class, $database->getTransaction());
     }
-
-    public function testDatabaseTransact()
-    {
-        $database = new Database($this->actuator, 'edoger');
-
-        // Clear and truncate the database table.
-        $this->actuator->execute('TRUNCATE TABLE edoger.users');
-
-        $this->assertTrue($database->transact(function () {
-            $this->actuator->execute(
-                "INSERT INTO edoger.users (name, age, hobbies) VALUES ('Edoger', 5, 'Painting')"
-            );
-
-            return true;
-        }));
-
-        $this->assertEquals(
-            [
-                ['name' => 'Edoger', 'age' => '5', 'hobbies' => 'Painting'],
-            ],
-            $this
-                ->actuator
-                ->query('SELECT name, age, hobbies FROM edoger.users')
-                ->fetchAll(PDO::FETCH_ASSOC)
-        );
-
-        // Clear and truncate the database table.
-        $this->actuator->execute('TRUNCATE TABLE edoger.users');
-
-        $this->assertFalse($database->transact(function () {
-            $this->actuator->execute(
-                "INSERT INTO edoger.users (name, age, hobbies) VALUES ('Edoger', 5, 'Painting')"
-            );
-
-            return false;
-        }));
-
-        $this->assertEquals(
-            [],
-            $this
-                ->actuator
-                ->query('SELECT name, age, hobbies FROM edoger.users')
-                ->fetchAll(PDO::FETCH_ASSOC)
-        );
-    }
 }

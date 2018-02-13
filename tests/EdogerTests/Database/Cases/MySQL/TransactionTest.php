@@ -10,7 +10,9 @@
 
 namespace EdogerTests\Database\Cases\MySQL;
 
+use PDO;
 use PHPUnit\Framework\TestCase;
+use Edoger\Database\MySQL\Actuator;
 use Edoger\Database\MySQL\TcpServer;
 use Edoger\Database\MySQL\Connection;
 use Edoger\Database\MySQL\Transaction;
@@ -97,5 +99,56 @@ class TransactionTest extends TestCase
         // Try to roll back multiple times.
         $this->assertFalse($transaction->commit());
         $this->assertFalse($transaction->commit());
+    }
+
+    public function testTransactionTransact()
+    {
+        $transaction = new Transaction($this->connection);
+        $actuator    = new Actuator($this->connection);
+
+        // Clear and truncate the database table.
+        $actuator->execute('TRUNCATE TABLE edoger.users');
+
+        $this->assertTrue($transaction->transact(function () use ($actuator) {
+            $actuator->execute(
+                "INSERT INTO edoger.users (name, age, hobbies) VALUES ('Edoger', 5, 'Painting')"
+            );
+
+            return true;
+        }));
+
+        $this->assertEquals(
+            [
+                ['name' => 'Edoger', 'age' => '5', 'hobbies' => 'Painting'],
+            ],
+            $actuator
+                ->query('SELECT name, age, hobbies FROM edoger.users')
+                ->fetchAll(PDO::FETCH_ASSOC)
+        );
+
+        // Clear and truncate the database table.
+        $actuator->execute('TRUNCATE TABLE edoger.users');
+
+        $this->assertFalse($transaction->transact(function () use ($actuator) {
+            $actuator->execute(
+                "INSERT INTO edoger.users (name, age, hobbies) VALUES ('Edoger', 5, 'Painting')"
+            );
+
+            return false;
+        }));
+
+        $this->assertEquals(
+            [],
+            $actuator
+                ->query('SELECT name, age, hobbies FROM edoger.users')
+                ->fetchAll(PDO::FETCH_ASSOC)
+        );
+
+        // Use option.
+        $transaction->transact(function ($option) {
+            $this->assertEquals('foo', $option);
+
+            return false;
+        }, 'foo');
     }
 }

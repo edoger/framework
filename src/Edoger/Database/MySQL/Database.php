@@ -170,29 +170,4 @@ class Database
     {
         return $this->transaction;
     }
-
-    /**
-     * Run a given task in a transaction.
-     *
-     * @param callable $task The given task.
-     *
-     * @return bool
-     */
-    public function transact(callable $task): bool
-    {
-        $transaction = $this->getTransaction();
-
-        if ($transaction->open()) {
-            // Run the task in transaction.
-            // The task needs to return a boolean to determine if it succeeded.
-            if (call_user_func($task)) {
-                return $transaction->commit();
-            }
-
-            // Only try to roll back the transaction.
-            $transaction->back();
-        }
-
-        return false;
-    }
 }

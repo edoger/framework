@@ -91,4 +91,28 @@ class Transaction
 
         return false;
     }
+
+    /**
+     * Run a given callback in a transaction.
+     *
+     * @param callable $callback The given callback.
+     * @param mixed    $option   Additional option arguments for the given callback.
+     *
+     * @return bool
+     */
+    public function transact(callable $callback, $option = null): bool
+    {
+        if ($this->open()) {
+            // Run the callback in transaction.
+            // The callback needs to return a boolean to determine if it succeeded.
+            if (call_user_func($callback, $option)) {
+                return $this->commit();
+            }
+
+            // Only try to roll back the transaction.
+            $this->back();
+        }
+
+        return false;
+    }
 }
