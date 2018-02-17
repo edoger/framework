@@ -165,7 +165,7 @@ class Database
     {
         return $this
             ->getActuator()
-            ->query('SHOW TABLES FROM '.Util::wrap($this->getDatabaseName()))
+            ->query('SHOW TABLES FROM '.$this->getWrappedDatabaseName())
             ->fetchAll(PDO::FETCH_FUNC, function ($table) {
                 return $table;
             });
