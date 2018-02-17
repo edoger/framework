@@ -40,6 +40,13 @@ class Database
     protected $name;
 
     /**
+     * The current database table names.
+     *
+     * @var null|array
+     */
+    protected $tables = null;
+
+    /**
      * The database constructor.
      *
      * @param Edoger\Database\MySQL\Actuator $actuator The SQL statement actuator.
@@ -159,16 +166,22 @@ class Database
     /**
      * Get the current database table names.
      *
+     * @param bool $noCache Do not read cached data.
+     *
      * @return array
      */
-    public function getDatabaseTables(): array
+    public function getDatabaseTables(bool $noCache = false): array
     {
-        return $this
-            ->getActuator()
-            ->query('SHOW TABLES FROM '.$this->getWrappedDatabaseName())
-            ->fetchAll(PDO::FETCH_FUNC, function ($table) {
-                return $table;
-            });
+        if (is_null($this->tables) || $noCache) {
+            $this->tables = $this
+                ->getActuator()
+                ->query('SHOW TABLES FROM '.$this->getWrappedDatabaseName())
+                ->fetchAll(PDO::FETCH_FUNC, function ($table) {
+                    return $table;
+                });
+        }
+
+        return $this->tables;
     }
 
     /**
