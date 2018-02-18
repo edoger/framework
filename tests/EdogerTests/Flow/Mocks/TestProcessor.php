@@ -16,19 +16,21 @@ use Edoger\Flow\Contracts\Processor;
 
 class TestProcessor implements Processor
 {
-    protected $name;
-    protected $value;
+    protected $map;
 
-    public function __construct($name = 'processor', $value = 'Processor')
+    public function __construct(array $map = [])
     {
-        $this->name  = $name;
-        $this->value = $value;
+        $this->map = $map;
     }
 
     public function process(Container $input, Closure $next)
     {
-        if ($input->get('name') === $this->name) {
-            return $this->value;
+        if ($input->has('key')) {
+            $key = $input->get('key');
+
+            if (isset($this->map[$key])) {
+                return $this->map[$key];
+            }
         }
 
         return $next();

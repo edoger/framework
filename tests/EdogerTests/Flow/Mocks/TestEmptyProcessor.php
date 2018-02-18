@@ -10,14 +10,10 @@
 
 namespace EdogerTests\Flow\Mocks;
 
-use Throwable;
-use Edoger\Container\Container;
-use Edoger\Flow\Contracts\Blocker;
+use Edoger\Flow\Contracts\Processor;
+use Edoger\Flow\Traits\EmptyProcessorSupport;
 
-class TestReturnExceptionBlocker implements Blocker
+class TestEmptyProcessor implements Processor
 {
-    public function block(Container $input, Throwable $exception = null)
-    {
-        return $exception;
-    }
+    use EmptyProcessorSupport;
 }

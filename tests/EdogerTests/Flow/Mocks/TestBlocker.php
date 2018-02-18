@@ -16,15 +16,18 @@ use Edoger\Flow\Contracts\Blocker;
 
 class TestBlocker implements Blocker
 {
-    protected $message;
-
-    public function __construct($message = 'Blocker')
+    public function block(Container $input, $result)
     {
-        $this->message = $message;
+        return ['block', $input, $result];
     }
 
-    public function block(Container $input, Throwable $exception = null)
+    public function complete(Container $input)
     {
-        return $this->message;
+        return ['complete', $input, null];
+    }
+
+    public function error(Container $input, Throwable $exception)
+    {
+        return ['error', $input, $exception];
     }
 }

@@ -16,12 +16,31 @@ use Edoger\Container\Container;
 interface Blocker
 {
     /**
-     * Block the current call stack.
+     * Handle the flow block event.
      *
-     * @param Edoger\Container\Container $input     The processor input parameter container.
-     * @param Throwable|null             $exception The captured processor exception.
+     * @param Edoger\Container\Container $input  The processor input parameter container.
+     * @param mixed                      $result The processor flow return value.
      *
      * @return mixed
      */
-    public function block(Container $input, Throwable $exception = null);
+    public function block(Container $input, $result);
+
+    /**
+     * Handle the flow complete event.
+     *
+     * @param Edoger\Container\Container $input The processor input parameter container.
+     *
+     * @return mixed
+     */
+    public function complete(Container $input);
+
+    /**
+     * Handle the flow error event.
+     *
+     * @param Edoger\Container\Container $input     The processor input parameter container.
+     * @param Throwable                  $exception The captured flow processor exception.
+     *
+     * @return mixed
+     */
+    public function error(Container $input, Throwable $exception);
 }

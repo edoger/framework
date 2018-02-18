@@ -17,15 +17,23 @@ use Edoger\Flow\Contracts\Processor;
 
 class TestExceptionProcessor implements Processor
 {
-    protected $message;
+    protected $map;
 
-    public function __construct($message = 'ProcessorException')
+    public function __construct(array $map = [])
     {
-        $this->message = $message;
+        $this->map = $map;
     }
 
     public function process(Container $input, Closure $next)
     {
-        throw new Exception($this->message);
+        if ($input->has('key')) {
+            $key = $input->get('key');
+
+            if (isset($this->map[$key])) {
+                throw new Exception($this->map[$key]);
+            }
+        }
+
+        return $next();
     }
 }
