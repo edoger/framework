@@ -30,6 +30,15 @@ trait TriggerSupport
     abstract public function getSubcomponentEventName(): string;
 
     /**
+     * Standardize the gievn event name.
+     *
+     * @param string $name The gievn event name.
+     *
+     * @return string
+     */
+    abstract protected function standardizeEventName(string $name): string;
+
+    /**
      * Determines whether the listener for the specified event exists.
      *
      * @param string $name The event name.
@@ -38,12 +47,7 @@ trait TriggerSupport
      */
     public function hasEventListener(string $name): bool
     {
-        // Automatically add subcomponent event name.
-        if ('' !== $subcomponentEventName = $this->getSubcomponentEventName()) {
-            $name = $subcomponentEventName.'.'.$name;
-        }
-
-        return !$this->getEventDispatcher()->isEmptyListeners($name);
+        return !$this->getEventDispatcher()->isEmptyListeners($this->standardizeEventName($name));
     }
 
     /**
@@ -56,11 +60,6 @@ trait TriggerSupport
      */
     public function emit(string $name, $body = []): Event
     {
-        // Automatically add subcomponent event name.
-        if ('' !== $subcomponentEventName = $this->getSubcomponentEventName()) {
-            $name = $subcomponentEventName.'.'.$name;
-        }
-
-        return $this->getEventDispatcher()->dispatch($name, $body);
+        return $this->getEventDispatcher()->dispatch($this->standardizeEventName($name), $body);
     }
 }

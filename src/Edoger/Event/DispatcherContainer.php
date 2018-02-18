@@ -61,4 +61,21 @@ class DispatcherContainer implements DispatcherContainerContract
     {
         return $this->subcomponentEventName;
     }
+
+    /**
+     * Standardize the gievn event name.
+     *
+     * @param string $name The gievn event name.
+     *
+     * @return string
+     */
+    protected function standardizeEventName(string $name): string
+    {
+        // Automatically add subcomponent event name.
+        if ('' !== $sub = $this->getSubcomponentEventName()) {
+            return $sub.'.'.$name;
+        }
+
+        return $name;
+    }
 }

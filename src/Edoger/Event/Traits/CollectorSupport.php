@@ -29,6 +29,15 @@ trait CollectorSupport
     abstract public function getSubcomponentEventName(): string;
 
     /**
+     * Standardize the gievn event name.
+     *
+     * @param string $name The gievn event name.
+     *
+     * @return string
+     */
+    abstract protected function standardizeEventName(string $name): string;
+
+    /**
      * Add an event listener for the specified event.
      *
      * @param string                                   $name     The event name.
@@ -38,12 +47,7 @@ trait CollectorSupport
      */
     public function on(string $name, $listener)
     {
-        // Automatically add subcomponent event name.
-        if ('' !== $subcomponentEventName = $this->getSubcomponentEventName()) {
-            $name = $subcomponentEventName.'.'.$name;
-        }
-
-        $this->getEventDispatcher()->addListener($name, $listener);
+        $this->getEventDispatcher()->addListener($this->standardizeEventName($name), $listener);
 
         return $this;
     }
