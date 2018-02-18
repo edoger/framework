@@ -60,17 +60,7 @@ class Repository implements Arrayable, Countable
             return false;
         }
 
-        $range = $this->items;
-
-        foreach (explode('.', $search) as $unit) {
-            if (is_array($range) && Arr::has($range, $unit)) {
-                $range = $range[$unit];
-            } else {
-                return false;
-            }
-        }
-
-        return true;
+        return $this !== Arr::query($this->items, $search, $this);
     }
 
     /**
@@ -87,17 +77,7 @@ class Repository implements Arrayable, Countable
             return $default;
         }
 
-        $range = $this->items;
-
-        foreach (explode('.', $search) as $unit) {
-            if (is_array($range) && Arr::has($range, $unit)) {
-                $range = $range[$unit];
-            } else {
-                return $default;
-            }
-        }
-
-        return $range;
+        return Arr::query($this->items, $search, $default);
     }
 
     /**
