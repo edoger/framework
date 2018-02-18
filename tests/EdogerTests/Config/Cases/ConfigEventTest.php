@@ -22,10 +22,19 @@ use EdogerTests\Config\Mocks\TestExceptionLoader;
 
 class ConfigEventTest extends TestCase
 {
+    protected function createConfig(iterable $loaders = [])
+    {
+        return new Config($loaders);
+    }
+
+    protected function createLoader(string $group = 'test', array $value = [])
+    {
+        return new TestLoader($group, $value);
+    }
+
     public function testLoadingEvent()
     {
-        $loader = new TestLoader();
-        $config = new Config([$loader]);
+        $config = $this->createConfig([$this->createLoader()]);
 
         $config->on('loading', function (Event $event, Dispatcher $dispatcher) {
             $this->assertEquals('config.loading', $event->getName());
@@ -37,8 +46,7 @@ class ConfigEventTest extends TestCase
 
     public function testLoadingEventWithReload()
     {
-        $loader = new TestLoader();
-        $config = new Config([$loader]);
+        $config = $this->createConfig([$this->createLoader()]);
 
         $config->group('test'); // loading
 
@@ -52,8 +60,7 @@ class ConfigEventTest extends TestCase
 
     public function testLoadedEvent()
     {
-        $loader = new TestLoader('test', [true]);
-        $config = new Config([$loader]);
+        $config = $this->createConfig([$this->createLoader('test', [true])]);
 
         $config->on('loaded', function (Event $event, Dispatcher $dispatcher) {
             $this->assertEquals('config.loaded', $event->getName());
@@ -72,8 +79,7 @@ class ConfigEventTest extends TestCase
 
     public function testLoadedEventWithReload()
     {
-        $loader = new TestLoader('test', [true]);
-        $config = new Config([$loader]);
+        $config = $this->createConfig([$this->createLoader('test', [true])]);
 
         $config->group('test'); // loading
 
@@ -94,7 +100,7 @@ class ConfigEventTest extends TestCase
 
     public function testMissedEvent()
     {
-        $config = new Config();
+        $config = $this->createConfig();
 
         $config->on('missed', function (Event $event, Dispatcher $dispatcher) {
             $this->assertEquals('config.missed', $event->getName());
@@ -106,7 +112,7 @@ class ConfigEventTest extends TestCase
 
     public function testMissedEventWithReload()
     {
-        $config = new Config();
+        $config = $this->createConfig();
 
         $config->group('test'); // missed
 
@@ -120,8 +126,7 @@ class ConfigEventTest extends TestCase
 
     public function testErrorEvent()
     {
-        $loader = new TestExceptionLoader();
-        $config = new Config([$loader]);
+        $config = $this->createConfig([new TestExceptionLoader()]);
 
         $config->on('error', function (Event $event, Dispatcher $dispatcher) {
             $this->assertEquals('config.error', $event->getName());
@@ -138,30 +143,9 @@ class ConfigEventTest extends TestCase
         $config->group('test');
     }
 
-    public function testErrorEventByEmptyGroupName()
-    {
-        $loader = new TestExceptionLoader();
-        $config = new Config([$loader]);
-
-        $config->on('error', function (Event $event, Dispatcher $dispatcher) {
-            $this->assertEquals('config.error', $event->getName());
-            $this->assertEquals('', $event->get('group'));
-            $this->assertFalse($event->get('reload'));
-            $this->assertEquals(3, count($event));
-
-            $exception = $event->get('exception');
-
-            $this->assertInstanceOf(InvalidArgumentException::class, $exception);
-            $this->assertEquals('Invalid configuration group name.', $exception->getMessage());
-        });
-
-        $config->group('');
-    }
-
     public function testErrorEventWithReload()
     {
-        $loader = new TestExceptionLoader();
-        $config = new Config([$loader]);
+        $config = $this->createConfig([new TestExceptionLoader()]);
 
         $config->group('test'); // error
 

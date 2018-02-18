@@ -17,7 +17,7 @@ use Edoger\Config\AbstractLoader;
 
 class TestExceptionLoader extends AbstractLoader
 {
-    public function load(string $group, Closure $next): Repository
+    public function load(string $group, bool $reload, Closure $next): Repository
     {
         throw new Exception($group);
     }

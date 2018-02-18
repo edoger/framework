@@ -21,10 +21,35 @@ class ArrayLoaderTest extends TestCase
     protected $config;
     protected $dir;
 
+    public static function setUpBeforeClass()
+    {
+        @file_put_contents(
+            EDOGER_TESTS_TEMP.'/test.php',
+            '<?php'.PHP_EOL.'return ["key" => "foo"];'
+        );
+        @file_put_contents(
+            EDOGER_TESTS_TEMP.'/test.suffix.php',
+            '<?php'.PHP_EOL.'return ["key" => "bar"];'
+        );
+        @file_put_contents(
+            EDOGER_TESTS_TEMP.'/bad.php',
+            '<?php'.PHP_EOL.'return "bad";'
+        );
+    }
+
+    public static function tearDownAfterClass()
+    {
+        foreach (['/test.php', '/test.suffix.php', '/bad.php'] as $value) {
+            if (file_exists(EDOGER_TESTS_TEMP.$value)) {
+                @unlink(EDOGER_TESTS_TEMP.$value);
+            }
+        }
+    }
+
     protected function setUp()
     {
         $this->config = new Config();
-        $this->dir    = EDOGER_TESTS_ROOT.'/EdogerTests/Config/data';
+        $this->dir    = EDOGER_TESTS_TEMP;
     }
 
     protected function tearDown()
@@ -33,37 +58,46 @@ class ArrayLoaderTest extends TestCase
         $this->dir    = null;
     }
 
+    protected function createArrayLoader(string $suffix = null)
+    {
+        if (is_null($suffix)) {
+            return new ArrayLoader($this->dir);
+        }
+
+        return new ArrayLoader($this->dir, $suffix);
+    }
+
     public function testArrayLoaderExtendsAbstractLoader()
     {
-        $loader = new ArrayLoader('foo');
+        $loader = $this->createArrayLoader();
 
         $this->assertInstanceOf(AbstractLoader::class, $loader);
     }
 
     public function testArrayLoaderWithDefaultSuffix()
     {
-        $loader = new ArrayLoader($this->dir.'/php');
-        $this->config->pushLoader($loader);
+        $this->config->pushLoader($this->createArrayLoader());
+
         $group = $this->config->group('test');
 
         $this->assertInstanceOf(Repository::class, $group);
-        $this->assertEquals(['key' => 'value'], $group->toArray());
+        $this->assertEquals(['key' => 'foo'], $group->toArray());
     }
 
     public function testArrayLoaderWithUserSuffix()
     {
-        $loader = new ArrayLoader($this->dir.'/php', '.config.php');
-        $this->config->pushLoader($loader);
+        $this->config->pushLoader($this->createArrayLoader('.suffix.php'));
+
         $group = $this->config->group('test');
 
         $this->assertInstanceOf(Repository::class, $group);
-        $this->assertEquals(['key' => 1], $group->toArray());
+        $this->assertEquals(['key' => 'bar'], $group->toArray());
     }
 
     public function testArrayLoaderFileNotExists()
     {
-        $loader = new ArrayLoader($this->dir.'/php');
-        $this->config->pushLoader($loader);
+        $this->config->pushLoader($this->createArrayLoader());
+
         $group = $this->config->group('non'); // not found
 
         $this->assertInstanceOf(Repository::class, $group);
@@ -72,11 +106,11 @@ class ArrayLoaderTest extends TestCase
 
     public function testArrayLoaderBadFile()
     {
-        $loader = new ArrayLoader($this->dir.'/php');
-        $this->config->pushLoader($loader);
+        $this->config->pushLoader($this->createArrayLoader());
+
         $group = $this->config->group('bad'); // bad
 
         $this->assertInstanceOf(Repository::class, $group);
-        $this->assertEquals([], $group->toArray());
+        $this->assertEquals(['bad' => 'bad'], $group->toArray());
     }
 }

@@ -18,34 +18,46 @@ use EdogerTests\Config\Mocks\TestExceptionLoader;
 
 class ConfigGroupTest extends TestCase
 {
+    protected function createConfig(iterable $loaders = [])
+    {
+        return new Config($loaders);
+    }
+
+    protected function createLoader(string $group = 'test', array $value = [])
+    {
+        return new TestLoader($group, $value);
+    }
+
     public function testConfigGroupWithoutLoader()
     {
-        $config = new Config();
-
-        $group = $config->group('test');
+        $config = $this->createConfig();
+        $group  = $config->group('test');
 
         $this->assertInstanceOf(Repository::class, $group);
         $this->assertEquals([], $group->toArray());
     }
 
-    public function testConfigGroupReloadWithoutLoader()
+    public function testConfigGroupReload()
     {
-        $config = new Config();
+        $config = $this->createConfig([$this->createLoader('test', [true])]);
 
         $groupA = $config->group('test');
         $groupB = $config->group('test');
+
+        $config->pushLoader($this->createLoader('test', [false]));
+
         $groupC = $config->group('test', true);
 
-        $this->assertEquals(spl_object_hash($groupA), spl_object_hash($groupB));
-        $this->assertNotEquals(spl_object_hash($groupB), spl_object_hash($groupC));
+        $this->assertEquals($groupA, $groupB);
+        $this->assertNotEquals($groupB, $groupC);
     }
 
     public function testConfigGroupWithLoader()
     {
-        $loaderA = new TestLoader('testA', ['test' => 'A']);
-        $loaderB = new TestLoader('testB', ['test' => 'B']);
-
-        $config = new Config([$loaderA, $loaderB]);
+        $config = $this->createConfig([
+            $this->createLoader('testA', ['test' => 'A']),
+            $this->createLoader('testB', ['test' => 'B']),
+        ]);
 
         $groupA = $config->group('testA');
         $groupB = $config->group('testB');
@@ -62,34 +74,8 @@ class ConfigGroupTest extends TestCase
 
     public function testConfigGroupWithExceptionLoader()
     {
-        $loader = new TestExceptionLoader();
-        $config = new Config([$loader]);
-
-        $group = $config->group('test');
-
-        $this->assertInstanceOf(Repository::class, $group);
-        $this->assertEquals([], $group->toArray());
-    }
-
-    public function testConfigGroupReloadWithLoader()
-    {
-        $loader = new TestLoader('test', ['test']);
-        $config = new Config([$loader]);
-
-        $groupA = $config->group('test');
-        $groupB = $config->group('test');
-        $groupC = $config->group('test', true);
-
-        $this->assertEquals(spl_object_hash($groupA), spl_object_hash($groupB));
-        $this->assertNotEquals(spl_object_hash($groupB), spl_object_hash($groupC));
-    }
-
-    public function testConfigGroupByEmptyName()
-    {
-        $loader = new TestLoader('test', ['test']);
-        $config = new Config([$loader]);
-
-        $group = $config->group('');
+        $config = $this->createConfig([new TestExceptionLoader()]);
+        $group  = $config->group('test');
 
         $this->assertInstanceOf(Repository::class, $group);
         $this->assertEquals([], $group->toArray());

@@ -39,14 +39,15 @@ class CallableLoader extends AbstractLoader
     /**
      * Load the configuration group.
      *
-     * @param string  $group The configuration group name.
-     * @param Closure $next  The trigger for the next loader.
+     * @param string  $group  The configuration group name.
+     * @param bool    $reload Whether to reload the configuration group.
+     * @param Closure $next   The trigger for the next loader.
      *
      * @return Edoger\Config\Repository
      */
-    public function load(string $group, Closure $next): Repository
+    public function load(string $group, bool $reload, Closure $next): Repository
     {
-        $repository = call_user_func($this->loader, $group, $next);
+        $repository = call_user_func($this->loader, $group, $reload, $next);
 
         if ($repository instanceof Repository) {
             return $repository;

@@ -25,7 +25,7 @@ class TestLoader extends AbstractLoader
         $this->value = $value;
     }
 
-    public function load(string $group, Closure $next): Repository
+    public function load(string $group, bool $reload, Closure $next): Repository
     {
         if ($group === $this->group) {
             return new Repository($this->value);

@@ -15,16 +15,46 @@ use Edoger\Config\Repository;
 use PHPUnit\Framework\TestCase;
 use Edoger\Config\AbstractLoader;
 use Edoger\Config\Loaders\JsonLoader;
+use Edoger\Serializer\Exceptions\SerializerException;
 
 class JsonLoaderTest extends TestCase
 {
     protected $config;
     protected $dir;
 
+    public static function setUpBeforeClass()
+    {
+        @file_put_contents(
+            EDOGER_TESTS_TEMP.'/test.json',
+            json_encode(['key' => 'foo'])
+        );
+        @file_put_contents(
+            EDOGER_TESTS_TEMP.'/test.suffix.json',
+            json_encode(['key' => 'bar'])
+        );
+        @file_put_contents(
+            EDOGER_TESTS_TEMP.'/bad.json',
+            '"bad"'
+        );
+        @file_put_contents(
+            EDOGER_TESTS_TEMP.'/error.json',
+            '[[[[['
+        );
+    }
+
+    public static function tearDownAfterClass()
+    {
+        foreach (['/test.json', '/test.suffix.json', '/bad.json', '/error.json'] as $value) {
+            if (file_exists(EDOGER_TESTS_TEMP.$value)) {
+                @unlink(EDOGER_TESTS_TEMP.$value);
+            }
+        }
+    }
+
     protected function setUp()
     {
         $this->config = new Config();
-        $this->dir    = EDOGER_TESTS_ROOT.'/EdogerTests/Config/data';
+        $this->dir    = EDOGER_TESTS_TEMP;
     }
 
     protected function tearDown()
@@ -33,54 +63,77 @@ class JsonLoaderTest extends TestCase
         $this->dir    = null;
     }
 
+    protected function createJsonLoader(string $suffix = null)
+    {
+        if (is_null($suffix)) {
+            return new JsonLoader($this->dir);
+        }
+
+        return new JsonLoader($this->dir, $suffix);
+    }
+
     public function testJsonLoaderExtendsAbstractLoader()
     {
-        $loader = new JsonLoader('foo');
+        $loader = $this->createJsonLoader();
 
         $this->assertInstanceOf(AbstractLoader::class, $loader);
     }
 
     public function testJsonLoaderWithDefaultSuffix()
     {
-        $loader = new JsonLoader($this->dir.'/json');
-        $this->config->pushLoader($loader);
+        $this->config->pushLoader($this->createJsonLoader());
+
         $group = $this->config->group('test');
 
         $this->assertInstanceOf(Repository::class, $group);
-        $this->assertEquals(['key' => 'value'], $group->toArray());
-        $this->assertEquals(JSON_ERROR_NONE, json_last_error());
+        $this->assertEquals(['key' => 'foo'], $group->toArray());
     }
 
     public function testJsonLoaderWithUserSuffix()
     {
-        $loader = new JsonLoader($this->dir.'/json', '.config.json');
-        $this->config->pushLoader($loader);
+        $this->config->pushLoader($this->createJsonLoader('.suffix.json'));
+
         $group = $this->config->group('test');
 
         $this->assertInstanceOf(Repository::class, $group);
-        $this->assertEquals(['key' => 1], $group->toArray());
-        $this->assertEquals(JSON_ERROR_NONE, json_last_error());
+        $this->assertEquals(['key' => 'bar'], $group->toArray());
     }
 
     public function testJsonLoaderFileNotExists()
     {
-        $loader = new JsonLoader($this->dir.'/json');
-        $this->config->pushLoader($loader);
+        $this->config->pushLoader($this->createJsonLoader());
+
         $group = $this->config->group('non'); // not found
 
         $this->assertInstanceOf(Repository::class, $group);
         $this->assertEquals([], $group->toArray());
-        $this->assertEquals(JSON_ERROR_NONE, json_last_error());
     }
 
     public function testJsonLoaderBadFile()
     {
-        $loader = new JsonLoader($this->dir.'/json');
-        $this->config->pushLoader($loader);
+        $this->config->pushLoader($this->createJsonLoader());
+
         $group = $this->config->group('bad'); // bad
 
         $this->assertInstanceOf(Repository::class, $group);
+        $this->assertEquals(['bad' => 'bad'], $group->toArray());
+    }
+
+    public function testJsonLoaderErrorFile()
+    {
+        $error = false;
+
+        $this->config->pushLoader($this->createJsonLoader());
+        $this->config->on('error', function ($event, $dispatcher) use (&$error) {
+            $error = true;
+            $this->assertInstanceOf(SerializerException::class, $event->get('exception'));
+        });
+
+        $group = $this->config->group('error'); // error
+
+        $this->assertInstanceOf(Repository::class, $group);
         $this->assertEquals([], $group->toArray());
-        $this->assertNotEquals(JSON_ERROR_NONE, json_last_error());
+
+        $this->assertTrue($error);
     }
 }

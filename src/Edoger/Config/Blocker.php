@@ -31,32 +31,57 @@ class Blocker extends Wrapper implements BlockerContract
     }
 
     /**
-     * Block the current call stack.
+     * Handle the flow block event.
      *
-     * @param Edoger\Container\Container $input     The processor input parameter container.
-     * @param Throwable|null             $exception The captured processor exception.
+     * @param Edoger\Container\Container $input  The processor input parameter container.
+     * @param Edoger\Config\Repository   $result The processor flow return value.
      *
      * @return Edoger\Config\Repository
      */
-    public function block(Container $input, Throwable $exception = null)
+    public function block(Container $input, $result)
+    {
+        // A Edoger\Config\Repository instance.
+        return $result;
+    }
+
+    /**
+     * Handle the flow complete event.
+     *
+     * @param Edoger\Container\Container $input The processor input parameter container.
+     *
+     * @return Edoger\Config\Repository
+     */
+    public function complete(Container $input)
     {
         $trigger = $this->getOriginal();
 
-        if (is_null($exception)) {
-            // Trigger the "config.missed" event.
-            if ($trigger->hasEventListener('missed')) {
-                $trigger->emit('missed', $input);
-            }
-        } else {
-            // Trigger the "config.error" event.
-            if ($trigger->hasEventListener('error')) {
-                $trigger->emit('error', array_merge($input->toArray(), [
-                    'exception' => $exception,
-                ]));
-            }
+        // Trigger the "config.missed" event.
+        if ($trigger->hasEventListener('missed')) {
+            $trigger->emit('missed', $input);
         }
 
-        // By default, a repository is always returned.
+        return new Repository();
+    }
+
+    /**
+     * Handle the flow error event.
+     *
+     * @param Edoger\Container\Container $input     The processor input parameter container.
+     * @param Throwable                  $exception The captured flow processor exception.
+     *
+     * @return Edoger\Config\Repository
+     */
+    public function error(Container $input, Throwable $exception)
+    {
+        $trigger = $this->getOriginal();
+
+        // Trigger the "config.error" event.
+        if ($trigger->hasEventListener('error')) {
+            $trigger->emit('error', array_merge($input->toArray(), [
+                'exception' => $exception,
+            ]));
+        }
+
         return new Repository();
     }
 }

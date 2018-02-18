@@ -40,7 +40,7 @@ class CallableLoaderTest extends TestCase
 
     public function testCallableLoaderLoad()
     {
-        $loader = new CallableLoader(function (string $group, Closure $next) {
+        $loader = new CallableLoader(function (string $group, bool $reload, Closure $next) {
             if ('test' === $group) {
                 return new Repository([true]);
             }

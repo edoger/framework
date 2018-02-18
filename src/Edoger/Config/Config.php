@@ -11,7 +11,6 @@
 namespace Edoger\Config;
 
 use Edoger\Util\Arr;
-use Edoger\Flow\Flow;
 use RuntimeException;
 use Edoger\Event\Factory;
 use Edoger\Event\Trigger;
@@ -32,7 +31,7 @@ class Config extends Collector
     /**
      * The configuration group load flow.
      *
-     * @var Edoger\Flow\Flow
+     * @var Edoger\Config\Flow
      */
     protected $flow;
 
@@ -55,18 +54,31 @@ class Config extends Collector
      */
     public function __construct(iterable $loaders = [], Dispatcher $dispatcher = null)
     {
-        if (is_null($dispatcher)) {
-            $dispatcher = Factory::createEdogerDispatcher();
-        }
+        // Initialize the configuration event collector.
+        // If no event distributor is given, the system automatically creates a default event
+        // distributor with an "edoger" top-level namespace.
+        parent::__construct(
+            is_null($dispatcher) ? Factory::createEdogerDispatcher() : $dispatcher,
+            'config'
+        );
 
-        parent::__construct($dispatcher, 'config');
+        $this->initEventTrigger();
+        $this->initLoadFlow();
 
-        $this->trigger = new Trigger($dispatcher, 'config');
-        $this->flow    = new Flow(new Blocker($this->getTrigger()));
-
+        // Add predefined configuration group loaders.
         foreach ($loaders as $loader) {
             $this->pushLoader($loader);
         }
+    }
+
+    /**
+     * Initialize the configuration event trigger.
+     *
+     * @return void
+     */
+    protected function initEventTrigger(): void
+    {
+        $this->trigger = new Trigger($this->getEventDispatcher(), 'config');
     }
 
     /**
@@ -74,19 +86,85 @@ class Config extends Collector
      *
      * @return Edoger\Event\Trigger
      */
-    protected function getTrigger(): Trigger
+    protected function getEventTrigger(): Trigger
     {
         return $this->trigger;
     }
 
     /**
+     * Initialize the configuration load flow.
+     *
+     * @return void
+     */
+    protected function initLoadFlow(): void
+    {
+        $this->flow = new Flow(
+            new Blocker($this->getEventTrigger())
+        );
+    }
+
+    /**
      * Get the configuration group load flow.
      *
-     * @return Edoger\Flow\Flow
+     * @return Edoger\Config\Flow
      */
-    protected function getFlow(): Flow
+    protected function getLoadFlow(): Flow
     {
         return $this->flow;
+    }
+
+    /**
+     * Trigger the "config.loading" event.
+     *
+     * @param array $input The event handler input parameters.
+     *
+     * @return void
+     */
+    protected function emitLoadingEvent(array $input): void
+    {
+        $trigger = $this->getEventTrigger();
+
+        if ($trigger->hasEventListener('loading')) {
+            $trigger->emit('loading', $input);
+        }
+    }
+
+    /**
+     * Trigger the "config.loaded" event.
+     *
+     * @param array                    $input      The event handler input parameters.
+     * @param Edoger\Config\Repository $repository The configuration group repository instance.
+     *
+     * @return void
+     */
+    protected function emitLoadedEvent(array $input, Repository $repository): void
+    {
+        $trigger = $this->getEventTrigger();
+
+        if ($trigger->hasEventListener('loaded')) {
+            $trigger->emit('loaded', Arr::merge($input, ['repository' => $repository]));
+        }
+    }
+
+    /**
+     * Load a configuration group with a given name.
+     *
+     * @param string $group  The configuration group name.
+     * @param bool   $reload Whether to reload the configuration group.
+     *
+     * @return Edoger\Config\Repository
+     */
+    protected function load(string $group, bool $reload): Repository
+    {
+        $input = ['group' => $group, 'reload' => $reload];
+
+        $this->emitLoadingEvent($input);
+
+        $repository = $this->getLoadFlow()->start($input);
+
+        $this->emitLoadedEvent($input, $repository);
+
+        return $repository;
     }
 
     /**
@@ -96,7 +174,7 @@ class Config extends Collector
      */
     public function isEmptyLoaders(): bool
     {
-        return $this->getFlow()->isEmpty();
+        return $this->getLoadFlow()->isEmpty();
     }
 
     /**
@@ -106,7 +184,7 @@ class Config extends Collector
      */
     public function countLoaders(): int
     {
-        return $this->getFlow()->count();
+        return $this->getLoadFlow()->count();
     }
 
     /**
@@ -118,7 +196,7 @@ class Config extends Collector
     {
         // The loader is stored in the form of a stack,
         // and we have to restore the order of their additions.
-        return array_reverse($this->getFlow()->toArray());
+        return array_reverse($this->getLoadFlow()->toArray());
     }
 
     /**
@@ -131,9 +209,9 @@ class Config extends Collector
     public function pushLoader($loader): int
     {
         if ($loader instanceof AbstractLoader) {
-            return $this->getFlow()->append($loader, true);
+            return $this->getLoadFlow()->append($loader, true);
         } elseif (is_callable($loader)) {
-            return $this->getFlow()->append(new CallableLoader($loader), true);
+            return $this->getLoadFlow()->append(new CallableLoader($loader), true);
         } else {
             throw new InvalidArgumentException('Invalid configuration group loader.');
         }
@@ -154,7 +232,7 @@ class Config extends Collector
             );
         }
 
-        return $this->getFlow()->remove(true);
+        return $this->getLoadFlow()->remove(true);
     }
 
     /**
@@ -162,9 +240,9 @@ class Config extends Collector
      *
      * @return self
      */
-    public function clearLoaders()
+    public function clearLoaders(): self
     {
-        $this->getFlow()->clear();
+        $this->getLoadFlow()->clear();
 
         return $this;
     }
@@ -181,31 +259,7 @@ class Config extends Collector
     public function group(string $group, bool $reload = false): Repository
     {
         if ($reload || !Arr::has($this->groups, $group)) {
-            $trigger = $this->getTrigger();
-
-            // Trigger the "config.loading" event.
-            if ($trigger->hasEventListener('loading')) {
-                $trigger->emit('loading', [
-                    'group'  => $group,
-                    'reload' => $reload,
-                ]);
-            }
-
-            $repository = $this->getFlow()->start([
-                'group'  => $group,
-                'reload' => $reload,
-            ]);
-
-            // Trigger the "config.loaded" event.
-            if ($trigger->hasEventListener('loaded')) {
-                $trigger->emit('loaded', [
-                    'group'      => $group,
-                    'reload'     => $reload,
-                    'repository' => $repository,
-                ]);
-            }
-
-            $this->groups[$group] = $repository;
+            $this->groups[$group] = $this->load($group, $reload);
         }
 
         return $this->groups[$group];

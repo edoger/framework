@@ -13,71 +13,68 @@ namespace EdogerTests\Config\Cases;
 use RuntimeException;
 use Edoger\Config\Config;
 use Edoger\Event\Collector;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use EdogerTests\Config\Mocks\TestLoader;
 
-class ConfigTest extends TestCase
+class ConfigBaseTest extends TestCase
 {
+    protected function createConfig(iterable $loaders = [])
+    {
+        return new Config($loaders);
+    }
+
+    protected function createLoader(string $group = 'test', array $value = [])
+    {
+        return new TestLoader($group, $value);
+    }
+
     public function testConfigExtendsCollector()
     {
-        $config = new Config();
+        $config = $this->createConfig();
 
         $this->assertInstanceOf(Collector::class, $config);
     }
 
-    public function testConfigFail()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid configuration group loader.');
-
-        new Config([false]); // exception
-    }
-
     public function testConfigIsEmptyLoaders()
     {
-        $loader = new TestLoader();
-
-        $config = new Config();
+        $config = $this->createConfig();
         $this->assertTrue($config->isEmptyLoaders());
 
-        $config = new Config([$loader]);
+        $config = $this->createConfig([$this->createLoader()]);
         $this->assertFalse($config->isEmptyLoaders());
     }
 
     public function testConfigCountLoaders()
     {
-        $loader = new TestLoader();
-
-        $config = new Config();
+        $config = $this->createConfig();
         $this->assertEquals(0, $config->countLoaders());
 
-        $config = new Config([$loader]);
+        $config = $this->createConfig([$this->createLoader()]);
         $this->assertEquals(1, $config->countLoaders());
     }
 
     public function testConfigGetLoaders()
     {
-        $loaderA = new TestLoader('testA');
-        $loaderB = new TestLoader('testB');
+        $loaderA = $this->createLoader('testA');
+        $loaderB = $this->createLoader('testB');
 
-        $config = new Config();
+        $config = $this->createConfig();
         $this->assertEquals([], $config->getLoaders());
 
-        $config = new Config([$loaderA]);
+        $config = $this->createConfig([$loaderA]);
         $this->assertEquals([$loaderA], $config->getLoaders());
 
-        $config = new Config([$loaderA, $loaderB]);
+        $config = $this->createConfig([$loaderA, $loaderB]);
         $this->assertEquals([$loaderA, $loaderB], $config->getLoaders());
     }
 
     public function testConfigPushLoader()
     {
-        $loaderA = new TestLoader('testA');
-        $loaderB = new TestLoader('testB');
+        $loaderA = $this->createLoader('testA');
+        $loaderB = $this->createLoader('testB');
         $loaderC = function () {};
 
-        $config = new Config();
+        $config = $this->createConfig();
 
         $this->assertEquals(1, $config->pushLoader($loaderA));
         $this->assertEquals(2, $config->pushLoader($loaderB));
@@ -86,10 +83,10 @@ class ConfigTest extends TestCase
 
     public function testConfigPopLoader()
     {
-        $loaderA = new TestLoader('testA');
-        $loaderB = new TestLoader('testB');
-        $loaderC = new TestLoader('testC');
-        $config  = new Config([$loaderA, $loaderB, $loaderC]);
+        $loaderA = $this->createLoader('testA');
+        $loaderB = $this->createLoader('testB');
+        $loaderC = $this->createLoader('testC');
+        $config  = $this->createConfig([$loaderA, $loaderB, $loaderC]);
 
         $this->assertEquals($loaderC, $config->popLoader());
         $this->assertEquals([$loaderA, $loaderB], $config->getLoaders());
@@ -108,17 +105,15 @@ class ConfigTest extends TestCase
             'Unable to remove loader from the empty loader stack.'
         );
 
-        $config = new Config();
-
-        $config->popLoader(); // exception
+        $this->createConfig()->popLoader(); // exception
     }
 
     public function testConfigClearLoaders()
     {
-        $loaderA = new TestLoader('testA');
-        $loaderB = new TestLoader('testB');
-        $loaderC = new TestLoader('testC');
-        $config  = new Config([$loaderA, $loaderB, $loaderC]);
+        $loaderA = $this->createLoader('testA');
+        $loaderB = $this->createLoader('testB');
+        $loaderC = $this->createLoader('testC');
+        $config  = $this->createConfig([$loaderA, $loaderB, $loaderC]);
 
         $this->assertFalse($config->isEmptyLoaders());
         $this->assertEquals($config, $config->clearLoaders());
