@@ -13,9 +13,17 @@ namespace EdogerTests\Container\Cases;
 use stdClass;
 use Edoger\Container\Wrapper;
 use PHPUnit\Framework\TestCase;
+use Edoger\Util\Contracts\Wrapper as WrapperContract;
 
 class WrapperTest extends TestCase
 {
+    public function testWrapperInstanceOfWrapperContract()
+    {
+        $wrapper = new Wrapper('test');
+
+        $this->assertInstanceOf(WrapperContract::class, $wrapper);
+    }
+
     public function testWrapperGetSource()
     {
         $wrapper = new Wrapper('test');

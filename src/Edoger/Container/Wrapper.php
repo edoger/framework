@@ -10,7 +10,9 @@
 
 namespace Edoger\Container;
 
-class Wrapper
+use Edoger\Util\Contracts\Wrapper as WrapperContract;
+
+class Wrapper implements WrapperContract
 {
     /**
      * The original data.
