@@ -11,18 +11,28 @@
 namespace Edoger\Flow;
 
 use Closure;
-use Countable;
 use Throwable;
+use Edoger\Container\Store;
 use Edoger\Container\Container;
+use Edoger\Flow\Contracts\Flow;
 use Edoger\Flow\Contracts\Blocker;
 use Edoger\Flow\Contracts\Processor;
-use Edoger\Util\Contracts\Arrayable;
-use Edoger\Flow\Traits\FlowBlockerSupport;
-use Edoger\Flow\Traits\FlowProcessorStoreSupport;
 
-abstract class AbstractFlow implements Arrayable, Countable
+abstract class AbstractFlow implements Flow
 {
-    use FlowBlockerSupport, FlowProcessorStoreSupport;
+    /**
+     * The flow blocker.
+     *
+     * @var Edoger\Flow\Contracts\Blocker
+     */
+    protected $blocker;
+
+    /**
+     * The flow processor store.
+     *
+     * @var Edoger\Container\Store
+     */
+    protected $store;
 
     /**
      * The abstract flow constructor.
@@ -33,8 +43,77 @@ abstract class AbstractFlow implements Arrayable, Countable
      */
     public function __construct(Blocker $blocker)
     {
-        $this->initFlowBlockerSupport($blocker);
-        $this->initFlowProcessorStoreSupport();
+        $this->blocker = $blocker;
+        $this->store   = new Store();
+    }
+
+    /**
+     * Get current flow blocker.
+     *
+     * @return Edoger\Flow\Contracts\Blocker
+     */
+    protected function getBlocker(): Blocker
+    {
+        return $this->blocker;
+    }
+
+    /**
+     * Get flow processor store instance.
+     *
+     * @return Edoger\Container\Store
+     */
+    protected function getStore(): Store
+    {
+        return $this->store;
+    }
+
+    /**
+     * Create and return a flow processor queue instance.
+     *
+     * @return Edoger\Flow\ProcessorQueue
+     */
+    protected function createQueue(): ProcessorQueue
+    {
+        return new ProcessorQueue($this->getStore());
+    }
+
+    /**
+     * Run flow processors.
+     *
+     * @param Edoger\Flow\ProcessorQueue $queue The processor queue.
+     * @param Edoger\Container\Container $input The processor input parameter container.
+     * @param bool                       $top   Whether it is the top call stack.
+     *
+     * @return mixed
+     */
+    protected function run(ProcessorQueue $queue, Container $input, bool $top = false)
+    {
+        // If the current processor is the first one in the queue, we need to catch any
+        // exceptions that may be thrown. To do this, we will additionally introduce a
+        // recursive call.
+        if ($top) {
+            try {
+                return $this->run($queue, $input);
+            } catch (Throwable $exception) {
+                // If any one processor throws an exception, we all need to mark the
+                // queue as failed.
+                $queue->toFailed();
+
+                return $this->getBlocker()->error($input, $exception);
+            }
+        }
+
+        if ($queue->isEmpty()) {
+            // If the processor queue is already empty,then we think all the processors
+            // have completed. Set the processor queue status to completed.
+            $queue->toCompleted();
+
+            return $this->getBlocker()->complete($input);
+        }
+
+        return $this->doProcess($queue->dequeue(), $input, function () use ($queue, $input) {
+            return $this->run($queue, $input);
+        });
     }
 
     /**
@@ -46,77 +125,26 @@ abstract class AbstractFlow implements Arrayable, Countable
      */
     public function start($input = [])
     {
-        $input  = new Container($input);
-        $queue  = $this->createFlowProcessorQueue();
-        $result = $this->run($queue, new Container($input), true);
+        $input = new Container($input);
+        $queue = $this->createQueue();
 
-        // If the process handler has completed or thrown an exception,
-        // we will immediately return the result.
-        // Otherwise, the current flow is blocked and the system will
-        // immediately trigger the blocker block event.
-        if ($queue->isCompleted() || $queue->isFailed()) {
-            return $result;
-        } else {
-            return $this->getFlowBlocker()->block($input, $result);
-        }
-    }
+        // Run the flow processors.
+        $result = $this->run($queue, $input, true);
 
-    /**
-     * Run the task in the processing queue.
-     *
-     * @param Edoger\Flow\ProcessorQueue $queue The processor queue.
-     * @param Edoger\Container\Container $input The processor input parameter container.
-     * @param bool                       $top   Whether it is the top call stack.
-     *
-     * @return mixed
-     */
-    protected function run(ProcessorQueue $queue, Container $input, bool $top = false)
-    {
-        if ($queue->isEmpty()) {
-            // Mark all the current processors have been completed.
-            $queue->toCompleted();
-
-            return $this->getFlowBlocker()->complete($input);
-        }
-
-        if ($top) {
-            // Captures an exception only in the topmost call stack.
-            // This will introduce an additional recursive call.
-            // Any exception thrown in the processor will be passed to the blocker.
-            // We will not catch any blocker exceptions.
+        // If the processor has completed or thrown an exception, we will immediately return
+        // the result. Otherwise, the current flow is blocked and the system will immediately
+        // trigger the blocker block event.
+        if (!$queue->isCompleted() && !$queue->isFailed()) {
             try {
-                return $this->run($queue, $input);
+                $result = $this->getBlocker()->block($input, $result);
             } catch (Throwable $exception) {
-                // Mark the current processors throws an exception.
-                $queue->toFailed();
-
-                return $this->getFlowBlocker()->error($input, $exception);
+                // If the flow blocker's blocking event handler throws an exception, we also
+                // call the blocker's erroneous event handler.
+                return $this->getBlocker()->error($input, $exception);
             }
         }
 
-        return $this->doProcess($queue->dequeue(), $input, function () use ($queue, $input) {
-            return $this->run($queue, $input);
-        });
-    }
-
-    /**
-     * Get the current processor container as an array.
-     *
-     * @return array
-     */
-    public function toArray(): array
-    {
-        return $this->getFlowProcessorStore()->toArray();
-    }
-
-    /**
-     * Gets the size of the current processor container.
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return $this->getFlowProcessorStore()->count();
+        return $result;
     }
 
     /**

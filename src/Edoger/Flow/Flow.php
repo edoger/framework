@@ -11,11 +11,16 @@
 namespace Edoger\Flow;
 
 use Closure;
+use Countable;
 use Edoger\Container\Container;
 use Edoger\Flow\Contracts\Processor;
+use Edoger\Util\Contracts\Arrayable;
+use Edoger\Flow\Traits\ProcessorStoreSupport;
 
-class Flow extends AbstractFlow
+class Flow extends AbstractFlow implements Arrayable, Countable
 {
+    use ProcessorStoreSupport;
+
     /**
      * Run the flow processor.
      *
@@ -28,5 +33,25 @@ class Flow extends AbstractFlow
     protected function doProcess(Processor $processor, Container $input, Closure $next)
     {
         return $processor->process($input, $next);
+    }
+
+    /**
+     * Returns the current flow processors as an array.
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return $this->getStore()->toArray();
+    }
+
+    /**
+     * Gets the size of the current flow processor store.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return $this->getStore()->count();
     }
 }
