@@ -49,8 +49,6 @@ class Config extends Collector implements ConfigContract
      * @param iterable                $loaders    The configuration group loaders.
      * @param Edoger\Event\Dispatcher $dispatcher The configuration event dispatcher.
      *
-     * @throws InvalidArgumentException Thrown when the configuration group loader is invalid.
-     *
      * @return void
      */
     public function __construct(iterable $loaders = [], Dispatcher $dispatcher = null)
