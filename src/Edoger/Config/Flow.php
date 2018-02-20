@@ -11,11 +11,11 @@
 namespace Edoger\Config;
 
 use Closure;
-use Edoger\Flow\AbstractFlow;
 use Edoger\Container\Container;
+use Edoger\Flow\Flow as BaseFlow;
 use Edoger\Flow\Contracts\Processor;
 
-class Flow extends AbstractFlow
+class Flow extends BaseFlow
 {
     /**
      * Run the flow processor.

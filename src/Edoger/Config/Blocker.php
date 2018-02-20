@@ -11,6 +11,7 @@
 namespace Edoger\Config;
 
 use Throwable;
+use Edoger\Util\Arr;
 use Edoger\Event\Trigger;
 use Edoger\Container\Wrapper;
 use Edoger\Container\Container;
@@ -40,7 +41,6 @@ class Blocker extends Wrapper implements BlockerContract
      */
     public function block(Container $input, $result)
     {
-        // A Edoger\Config\Repository instance.
         return $result;
     }
 
@@ -53,11 +53,8 @@ class Blocker extends Wrapper implements BlockerContract
      */
     public function complete(Container $input)
     {
-        $trigger = $this->getOriginal();
-
-        // Trigger the "config.missed" event.
-        if ($trigger->hasEventListener('missed')) {
-            $trigger->emit('missed', $input);
+        if ($this->getOriginal()->hasEventListener('missed')) {
+            $this->getOriginal()->emit('missed', $input);
         }
 
         return new Repository();
@@ -73,13 +70,11 @@ class Blocker extends Wrapper implements BlockerContract
      */
     public function error(Container $input, Throwable $exception)
     {
-        $trigger = $this->getOriginal();
-
-        // Trigger the "config.error" event.
-        if ($trigger->hasEventListener('error')) {
-            $trigger->emit('error', array_merge($input->toArray(), [
-                'exception' => $exception,
-            ]));
+        if ($this->getOriginal()->hasEventListener('error')) {
+            $this->getOriginal()->emit(
+                'error',
+                Arr::merge($input->toArray(), ['exception' => $exception])
+            );
         }
 
         return new Repository();

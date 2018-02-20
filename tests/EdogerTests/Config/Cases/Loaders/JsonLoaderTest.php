@@ -14,37 +14,34 @@ use Edoger\Config\Config;
 use Edoger\Config\Repository;
 use PHPUnit\Framework\TestCase;
 use Edoger\Config\AbstractLoader;
+use Edoger\Config\AbstractFileLoader;
 use Edoger\Config\Loaders\JsonLoader;
 use Edoger\Serializer\Exceptions\SerializerException;
 
 class JsonLoaderTest extends TestCase
 {
     protected $config;
-    protected $dir;
 
     public static function setUpBeforeClass()
     {
-        @file_put_contents(
-            EDOGER_TESTS_TEMP.'/test.json',
-            json_encode(['key' => 'foo'])
-        );
-        @file_put_contents(
-            EDOGER_TESTS_TEMP.'/test.suffix.json',
-            json_encode(['key' => 'bar'])
-        );
-        @file_put_contents(
-            EDOGER_TESTS_TEMP.'/bad.json',
-            '"bad"'
-        );
-        @file_put_contents(
-            EDOGER_TESTS_TEMP.'/error.json',
-            '[[[[['
-        );
+        $dir = EDOGER_TESTS_TEMP;
+
+        @file_put_contents(EDOGER_TESTS_TEMP.'/test.json', json_encode(['key' => 'foo']));
+        @file_put_contents(EDOGER_TESTS_TEMP.'/test.suffix.json', json_encode(['key' => 'bar']));
+        @file_put_contents(EDOGER_TESTS_TEMP.'/bad.json', '"bad"');
+        @file_put_contents(EDOGER_TESTS_TEMP.'/error.json', 'error');
+
+        // Make sure the file does not exist.
+        if (file_exists(EDOGER_TESTS_TEMP.'/non.json')) {
+            @unlink(EDOGER_TESTS_TEMP.'/non.json');
+        }
     }
 
     public static function tearDownAfterClass()
     {
-        foreach (['/test.json', '/test.suffix.json', '/bad.json', '/error.json'] as $value) {
+        $files = ['/test.json', '/test.suffix.json', '/bad.json', '/error.json'];
+
+        foreach ($files as $value) {
             if (file_exists(EDOGER_TESTS_TEMP.$value)) {
                 @unlink(EDOGER_TESTS_TEMP.$value);
             }
@@ -54,22 +51,20 @@ class JsonLoaderTest extends TestCase
     protected function setUp()
     {
         $this->config = new Config();
-        $this->dir    = EDOGER_TESTS_TEMP;
     }
 
     protected function tearDown()
     {
         $this->config = null;
-        $this->dir    = null;
     }
 
     protected function createJsonLoader(string $suffix = null)
     {
         if (is_null($suffix)) {
-            return new JsonLoader($this->dir);
+            return new JsonLoader(EDOGER_TESTS_TEMP);
         }
 
-        return new JsonLoader($this->dir, $suffix);
+        return new JsonLoader(EDOGER_TESTS_TEMP, $suffix);
     }
 
     public function testJsonLoaderExtendsAbstractLoader()
@@ -77,6 +72,13 @@ class JsonLoaderTest extends TestCase
         $loader = $this->createJsonLoader();
 
         $this->assertInstanceOf(AbstractLoader::class, $loader);
+    }
+
+    public function testJsonLoaderExtendsAbstractFileLoader()
+    {
+        $loader = $this->createJsonLoader();
+
+        $this->assertInstanceOf(AbstractFileLoader::class, $loader);
     }
 
     public function testJsonLoaderWithDefaultSuffix()
@@ -124,16 +126,16 @@ class JsonLoaderTest extends TestCase
         $error = false;
 
         $this->config->pushLoader($this->createJsonLoader());
-        $this->config->on('error', function ($event, $dispatcher) use (&$error) {
-            $error = true;
+        $this->config->on('error', function ($event) use (&$error) {
             $this->assertInstanceOf(SerializerException::class, $event->get('exception'));
+
+            $error = true;
         });
 
-        $group = $this->config->group('error'); // error
-
-        $this->assertInstanceOf(Repository::class, $group);
-        $this->assertEquals([], $group->toArray());
+        $group = $this->config->group('error');
 
         $this->assertTrue($error);
+        $this->assertInstanceOf(Repository::class, $group);
+        $this->assertEquals([], $group->toArray());
     }
 }

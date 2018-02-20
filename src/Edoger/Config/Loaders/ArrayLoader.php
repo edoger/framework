@@ -10,27 +10,10 @@
 
 namespace Edoger\Config\Loaders;
 
-use Closure;
-use Edoger\Util\Arr;
-use Edoger\Config\Repository;
-use Edoger\Config\AbstractLoader;
+use Edoger\Config\AbstractFileLoader;
 
-class ArrayLoader extends AbstractLoader
+class ArrayLoader extends AbstractFileLoader
 {
-    /**
-     * The directory of the configuration files.
-     *
-     * @var string
-     */
-    protected $directory;
-
-    /**
-     * The suffix of the configuration file name.
-     *
-     * @var string
-     */
-    protected $suffix;
-
     /**
      * The array loader constructor.
      *
@@ -41,44 +24,18 @@ class ArrayLoader extends AbstractLoader
      */
     public function __construct(string $directory, string $suffix = '.php')
     {
-        $this->directory = rtrim(str_replace('\\', '/', $directory), '/').'/';
-        $this->suffix    = $suffix;
+        parent::__construct($directory, $suffix);
     }
 
     /**
-     * Load the configuration group.
+     * Read the configuration item from the configuration file.
      *
-     * @param string  $group  The configuration group name.
-     * @param bool    $reload Whether to reload the configuration group.
-     * @param Closure $next   The trigger for the next loader.
+     * @param string $file The configuration file path.
      *
-     * @return Edoger\Config\Repository
+     * @return mixed
      */
-    public function load(string $group, bool $reload, Closure $next): Repository
+    protected function read(string $file)
     {
-        $file = $this->directory.$group.$this->suffix;
-
-        if (file_exists($file)) {
-            return new Repository($this->read($file, $group));
-        }
-
-        return $next();
-    }
-
-    /**
-     * Read the configuration item in the configuration file.
-     *
-     * @param string $file  The configuration file path.
-     * @param string $group The configuration group name.
-     *
-     * @return array
-     */
-    protected function read(string $file, string $group): array
-    {
-        $items = call_user_func(function () use ($file) {
-            return require $file;
-        });
-
-        return Arr::wrap($items, $group);
+        return require $file;
     }
 }

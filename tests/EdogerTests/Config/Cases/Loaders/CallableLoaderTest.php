@@ -11,6 +11,7 @@
 namespace EdogerTests\Config\Cases\Loaders;
 
 use Closure;
+use RuntimeException;
 use Edoger\Config\Config;
 use Edoger\Config\Repository;
 use PHPUnit\Framework\TestCase;
@@ -33,30 +34,56 @@ class CallableLoaderTest extends TestCase
 
     public function testCallableLoaderExtendsAbstractLoader()
     {
-        $loader = new CallableLoader(function () {});
+        $loader = new CallableLoader(function () {
+            // do nothing
+        });
 
         $this->assertInstanceOf(AbstractLoader::class, $loader);
     }
 
     public function testCallableLoaderLoad()
     {
-        $loader = new CallableLoader(function (string $group, bool $reload, Closure $next) {
-            if ('test' === $group) {
-                return new Repository([true]);
-            }
+        $this->config->pushLoader(
+            new CallableLoader(function (string $group, bool $reload, Closure $next) {
+                if ('test' === $group) {
+                    return new Repository(['test' => 'test']);
+                }
 
-            return $next();
+                return $next();
+            })
+        );
+
+        $group = $this->config->group('test');
+        $this->assertInstanceOf(Repository::class, $group);
+        $this->assertEquals(['test' => 'test'], $group->toArray());
+
+        $group = $this->config->group('non');
+        $this->assertInstanceOf(Repository::class, $group);
+        $this->assertEquals([], $group->toArray());
+    }
+
+    public function testCallableLoaderLoadFail()
+    {
+        $error = false;
+
+        $this->config->pushLoader(
+            new CallableLoader(function () {
+                return 'foo';
+            })
+        );
+        $this->config->on('error', function ($event) use (&$error) {
+            $this->assertInstanceOf(RuntimeException::class, $event->get('exception'));
+            $this->assertEquals(
+                'The configuration group callable loader must return "Edoger\Config\Repository" instance.',
+                $event->get('exception')->getMessage()
+            );
+
+            $error = true;
         });
-
-        $this->config->pushLoader($loader);
 
         $group = $this->config->group('test');
 
-        $this->assertInstanceOf(Repository::class, $group);
-        $this->assertEquals([true], $group->toArray());
-
-        $group = $this->config->group('non');
-
+        $this->assertTrue($error);
         $this->assertInstanceOf(Repository::class, $group);
         $this->assertEquals([], $group->toArray());
     }

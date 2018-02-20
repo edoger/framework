@@ -14,32 +14,32 @@ use Edoger\Config\Config;
 use Edoger\Config\Repository;
 use PHPUnit\Framework\TestCase;
 use Edoger\Config\AbstractLoader;
+use Edoger\Config\AbstractFileLoader;
 use Edoger\Config\Loaders\ArrayLoader;
 
 class ArrayLoaderTest extends TestCase
 {
     protected $config;
-    protected $dir;
 
     public static function setUpBeforeClass()
     {
-        @file_put_contents(
-            EDOGER_TESTS_TEMP.'/test.php',
-            '<?php'.PHP_EOL.'return ["key" => "foo"];'
-        );
-        @file_put_contents(
-            EDOGER_TESTS_TEMP.'/test.suffix.php',
-            '<?php'.PHP_EOL.'return ["key" => "bar"];'
-        );
-        @file_put_contents(
-            EDOGER_TESTS_TEMP.'/bad.php',
-            '<?php'.PHP_EOL.'return "bad";'
-        );
+        $dir = EDOGER_TESTS_TEMP;
+
+        @file_put_contents($dir.'/test.php', '<?php'.PHP_EOL.'return ["key" => "foo"];');
+        @file_put_contents($dir.'/test.suffix.php', '<?php'.PHP_EOL.'return ["key" => "bar"];');
+        @file_put_contents($dir.'/bad.php', '<?php'.PHP_EOL.'return "bad";');
+
+        // Make sure the file does not exist.
+        if (file_exists(EDOGER_TESTS_TEMP.'/non.php')) {
+            @unlink(EDOGER_TESTS_TEMP.'/non.php');
+        }
     }
 
     public static function tearDownAfterClass()
     {
-        foreach (['/test.php', '/test.suffix.php', '/bad.php'] as $value) {
+        $files = ['/test.php', '/test.suffix.php', '/bad.php'];
+
+        foreach ($files as $value) {
             if (file_exists(EDOGER_TESTS_TEMP.$value)) {
                 @unlink(EDOGER_TESTS_TEMP.$value);
             }
@@ -49,22 +49,20 @@ class ArrayLoaderTest extends TestCase
     protected function setUp()
     {
         $this->config = new Config();
-        $this->dir    = EDOGER_TESTS_TEMP;
     }
 
     protected function tearDown()
     {
         $this->config = null;
-        $this->dir    = null;
     }
 
     protected function createArrayLoader(string $suffix = null)
     {
         if (is_null($suffix)) {
-            return new ArrayLoader($this->dir);
+            return new ArrayLoader(EDOGER_TESTS_TEMP);
         }
 
-        return new ArrayLoader($this->dir, $suffix);
+        return new ArrayLoader(EDOGER_TESTS_TEMP, $suffix);
     }
 
     public function testArrayLoaderExtendsAbstractLoader()
@@ -72,6 +70,13 @@ class ArrayLoaderTest extends TestCase
         $loader = $this->createArrayLoader();
 
         $this->assertInstanceOf(AbstractLoader::class, $loader);
+    }
+
+    public function testArrayLoaderExtendsAbstractFileLoader()
+    {
+        $loader = $this->createArrayLoader();
+
+        $this->assertInstanceOf(AbstractFileLoader::class, $loader);
     }
 
     public function testArrayLoaderWithDefaultSuffix()
@@ -94,7 +99,7 @@ class ArrayLoaderTest extends TestCase
         $this->assertEquals(['key' => 'bar'], $group->toArray());
     }
 
-    public function testArrayLoaderFileNotExists()
+    public function testArrayLoaderLoadNonExistentFile()
     {
         $this->config->pushLoader($this->createArrayLoader());
 
@@ -104,7 +109,7 @@ class ArrayLoaderTest extends TestCase
         $this->assertEquals([], $group->toArray());
     }
 
-    public function testArrayLoaderBadFile()
+    public function testArrayLoaderLoadBadFile()
     {
         $this->config->pushLoader($this->createArrayLoader());
 

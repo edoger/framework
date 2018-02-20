@@ -11,13 +11,10 @@
 namespace Edoger\Config;
 
 use Closure;
-use Edoger\Flow\Contracts\Processor;
-use Edoger\Flow\Traits\EmptyProcessorSupport;
+use Edoger\Flow\EmptyProcessor;
 
-abstract class AbstractLoader implements Processor
+abstract class AbstractLoader extends EmptyProcessor
 {
-    use EmptyProcessorSupport;
-
     /**
      * Load the configuration group.
      *

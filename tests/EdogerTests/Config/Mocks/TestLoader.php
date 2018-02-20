@@ -17,18 +17,18 @@ use Edoger\Config\AbstractLoader;
 class TestLoader extends AbstractLoader
 {
     protected $group;
-    protected $value;
+    protected $items;
 
-    public function __construct(string $group = 'test', array $value = [])
+    public function __construct(string $group = 'test', array $items = [])
     {
         $this->group = $group;
-        $this->value = $value;
+        $this->items = $items;
     }
 
     public function load(string $group, bool $reload, Closure $next): Repository
     {
         if ($group === $this->group) {
-            return new Repository($this->value);
+            return new Repository($this->items);
         }
 
         return $next();

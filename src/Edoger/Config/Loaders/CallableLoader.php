@@ -54,7 +54,7 @@ class CallableLoader extends AbstractLoader
         }
 
         throw new RuntimeException(
-            'The configuration group callable loader must return a repository instance.'
+            'The configuration group callable loader must return "Edoger\Config\Repository" instance.'
         );
     }
 }
