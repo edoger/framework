@@ -27,17 +27,17 @@ class SimpleBlockerTest extends TestCase
         $blocker = $this->createSimpleBlocker();
 
         $this->assertInstanceOf(Container::class, $blocker->block(new Container(), 'test'));
+
+        $input = new Container();
         $this->assertEquals(
-            ['result' => 'test'],
-            $blocker->block(new Container(), 'test')->toArray()
+            ['input' => $input, 'result' => 'test'],
+            $blocker->block($input, 'test')->toArray()
         );
+
+        $input = new Container(['foo' => 'foo']);
         $this->assertEquals(
-            ['foo' => 'foo', 'result' => 'test'],
-            $blocker->block(new Container(['foo' => 'foo']), 'test')->toArray()
-        );
-        $this->assertEquals(
-            ['result' => 'test'],
-            $blocker->block(new Container(['result' => 'foo']), 'test')->toArray()
+            ['input' => $input, 'result' => 'test'],
+            $blocker->block($input, 'test')->toArray()
         );
     }
 
@@ -46,9 +46,11 @@ class SimpleBlockerTest extends TestCase
         $blocker = $this->createSimpleBlocker();
 
         $this->assertInstanceOf(Container::class, $blocker->complete(new Container()));
+
+        $input = new Container(['foo' => 'foo']);
         $this->assertEquals(
-            ['foo' => 'foo'],
-            $blocker->complete(new Container(['foo' => 'foo']))->toArray()
+            ['input' => $input],
+            $blocker->complete($input)->toArray()
         );
     }
 
@@ -60,13 +62,16 @@ class SimpleBlockerTest extends TestCase
 
         $exception = new Exception('foo');
 
+        $input = new Container();
         $this->assertEquals(
-            ['exception' => $exception],
-            $blocker->error(new Container(), $exception)->toArray()
+            ['input' => $input, 'exception' => $exception],
+            $blocker->error($input, $exception)->toArray()
         );
+
+        $input = new Container(['exception' => 'foo']);
         $this->assertEquals(
-            ['exception' => $exception],
-            $blocker->error(new Container(['exception' => 'foo']), $exception)->toArray()
+            ['input' => $input, 'exception' => $exception],
+            $blocker->error($input, $exception)->toArray()
         );
     }
 }

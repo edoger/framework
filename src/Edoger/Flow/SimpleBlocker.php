@@ -11,7 +11,6 @@
 namespace Edoger\Flow;
 
 use Throwable;
-use Edoger\Util\Arr;
 use Edoger\Container\Container;
 use Edoger\Flow\Contracts\Blocker;
 
@@ -27,9 +26,7 @@ class SimpleBlocker implements Blocker
      */
     public function block(Container $input, $result)
     {
-        return new Container(Arr::merge($input->toArray(), [
-            'result' => $result,
-        ]));
+        return new Container(['input' => $input, 'result' => $result]);
     }
 
     /**
@@ -41,7 +38,7 @@ class SimpleBlocker implements Blocker
      */
     public function complete(Container $input)
     {
-        return new Container($input);
+        return new Container(['input' => $input]);
     }
 
     /**
@@ -54,8 +51,6 @@ class SimpleBlocker implements Blocker
      */
     public function error(Container $input, Throwable $exception)
     {
-        return new Container(Arr::merge($input->toArray(), [
-            'exception' => $exception,
-        ]));
+        return new Container(['input' => $input, 'exception' => $exception]);
     }
 }
