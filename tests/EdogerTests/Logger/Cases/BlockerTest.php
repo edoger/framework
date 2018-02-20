@@ -18,20 +18,41 @@ use Edoger\Flow\Contracts\Blocker as BlockerContract;
 
 class BlockerTest extends TestCase
 {
+    protected function createBlocker()
+    {
+        return new Blocker();
+    }
+
     public function testBlockerInstanceOfBlockerContract()
     {
-        $blocker = new Blocker();
+        $blocker = $this->createBlocker();
 
         $this->assertInstanceOf(BlockerContract::class, $blocker);
     }
 
     public function testBlockerBlock()
     {
-        $blocker   = new Blocker();
+        $blocker   = $this->createBlocker();
+        $container = new Container();
+
+        $this->assertTrue($blocker->block($container, true));
+        $this->assertFalse($blocker->block($container, false));
+    }
+
+    public function testBlockerComplete()
+    {
+        $blocker   = $this->createBlocker();
+        $container = new Container();
+
+        $this->assertTrue($blocker->complete($container));
+    }
+
+    public function testBlockerError()
+    {
+        $blocker   = $this->createBlocker();
         $container = new Container();
         $exception = new Exception('test');
 
-        $this->assertTrue($blocker->block($container));
-        $this->assertFalse($blocker->block($container, $exception));
+        $this->assertFalse($blocker->error($container, $exception));
     }
 }

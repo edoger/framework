@@ -11,24 +11,10 @@
 namespace Edoger\Logger;
 
 use Closure;
-use Edoger\Container\Container;
-use Edoger\Flow\Contracts\Processor;
+use Edoger\Flow\EmptyProcessor;
 
-abstract class AbstractHandler implements Processor
+abstract class AbstractHandler extends EmptyProcessor
 {
-    /**
-     * Process the current task.
-     *
-     * @param Edoger\Container\Container $input The processor input parameter container.
-     * @param Closure                    $next  The trigger for the next processor.
-     *
-     * @return mixed
-     */
-    final public function process(Container $input, Closure $next)
-    {
-        return $this->handle($input->get('channel'), $input->get('log'), $next);
-    }
-
     /**
      * Handle a log.
      *

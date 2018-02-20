@@ -11,7 +11,6 @@
 namespace Edoger\Logger;
 
 use Edoger\Util\Arr;
-use Edoger\Flow\Flow;
 use RuntimeException;
 use InvalidArgumentException;
 use Edoger\Logger\Handlers\CallableHandler;
@@ -28,7 +27,7 @@ class Logger
     /**
      * The log handle flow.
      *
-     * @var Edoger\Flow\Flow
+     * @var Edoger\Logger\Flow
      */
     protected $flow;
 
@@ -64,9 +63,9 @@ class Logger
     /**
      * Get the log handle flow.
      *
-     * @return Edoger\Flow\Flow
+     * @return Edoger\Logger\Flow
      */
-    protected function getFlow(): Flow
+    protected function getHandleFlow(): Flow
     {
         return $this->flow;
     }
@@ -78,7 +77,7 @@ class Logger
      */
     public function isEmptyHandlers(): bool
     {
-        return $this->getFlow()->isEmpty();
+        return $this->getHandleFlow()->isEmpty();
     }
 
     /**
@@ -88,7 +87,7 @@ class Logger
      */
     public function countHandlers(): int
     {
-        return $this->getFlow()->count();
+        return $this->getHandleFlow()->count();
     }
 
     /**
@@ -98,9 +97,15 @@ class Logger
      */
     public function getHandlers(): array
     {
+        $handlers = $this->getHandleFlow()->toArray();
+
+        if (empty($handlers)) {
+            return $handlers;
+        }
+
         // The handler is stored in the form of a stack,
         // and we have to restore the order of their additions.
-        return array_reverse($this->getFlow()->toArray());
+        return array_reverse($handlers);
     }
 
     /**
@@ -114,12 +119,16 @@ class Logger
     public function pushHandler($handler, bool $top = true): int
     {
         if ($handler instanceof AbstractHandler) {
-            return $this->getFlow()->append($handler, $top);
-        } elseif (is_callable($handler)) {
-            return $this->getFlow()->append(new CallableHandler($handler), $top);
-        } else {
-            throw new InvalidArgumentException('Invalid log handler.');
+            return $this->getHandleFlow()->append($handler, $top);
         }
+
+        // For a callable structure, we wrap it as a "Edoger\Logger\Handlers\CallableHandler"
+        // instance, and we do not automatically restore it when we get it.
+        if (is_callable($handler)) {
+            return $this->getHandleFlow()->append(new CallableHandler($handler), $top);
+        }
+
+        throw new InvalidArgumentException('Invalid log handler.');
     }
 
     /**
@@ -139,7 +148,7 @@ class Logger
             );
         }
 
-        return $this->getFlow()->remove($top);
+        return $this->getHandleFlow()->remove($top);
     }
 
     /**
@@ -149,7 +158,7 @@ class Logger
      */
     public function clearHandlers(): self
     {
-        $this->getFlow()->clear();
+        $this->getHandleFlow()->clear();
 
         return $this;
     }
@@ -176,7 +185,7 @@ class Logger
         // Cache the current log.
         $this->logs[] = $log;
 
-        return $this->getFlow()->start(['channel' => $this->channel, 'log' => $log]);
+        return $this->getHandleFlow()->start(['channel' => $this->channel, 'log' => $log]);
     }
 
     /**

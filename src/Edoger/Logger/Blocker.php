@@ -23,18 +23,44 @@ class Blocker implements BlockerContract
      */
     public function __construct()
     {
+        // do nothing
     }
 
     /**
-     * Block the current log handle stack.
+     * Handle the flow block event.
      *
-     * @param Edoger\Container\Container $input     The processor input parameter container.
-     * @param Throwable|null             $exception The captured processor exception.
+     * @param Edoger\Container\Container $input  The processor input parameter container.
+     * @param bool                       $result The processor flow return value.
      *
      * @return bool
      */
-    public function block(Container $input, Throwable $exception = null)
+    public function block(Container $input, $result)
     {
-        return $exception ? false : true;
+        return $result;
+    }
+
+    /**
+     * Handle the flow complete event.
+     *
+     * @param Edoger\Container\Container $input The processor input parameter container.
+     *
+     * @return bool
+     */
+    public function complete(Container $input)
+    {
+        return true;
+    }
+
+    /**
+     * Handle the flow error event.
+     *
+     * @param Edoger\Container\Container $input     The processor input parameter container.
+     * @param Throwable                  $exception The captured flow processor exception.
+     *
+     * @return bool
+     */
+    public function error(Container $input, Throwable $exception)
+    {
+        return false;
     }
 }
