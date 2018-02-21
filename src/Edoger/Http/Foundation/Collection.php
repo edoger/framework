@@ -49,13 +49,11 @@ class Collection extends CollectionContainer
      */
     public function getAny(iterable $keys, $default = null)
     {
-        foreach ($keys as $key) {
-            if ($this->has($key)) {
-                return $this->get($key);
-            }
+        if ($this->isEmpty()) {
+            return $default;
         }
 
-        return $default;
+        return Arr::getAny($this->elements, $keys, $default);
     }
 
     /**
