@@ -10,9 +10,9 @@
 
 namespace Edoger\Logger;
 
-use Edoger\Util\Arr;
+use Edoger\Util\Contracts\Arrayable;
 
-class Log
+class Log implements Arrayable
 {
     /**
      * The log level.
@@ -43,30 +43,20 @@ class Log
     protected $timestamp;
 
     /**
-     * Additional data for the current log.
-     *
-     * @var array
-     */
-    protected $extra;
-
-    /**
      * The log constructor.
      *
-     * @param int    $level     The log level.
-     * @param string $message   The log message.
-     * @param array  $context   The log context.
-     * @param int    $timestamp The log generation timestamp.
-     * @param mixed  $extra     Additional data for the current log.
+     * @param int    $level   The log level.
+     * @param string $message The log message.
+     * @param array  $context The log context.
      *
      * @return void
      */
-    public function __construct(int $level, string $message, array $context = [], int $timestamp = 0, $extra = [])
+    public function __construct(int $level, string $message, array $context = [])
     {
         $this->level     = $level;
         $this->message   = $message;
         $this->context   = $context;
-        $this->timestamp = $timestamp > 0 ? $timestamp : time();
-        $this->extra     = Arr::convert($extra);
+        $this->timestamp = time();
     }
 
     /**
@@ -86,7 +76,7 @@ class Log
      */
     public function getLevelName(): string
     {
-        return Levels::getLevelName($this->level);
+        return Levels::getLevelName($this->getLevel());
     }
 
     /**
@@ -132,110 +122,18 @@ class Log
     }
 
     /**
-     * Determines whether the current log extra data is empty.
-     *
-     * @return bool
-     */
-    public function isEmptyExtras(): bool
-    {
-        return empty($this->extra);
-    }
-
-    /**
-     * Determines whether a given key exists in the current log extra data.
-     *
-     * @param string $key The given key.
-     *
-     * @return bool
-     */
-    public function hasExtra(string $key): bool
-    {
-        return Arr::has($this->extra, $key);
-    }
-
-    /**
-     * Gets the value of the specified key in the current log extra data.
-     *
-     * @param string $key     The given key.
-     * @param mixed  $default The default value.
-     *
-     * @return mixed
-     */
-    public function getExtra(string $key, $default = null)
-    {
-        return Arr::get($this->extra, $key, $default);
-    }
-
-    /**
-     * Get all the extra data for the current log.
+     * Returns the current log instance as an array.
      *
      * @return array
      */
-    public function getExtras(): array
+    public function toArray(): array
     {
-        return $this->extra;
-    }
-
-    /**
-     * Sets the extra data for the current log.
-     *
-     * @param string $key   The extra data key.
-     * @param mixed  $value The extra data value.
-     *
-     * @return void
-     */
-    public function setExtra(string $key, $value): void
-    {
-        $this->extra[$key] = $value;
-    }
-
-    /**
-     * Replace all the extra data for the current log.
-     *
-     * @param mixed $extra The extra data.
-     *
-     * @return self
-     */
-    public function replaceExtras($extra)
-    {
-        $this->extra = Arr::convert($extra);
-
-        return $this;
-    }
-
-    /**
-     * Delete the extra data for the current log.
-     *
-     * @param string $key The extra data key.
-     *
-     * @return void
-     */
-    public function deleteExtra(string $key): void
-    {
-        if ($this->hasExtra($key)) {
-            unset($this->extra[$key]);
-        }
-    }
-
-    /**
-     * Clear all the extra data for the current log.
-     *
-     * @return self
-     */
-    public function clearExtras()
-    {
-        $this->extra = [];
-
-        return $this;
-    }
-
-    /**
-     * Gets the size of all the extra data for the current log.
-     *
-     * @return int
-     */
-    public function countExtras(): int
-    {
-        return count($this->extra);
+        return [
+            'level'     => $this->getLevel(),
+            'levelName' => $this->getLevelName(),
+            'message'   => $this->getMessage(),
+            'timestamp' => $this->getTimestamp(),
+            'context'   => $this->getContext(),
+        ];
     }
 }
