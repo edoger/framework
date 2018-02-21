@@ -10,6 +10,7 @@
 
 namespace Edoger\Config\Loaders;
 
+use Edoger\Util\Validator;
 use Edoger\Config\AbstractFileLoader;
 use Edoger\Serializer\JsonSerializer;
 
@@ -37,7 +38,7 @@ class JsonLoader extends AbstractFileLoader
      */
     protected function read(string $file)
     {
-        if ($json = file_get_contents($file)) {
+        if (Validator::isNotEmptyString($json = file_get_contents($file))) {
             return JsonSerializer::create()->deserialize($json, true);
         }
 
