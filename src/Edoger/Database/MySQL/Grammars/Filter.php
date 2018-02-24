@@ -1,0 +1,401 @@
+<?php
+
+/**
+ * This file is part of the Edoger framework.
+ *
+ * @author    Qingshan Luo <shanshan.lqs@gmail.com>
+ * @copyright 2017 - 2018 Qingshan Luo
+ * @license   GNU Lesser General Public License 3.0
+ */
+
+namespace Edoger\Database\MySQL\Grammars;
+
+use Closure;
+use Countable;
+use Edoger\Util\Arr;
+use Edoger\Util\Validator;
+use Edoger\Database\MySQL\Arguments;
+use Edoger\Util\Contracts\Arrayable;
+use Edoger\Database\MySQL\Foundation\Util;
+use Edoger\Database\MySQL\Foundation\Operator;
+use Edoger\Database\MySQL\Foundation\Connector;
+use Edoger\Database\MySQL\Exceptions\GrammarException;
+
+class Filter implements Arrayable, Countable
+{
+    /**
+     * The default filter connector.
+     *
+     * @var string
+     */
+    protected $connector;
+
+    /**
+     * All added filters.
+     *
+     * @var array
+     */
+    protected $filters = [];
+
+    /**
+     * The filter constructor.
+     *
+     * @param string $connector The default filter connector.
+     *
+     * @return void
+     */
+    public function __construct(string $connector = 'and')
+    {
+        $this->connector = Connector::standardize($connector);
+    }
+
+    /**
+     * Standardize the given filter connector.
+     *
+     * @param string|null $connector The given filter connector.
+     *
+     * @return string
+     */
+    protected function standardizeConnector($connector): string
+    {
+        if (is_null($connector)) {
+            return $this->connector;
+        }
+
+        return Connector::standardize($connector);
+    }
+
+    /**
+     * Add a scalar column filter.
+     *
+     * @param string      $column    The filter column name.
+     * @param scalar      $value     The filter column value.
+     * @param string|bool $operator  The filter operator.
+     * @param string|null $connector The filter connector.
+     *
+     * @return self
+     */
+    protected function addScalarFilter(string $column, $value, $operator, $connector): self
+    {
+        $this->filters[] = [
+            'compiler'  => 'simple',
+            'column'    => $column,
+            'value'     => $value,
+            'operator'  => Operator::standardizeSimpleOperator($operator),
+            'connector' => $this->standardizeConnector($connector),
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Add a range column filter.
+     *
+     * @param string      $column    The filter column name.
+     * @param array       $values    The filter column values.
+     * @param string|bool $operator  The filter operator.
+     * @param string|null $connector The filter connector.
+     *
+     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when the column value is empty.
+     *
+     * @return self
+     */
+    protected function addRangeFilter(string $column, array $values, $operator, $connector): self
+    {
+        if (empty($values)) {
+            throw new GrammarException('The filter range condition values can not be empty.');
+        }
+
+        $this->filters[] = [
+            'compiler'  => 'range',
+            'column'    => $column,
+            'values'    => $values,
+            'count'     => count($values),
+            'operator'  => Operator::standardizeRangeOperator($operator),
+            'connector' => $this->standardizeConnector($connector),
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Add a null column filter.
+     *
+     * @param string      $column    The filter column name.
+     * @param bool        $operator  The filter operator.
+     * @param string|null $connector The filter connector.
+     *
+     * @return self
+     */
+    protected function addNullFilter(string $column, $operator, $connector): self
+    {
+        $this->filters[] = [
+            'compiler'  => 'null',
+            'column'    => $column,
+            'operator'  => Operator::standardizeNullOperator($operator),
+            'connector' => $this->standardizeConnector($connector),
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Add a column filter.
+     *
+     * @param string      $column    The filter column name.
+     * @param mixed       $value     The filter value.
+     * @param mixed       $operator  The filter operator.
+     * @param string|null $connector The filter connector.
+     *
+     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when the column value is invalid.
+     *
+     * @return self
+     */
+    protected function addColumnFilter(string $column, $value, $operator, $connector): self
+    {
+        if (is_scalar($value)) {
+            return $this->addScalarFilter($column, $value, $operator, $connector);
+        }
+
+        if (is_iterable($value) || $value instanceof Arrayable) {
+            return $this->addRangeFilter($column, Arr::convert($value), $operator, $connector);
+        }
+
+        if (is_null($value)) {
+            return $this->addNullFilter($column, $operator, $connector);
+        }
+
+        throw new GrammarException('The column filter value is invalid.');
+    }
+
+    /**
+     * Add multiple column filters.
+     *
+     * @param array       $columns   The given columns.
+     * @param mixed       $operator  The filter operator.
+     * @param string|null $connector The filter connector.
+     *
+     * @return self
+     */
+    protected function addColumnFilters(array $columns, $operator, $connector): self
+    {
+        foreach ($columns as $column => $value) {
+            $this->addColumnFilter($column, $value, $operator, $connector);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add group filter.
+     *
+     * @param Closure     $builder        The filter builder.
+     * @param string|null $groupConnector The filter operator.
+     * @param string|null $connector      The filter connector.
+     *
+     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when the filter group connector is invalid.
+     *
+     * @return self
+     */
+    protected function addGroupFilter(Closure $builder, $groupConnector, $connector): self
+    {
+        if (is_null($groupConnector)) {
+            $groupConnector = 'and';
+        }
+
+        // The default connector for the filter group must be a string.
+        if (!is_string($groupConnector)) {
+            throw new GrammarException('Invalid sub-filter connector.');
+        }
+
+        $filter = new static($groupConnector);
+
+        // Build a filter group.
+        $builder($filter);
+
+        $this->filters[] = [
+            'compiler'  => 'group',
+            'filter'    => $filter,
+            'connector' => $this->standardizeConnector($connector),
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Compile a simple filter.
+     *
+     * @param string $column   The filter column.
+     * @param string $operator The filter operator.
+     *
+     * @return string
+     */
+    protected function compileSimpleFilter(string $column, string $operator): string
+    {
+        return Util::wrap($column).' '.$operator.' ?';
+    }
+
+    /**
+     * Compile a range filter.
+     *
+     * @param string $column   The filter column.
+     * @param string $operator The filter operator.
+     * @param int    $count    The filter values count.
+     *
+     * @return string
+     */
+    protected function compileRangeFilter(string $column, string $operator, int $count): string
+    {
+        $placeholder = implode(',', array_fill(0, $count, '?'));
+
+        return Util::wrap($column).' '.$operator.' ('.$placeholder.')';
+    }
+
+    /**
+     * Compile a null filter.
+     *
+     * @param string $column   The filter column.
+     * @param string $operator The filter operator.
+     *
+     * @return string
+     */
+    protected function compileNullFilter(string $column, string $operator): string
+    {
+        return Util::wrap($column).' '.$operator;
+    }
+
+    /**
+     * Determine if the current filter is empty.
+     *
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return empty($this->filters);
+    }
+
+    /**
+     * Add a filter.
+     *
+     * @param mixed       $column    The filter column.
+     * @param mixed       $value     The filter column value.
+     * @param bool|string $operator  The filter operator.
+     * @param string|null $connector The filter connector.
+     *
+     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when a parameter is missing.
+     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when the filter column is invalid.
+     *
+     * @return self
+     */
+    public function where($column, $value = null, $operator = true, string $connector = null): self
+    {
+        // Add a simple single-column filter.
+        // This is the most common scenario, we first parse.
+        if (Validator::isNotEmptyString($column)) {
+            // Only one parameter? We require at least two parameters.
+            if (1 === func_num_args()) {
+                throw new GrammarException('Missing filter column value.');
+            }
+
+            return $this->addColumnFilter($column, $value, $operator, $connector);
+        }
+
+        // Add simple filters for multiple columns.
+        if (is_iterable($column) || $column instanceof Arrayable) {
+            $args = func_get_args();
+
+            return $this->addColumnFilters(
+                Arr::convert($column),
+                Arr::get($args, 1, true),
+                Arr::get($args, 2)
+            );
+        }
+
+        // Add a sub-filter group.
+        if ($column instanceof Closure) {
+            $args = func_get_args();
+
+            return $this->addGroupFilter(
+                $column,
+                Arr::get($args, 1),
+                Arr::get($args, 2)
+            );
+        }
+
+        throw new GrammarException('Invalid filter column.');
+    }
+
+    /**
+     * Compile the current instance to a statement string.
+     *
+     * @param Edoger\Database\MySQL\Arguments $arguments The statement binding parameter manager.
+     *
+     * @return string
+     */
+    public function compile(Arguments $arguments): string
+    {
+        $fragments = [];
+
+        foreach ($this->filters as $filter) {
+            if ('simple' === $filter['compiler']) {
+                $fragments[] = $filter['connector'];
+                $fragments[] = $this->compileSimpleFilter($filter['column'], $filter['operator']);
+                $arguments->push($filter['value']);
+            } elseif ('range' === $filter['compiler']) {
+                $fragments[] = $filter['connector'];
+                $fragments[] = $this->compileRangeFilter($filter['column'], $filter['operator'], $filter['count']);
+                $arguments->push($filter['values']);
+            } elseif ('group' === $filter['compiler']) {
+                // Compile only if the filter is not empty.
+                if (!$filter['filter']->isEmpty()) {
+                    $fragments[] = $filter['connector'];
+                    $fragments[] = '('.$filter['filter']->compile($arguments).')';   
+                }
+            } elseif ('null' === $filter['compiler']) {
+                $fragments[] = $filter['connector'];
+                $fragments[] = $this->compileNullFilter($filter['column'], $filter['operator']);
+            } else {
+                // For unknown types of compilation, do nothing.
+            }
+        }
+
+        if (!empty($fragments)) {
+            // Remove the connector in the first place, because it is redundant.
+            array_shift($fragments);
+        }
+
+        return implode(' ', $fragments);
+    }
+
+    /**
+     * Clear all current filters.
+     *
+     * @return self
+     */
+    public function clear(): self
+    {
+        $this->filters = [];
+
+        return $this;
+    }
+
+    /**
+     * Returns the current filter instance as an array.
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return $this->filters;
+    }
+
+    /**
+     * Gets the size of the current conditions.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->filters);
+    }
+}
