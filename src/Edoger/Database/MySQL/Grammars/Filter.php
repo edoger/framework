@@ -13,6 +13,7 @@ namespace Edoger\Database\MySQL\Grammars;
 use Closure;
 use Countable;
 use Edoger\Util\Arr;
+use Edoger\Container\Wrapper;
 use Edoger\Database\MySQL\Arguments;
 use Edoger\Util\Contracts\Arrayable;
 use Edoger\Database\MySQL\Foundation\Util;
@@ -240,28 +241,21 @@ class Filter implements Arrayable, Countable
     /**
      * Add group filter.
      *
-     * @param Closure     $builder        The filter builder.
-     * @param string|null $groupConnector The filter operator.
-     * @param string|null $connector      The filter connector.
-     *
-     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when the filter group connector is invalid.
+     * @param Closure                  $builder   The filter builder.
+     * @param Edoger\Container\Wrapper $wrapper   The filter wrapper instance.
+     * @param string|null              $connector The filter connector.
      *
      * @return self
      */
-    public function addGroupFilter(Closure $builder, string $groupConnector = null, string $connector = null): self
+    public function addGroupFilter(Closure $builder, Wrapper $wrapper, string $connector = null): self
     {
-        if (is_null($groupConnector)) {
-            $groupConnector = 'and';
-        }
-
-        $filter = new static($groupConnector);
-
         // Build a filter group.
-        $builder($filter);
+        // This wrapper instance must contain a filter instance.
+        $builder($wrapper);
 
         $this->filters[] = [
             'compiler'  => 'group',
-            'filter'    => $filter,
+            'filter'    => $wrapper->getOriginal(),
             'connector' => $this->standardizeConnector($connector),
         ];
 

@@ -12,6 +12,7 @@ namespace EdogerTests\Database\Cases\MySQL\Grammars;
 
 use stdClass;
 use Countable;
+use Edoger\Container\Wrapper;
 use PHPUnit\Framework\TestCase;
 use Edoger\Database\MySQL\Arguments;
 use Edoger\Util\Contracts\Arrayable;
@@ -99,29 +100,22 @@ class FilterTest extends TestCase
 
     public function testFilterAddGroupFilter()
     {
-        $filter = $this->createFilter();
+        $filter  = $this->createFilter();
+        $wrapper = new Wrapper($this->createFilter());
 
-        $this->assertEquals($filter, $filter->addGroupFilter(function ($filter) {
-            $this->assertInstanceOf(Filter::class, $filter);
-        }));
+        $this->assertEquals($filter, $filter->addGroupFilter(function ($wrapper) {
+            $this->assertInstanceOf(Wrapper::class, $wrapper);
+            $this->assertInstanceOf(Filter::class, $wrapper->getOriginal());
+        }, $wrapper));
 
-        $this->assertEquals($filter, $filter->addGroupFilter(function ($filter) {
-            $filter->addColumnFilter('foo', 'foo');
-            $filter->addColumnFilter('bar', 'bar');
-        }));
+        $this->assertEquals($filter, $filter->addGroupFilter(function ($wrapper) {
+            $wrapper->getOriginal()->addColumnFilter('foo', 'foo');
+            $wrapper->getOriginal()->addColumnFilter('bar', 'bar');
+        }, $wrapper));
 
-        $this->assertEquals($filter, $filter->addGroupFilter(function ($filter) {
-            $filter->addColumnFilter('foo', 'foo');
-        }, 'or'));
-        $this->assertEquals($filter, $filter->addGroupFilter(function ($filter) {
-            $filter->addColumnFilter('foo', 'foo');
-        }, 'and'));
-        $this->assertEquals($filter, $filter->addGroupFilter(function ($filter) {
-            $filter->addColumnFilter('foo', 'foo');
-        }, null));
-        $this->assertEquals($filter, $filter->addGroupFilter(function ($filter) {
-            $filter->addColumnFilter('foo', 'foo');
-        }, null, 'or'));
+        $this->assertEquals($filter, $filter->addGroupFilter(function ($wrapper) {
+            $wrapper->getOriginal()->addColumnFilter('foo', 'foo');
+        }, $wrapper, 'or'));
     }
 
     public function testFilterCompile()
@@ -169,12 +163,13 @@ class FilterTest extends TestCase
     {
         $filter    = $this->createFilter();
         $arguments = Arguments::create();
+        $wrapper   = new Wrapper($this->createFilter('or'));
 
         $filter
             ->addColumnFilter('foo', 'foo')
-            ->addGroupFilter(function ($filter) {
-                $filter->addColumnFilter('a', 1)->addColumnFilter('a', 5);
-            }, 'or')
+            ->addGroupFilter(function ($wrapper) {
+                $wrapper->getOriginal()->addColumnFilter('a', 1)->addColumnFilter('a', 5);
+            }, $wrapper)
             ->addColumnFilter('bar', '%bar%', 'like');
 
         $this->assertEquals('`foo` = ? AND (`a` = ? OR `a` = ?) AND `bar` LIKE ?', $filter->compile($arguments));
