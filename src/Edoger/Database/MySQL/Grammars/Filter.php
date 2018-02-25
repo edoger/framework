@@ -13,7 +13,6 @@ namespace Edoger\Database\MySQL\Grammars;
 use Closure;
 use Countable;
 use Edoger\Util\Arr;
-use Edoger\Util\Validator;
 use Edoger\Database\MySQL\Arguments;
 use Edoger\Util\Contracts\Arrayable;
 use Edoger\Database\MySQL\Foundation\Util;
@@ -140,89 +139,6 @@ class Filter implements Arrayable, Countable
     }
 
     /**
-     * Add a column filter.
-     *
-     * @param string      $column    The filter column name.
-     * @param mixed       $value     The filter value.
-     * @param mixed       $operator  The filter operator.
-     * @param string|null $connector The filter connector.
-     *
-     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when the column value is invalid.
-     *
-     * @return self
-     */
-    protected function addColumnFilter(string $column, $value, $operator, $connector): self
-    {
-        if (is_scalar($value)) {
-            return $this->addScalarFilter($column, $value, $operator, $connector);
-        }
-
-        if (is_iterable($value) || $value instanceof Arrayable) {
-            return $this->addRangeFilter($column, Arr::convert($value), $operator, $connector);
-        }
-
-        if (is_null($value)) {
-            return $this->addNullFilter($column, $operator, $connector);
-        }
-
-        throw new GrammarException('The column filter value is invalid.');
-    }
-
-    /**
-     * Add multiple column filters.
-     *
-     * @param array       $columns   The given columns.
-     * @param mixed       $operator  The filter operator.
-     * @param string|null $connector The filter connector.
-     *
-     * @return self
-     */
-    protected function addColumnFilters(array $columns, $operator, $connector): self
-    {
-        foreach ($columns as $column => $value) {
-            $this->addColumnFilter($column, $value, $operator, $connector);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Add group filter.
-     *
-     * @param Closure     $builder        The filter builder.
-     * @param string|null $groupConnector The filter operator.
-     * @param string|null $connector      The filter connector.
-     *
-     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when the filter group connector is invalid.
-     *
-     * @return self
-     */
-    protected function addGroupFilter(Closure $builder, $groupConnector, $connector): self
-    {
-        if (is_null($groupConnector)) {
-            $groupConnector = 'and';
-        }
-
-        // The default connector for the filter group must be a string.
-        if (!is_string($groupConnector)) {
-            throw new GrammarException('Invalid sub-filter connector.');
-        }
-
-        $filter = new static($groupConnector);
-
-        // Build a filter group.
-        $builder($filter);
-
-        $this->filters[] = [
-            'compiler'  => 'group',
-            'filter'    => $filter,
-            'connector' => $this->standardizeConnector($connector),
-        ];
-
-        return $this;
-    }
-
-    /**
      * Compile a simple filter.
      *
      * @param string $column   The filter column.
@@ -275,54 +191,81 @@ class Filter implements Arrayable, Countable
     }
 
     /**
-     * Add a filter.
+     * Add a column filter.
      *
-     * @param mixed       $column    The filter column.
-     * @param mixed       $value     The filter column value.
-     * @param bool|string $operator  The filter operator.
+     * @param string      $column    The filter column name.
+     * @param mixed       $value     The filter value.
+     * @param string|bool $operator  The filter operator.
      * @param string|null $connector The filter connector.
      *
-     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when a parameter is missing.
-     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when the filter column is invalid.
+     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when the column value is invalid.
      *
      * @return self
      */
-    public function where($column, $value = null, $operator = true, string $connector = null): self
+    public function addColumnFilter(string $column, $value, $operator = true, string $connector = null): self
     {
-        // Add a simple single-column filter.
-        // This is the most common scenario, we first parse.
-        if (Validator::isNotEmptyString($column)) {
-            // Only one parameter? We require at least two parameters.
-            if (1 === func_num_args()) {
-                throw new GrammarException('Missing filter column value.');
-            }
-
-            return $this->addColumnFilter($column, $value, $operator, $connector);
+        if (is_scalar($value)) {
+            return $this->addScalarFilter($column, $value, $operator, $connector);
         }
 
-        // Add simple filters for multiple columns.
-        if (is_iterable($column) || $column instanceof Arrayable) {
-            $args = func_get_args();
-
-            return $this->addColumnFilters(
-                Arr::convert($column),
-                Arr::get($args, 1, true),
-                Arr::get($args, 2)
-            );
+        if (is_iterable($value) || $value instanceof Arrayable) {
+            return $this->addRangeFilter($column, Arr::convert($value), $operator, $connector);
         }
 
-        // Add a sub-filter group.
-        if ($column instanceof Closure) {
-            $args = func_get_args();
-
-            return $this->addGroupFilter(
-                $column,
-                Arr::get($args, 1),
-                Arr::get($args, 2)
-            );
+        if (is_null($value)) {
+            return $this->addNullFilter($column, $operator, $connector);
         }
 
-        throw new GrammarException('Invalid filter column.');
+        throw new GrammarException('The column filter value is invalid.');
+    }
+
+    /**
+     * Add multiple column filters.
+     *
+     * @param array       $columns   The given columns.
+     * @param mixed       $operator  The filter operator.
+     * @param string|null $connector The filter connector.
+     *
+     * @return self
+     */
+    public function addColumnFilters(array $columns, $operator = true, string $connector = null): self
+    {
+        foreach ($columns as $column => $value) {
+            $this->addColumnFilter($column, $value, $operator, $connector);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add group filter.
+     *
+     * @param Closure     $builder        The filter builder.
+     * @param string|null $groupConnector The filter operator.
+     * @param string|null $connector      The filter connector.
+     *
+     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when the filter group connector is invalid.
+     *
+     * @return self
+     */
+    public function addGroupFilter(Closure $builder, string $groupConnector = null, string $connector = null): self
+    {
+        if (is_null($groupConnector)) {
+            $groupConnector = 'and';
+        }
+
+        $filter = new static($groupConnector);
+
+        // Build a filter group.
+        $builder($filter);
+
+        $this->filters[] = [
+            'compiler'  => 'group',
+            'filter'    => $filter,
+            'connector' => $this->standardizeConnector($connector),
+        ];
+
+        return $this;
     }
 
     /**
@@ -349,7 +292,7 @@ class Filter implements Arrayable, Countable
                 // Compile only if the filter is not empty.
                 if (!$filter['filter']->isEmpty()) {
                     $fragments[] = $filter['connector'];
-                    $fragments[] = '('.$filter['filter']->compile($arguments).')';   
+                    $fragments[] = '('.$filter['filter']->compile($arguments).')';
                 }
             } elseif ('null' === $filter['compiler']) {
                 $fragments[] = $filter['connector'];

@@ -44,54 +44,46 @@ class FilterTest extends TestCase
         $filter = $this->createFilter();
 
         $this->assertTrue($filter->isEmpty());
-        $filter->where('foo', 'foo');
+        $filter->addColumnFilter('foo', 'foo');
         $this->assertFalse($filter->isEmpty());
     }
 
-    public function testFilterWhereColumnCondition()
+    public function testFilterAddColumnFilter()
     {
         $filter = $this->createFilter();
 
-        $this->assertEquals($filter, $filter->where('foo', 'foo'));
-        $this->assertEquals($filter, $filter->where('foo', true));
-        $this->assertEquals($filter, $filter->where('foo', 100));
-        $this->assertEquals($filter, $filter->where('foo', null));
-        $this->assertEquals($filter, $filter->where('foo', ['bar', 'baz']));
-
-        $this->assertEquals($filter, $filter->where('foo', 'foo', '>'));
-        $this->assertEquals($filter, $filter->where('foo', 'foo', '<', 'or'));
+        $this->assertEquals($filter, $filter->addColumnFilter('foo', 'foo'));
+        $this->assertEquals($filter, $filter->addColumnFilter('foo', true));
+        $this->assertEquals($filter, $filter->addColumnFilter('foo', 100));
+        $this->assertEquals($filter, $filter->addColumnFilter('foo', null));
+        $this->assertEquals($filter, $filter->addColumnFilter('foo', ['bar', 'baz']));
+        $this->assertEquals($filter, $filter->addColumnFilter('foo', 'foo', '>'));
+        $this->assertEquals($filter, $filter->addColumnFilter('foo', 'foo', '<', 'or'));
+        $this->assertEquals($filter, $filter->addColumnFilter('foo', 'foo', true, 'or'));
     }
 
-    public function testFilterWhereColumnConditionFailByMissingColumnValue()
-    {
-        $this->expectException(GrammarException::class);
-        $this->expectExceptionMessage('Missing filter column value.');
-
-        $this->createFilter()->where('foo'); // exception
-    }
-
-    public function testFilterWhereColumnConditionFailByEmptyColumnValues()
+    public function testFilterAddColumnFilterFailByEmptyColumnValues()
     {
         $this->expectException(GrammarException::class);
         $this->expectExceptionMessage('The filter range condition values can not be empty.');
 
-        $this->createFilter()->where('foo', []); // exception
+        $this->createFilter()->addColumnFilter('foo', []); // exception
     }
 
-    public function testFilterWhereColumnConditionFailByInvalidColumnValue()
+    public function testFilterAddColumnFilterFailByInvalidColumnValue()
     {
         $this->expectException(GrammarException::class);
         $this->expectExceptionMessage('The column filter value is invalid.');
 
-        $this->createFilter()->where('foo', new stdClass()); // exception
+        $this->createFilter()->addColumnFilter('foo', new stdClass()); // exception
     }
 
-    public function testFilterWhereMultipleColumnCondition()
+    public function testFilterAddColumnFilters()
     {
         $filter = $this->createFilter();
 
-        $this->assertEquals($filter, $filter->where([]));
-        $this->assertEquals($filter, $filter->where([
+        $this->assertEquals($filter, $filter->addColumnFilters([]));
+        $this->assertEquals($filter, $filter->addColumnFilters([
             'foo' => 'foo',
             'bar' => true,
             'baz' => ['a', 'b'],
@@ -99,54 +91,37 @@ class FilterTest extends TestCase
             'bah' => 100,
         ]));
 
-        $this->assertEquals($filter, $filter->where(['foo' => 'foo']));
-        $this->assertEquals($filter, $filter->where(['foo' => 'foo'], '>'));
-        $this->assertEquals($filter, $filter->where(['foo' => 'foo'], '>', 'or'));
+        $this->assertEquals($filter, $filter->addColumnFilters(['foo' => 'foo']));
+        $this->assertEquals($filter, $filter->addColumnFilters(['foo' => 'foo'], '>'));
+        $this->assertEquals($filter, $filter->addColumnFilters(['foo' => 'foo'], '>', 'or'));
+        $this->assertEquals($filter, $filter->addColumnFilters(['foo' => 'foo'], true, 'or'));
     }
 
-    public function testFilterWhereGroupCondition()
+    public function testFilterAddGroupFilter()
     {
         $filter = $this->createFilter();
 
-        $this->assertEquals($filter, $filter->where(function ($filter) {
+        $this->assertEquals($filter, $filter->addGroupFilter(function ($filter) {
             $this->assertInstanceOf(Filter::class, $filter);
         }));
 
-        $this->assertEquals($filter, $filter->where(function ($filter) {
-            $filter->where('foo', 'foo');
-            $filter->where('bar', 'bar');
+        $this->assertEquals($filter, $filter->addGroupFilter(function ($filter) {
+            $filter->addColumnFilter('foo', 'foo');
+            $filter->addColumnFilter('bar', 'bar');
         }));
 
-        $this->assertEquals($filter, $filter->where(function ($filter) {
-            $filter->where('foo', 'foo');
+        $this->assertEquals($filter, $filter->addGroupFilter(function ($filter) {
+            $filter->addColumnFilter('foo', 'foo');
         }, 'or'));
-        $this->assertEquals($filter, $filter->where(function ($filter) {
-            $filter->where('foo', 'foo');
+        $this->assertEquals($filter, $filter->addGroupFilter(function ($filter) {
+            $filter->addColumnFilter('foo', 'foo');
         }, 'and'));
-        $this->assertEquals($filter, $filter->where(function ($filter) {
-            $filter->where('foo', 'foo');
+        $this->assertEquals($filter, $filter->addGroupFilter(function ($filter) {
+            $filter->addColumnFilter('foo', 'foo');
         }, null));
-        $this->assertEquals($filter, $filter->where(function ($filter) {
-            $filter->where('foo', 'foo');
+        $this->assertEquals($filter, $filter->addGroupFilter(function ($filter) {
+            $filter->addColumnFilter('foo', 'foo');
         }, null, 'or'));
-    }
-
-    public function testFilterWhereGroupConditionFailByInvalidSubFilterConnector()
-    {
-        $this->expectException(GrammarException::class);
-        $this->expectExceptionMessage('Invalid sub-filter connector.');
-
-        $this->createFilter()->where(function ($filter) {
-            // do nothing
-        }, new stdClass()); // exception
-    }
-
-    public function testFilterWhereFailByInvalidFilterColumn()
-    {
-        $this->expectException(GrammarException::class);
-        $this->expectExceptionMessage('Invalid filter column.');
-
-        $this->createFilter()->where(new stdClass(), 'foo'); // exception
     }
 
     public function testFilterCompile()
@@ -155,11 +130,11 @@ class FilterTest extends TestCase
         $arguments = Arguments::create();
 
         $this->assertEquals('', $filter->compile($arguments));
-        $filter->where('foo', 'foo');
+        $filter->addColumnFilter('foo', 'foo');
         $this->assertEquals('`foo` = ?', $filter->compile($arguments));
         $this->assertEquals(['foo'], $arguments->toArray());
 
-        $filter->where('bar', true, '>=', 'or');
+        $filter->addColumnFilter('bar', true, '>=', 'or');
         $this->assertEquals('`foo` = ? OR `bar` >= ?', $filter->compile($arguments->clear()));
         $this->assertEquals(['foo', 1], $arguments->toArray());
     }
@@ -169,7 +144,7 @@ class FilterTest extends TestCase
         $filter    = $this->createFilter();
         $arguments = Arguments::create();
 
-        $filter->where([
+        $filter->addColumnFilters([
             'foo' => 'foo',
             'bar' => false,
             'baz' => null,
@@ -184,7 +159,7 @@ class FilterTest extends TestCase
         $filter    = $this->createFilter();
         $arguments = Arguments::create();
 
-        $filter->where('foo', ['a', 100, true, null], false);
+        $filter->addColumnFilter('foo', ['a', 100, true, null], false);
 
         $this->assertEquals('`foo` NOT IN (?,?,?,?)', $filter->compile($arguments));
         $this->assertEquals(['a', 100, 1, ''], $arguments->toArray());
@@ -196,11 +171,11 @@ class FilterTest extends TestCase
         $arguments = Arguments::create();
 
         $filter
-            ->where('foo', 'foo')
-            ->where(function ($filter) {
-                $filter->where('a', 1)->where('a', 5);
+            ->addColumnFilter('foo', 'foo')
+            ->addGroupFilter(function ($filter) {
+                $filter->addColumnFilter('a', 1)->addColumnFilter('a', 5);
             }, 'or')
-            ->where('bar', '%bar%', 'like');
+            ->addColumnFilter('bar', '%bar%', 'like');
 
         $this->assertEquals('`foo` = ? AND (`a` = ? OR `a` = ?) AND `bar` LIKE ?', $filter->compile($arguments));
         $this->assertEquals(['foo', 1, 5, '%bar%'], $arguments->toArray());
@@ -210,8 +185,8 @@ class FilterTest extends TestCase
     {
         $filter = $this->createFilter();
 
-        $filter->where('foo', 'foo');
-        $filter->where('bar', 'bar');
+        $filter->addColumnFilter('foo', 'foo');
+        $filter->addColumnFilter('bar', 'bar');
 
         $this->assertFalse($filter->isEmpty());
         $this->assertEquals($filter, $filter->clear());
@@ -224,7 +199,7 @@ class FilterTest extends TestCase
 
         $this->assertEquals([], $filter->toArray());
 
-        $filter->where('foo', 'foo');
+        $filter->addColumnFilter('foo', 'foo');
         $this->assertEquals(
             [
                 [
@@ -245,7 +220,7 @@ class FilterTest extends TestCase
 
         $this->assertEquals(0, count($filter));
 
-        $filter->where('foo', 'foo');
+        $filter->addColumnFilter('foo', 'foo');
         $this->assertEquals(1, count($filter));
     }
 }
