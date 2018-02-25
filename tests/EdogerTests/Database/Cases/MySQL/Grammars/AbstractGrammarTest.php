@@ -54,14 +54,6 @@ class AbstractGrammarTest extends TestCase
         return new TestGrammar($this->database, $this->table);
     }
 
-    public function testTestGrammarExtendsAbstractGrammar()
-    {
-        $grammar = $this->createTestGrammar();
-
-        $this->assertInstanceOf(TestGrammar::class, $grammar);
-        $this->assertInstanceOf(AbstractGrammar::class, $grammar);
-    }
-
     public function testAbstractGrammarCreate()
     {
         $grammar = TestGrammar::create($this->database, $this->table);
@@ -97,15 +89,5 @@ class AbstractGrammarTest extends TestCase
         $grammar = $this->createTestGrammar();
 
         $this->assertEquals('`edoger`.`users`', $grammar->getWrappedFullTableName());
-    }
-
-    public function testTestGrammarCompile()
-    {
-        $grammar   = $this->createTestGrammar();
-        $arguments = Arguments::create('foo');
-
-        $this->assertInstanceOf(SQLStatement::class, $grammar->compile());
-        $this->assertInstanceOf(SQLStatement::class, $grammar->compile($arguments));
-        $this->assertEquals($arguments, $grammar->compile($arguments)->getArguments());
     }
 }

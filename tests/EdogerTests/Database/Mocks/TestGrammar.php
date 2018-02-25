@@ -18,6 +18,6 @@ class TestGrammar extends AbstractGrammar
 {
     public function compile(Arguments $arguments = null): SQLStatement
     {
-        return (new SQLStatement($arguments))->setStatement('test');
+        return new SQLStatement($arguments);
     }
 }
