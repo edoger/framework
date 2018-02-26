@@ -271,37 +271,35 @@ class Filter implements Arrayable, Countable
      */
     public function compile(Arguments $arguments): string
     {
-        $fragments = [];
+        $fragments = Fragments::create();
 
         foreach ($this->filters as $filter) {
             if ('simple' === $filter['compiler']) {
-                $fragments[] = $filter['connector'];
-                $fragments[] = $this->compileSimpleFilter($filter['column'], $filter['operator']);
+                $fragments->push($filter['connector']);
+                $fragments->push($this->compileSimpleFilter($filter['column'], $filter['operator']));
                 $arguments->push($filter['value']);
             } elseif ('range' === $filter['compiler']) {
-                $fragments[] = $filter['connector'];
-                $fragments[] = $this->compileRangeFilter($filter['column'], $filter['operator'], $filter['count']);
+                $fragments->push($filter['connector']);
+                $fragments->push($this->compileRangeFilter($filter['column'], $filter['operator'], $filter['count']));
                 $arguments->push($filter['values']);
             } elseif ('group' === $filter['compiler']) {
                 // Compile only if the filter is not empty.
                 if (!$filter['filter']->isEmpty()) {
-                    $fragments[] = $filter['connector'];
-                    $fragments[] = '('.$filter['filter']->compile($arguments).')';
+                    $fragments->push($filter['connector']);
+                    $fragments->push(Util::enclose($filter['filter']->compile($arguments)));
                 }
             } elseif ('null' === $filter['compiler']) {
-                $fragments[] = $filter['connector'];
-                $fragments[] = $this->compileNullFilter($filter['column'], $filter['operator']);
+                $fragments->push($filter['connector']);
+                $fragments->push($this->compileNullFilter($filter['column'], $filter['operator']));
             } else {
                 // For unknown types of compilation, do nothing.
             }
         }
 
-        if (!empty($fragments)) {
-            // Remove the connector in the first place, because it is redundant.
-            array_shift($fragments);
-        }
+        // Remove the connector in the first place, because it is redundant.
+        $fragments->pop();
 
-        return implode(' ', $fragments);
+        return $fragments->assemble();
     }
 
     /**
