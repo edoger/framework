@@ -229,6 +229,10 @@ class ArrTest extends TestCase
         $this->assertEquals([true], Arr::convert(true));
         $this->assertEquals([false], Arr::convert(false));
         $this->assertEquals([], Arr::convert(null));
+        $this->assertEquals([0], Arr::convert(0));
+        $this->assertEquals([''], Arr::convert(''));
+        $this->assertEquals(['0'], Arr::convert('0'));
+        $this->assertEquals([-5], Arr::convert(-5));
     }
 
     public function testArrKeys()
