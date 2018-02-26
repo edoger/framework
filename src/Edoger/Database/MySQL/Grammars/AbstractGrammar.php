@@ -100,11 +100,9 @@ abstract class AbstractGrammar
     }
 
     /**
-     * Compile the current instance to a statement string.
+     * Compile the current SQL statement.
      *
-     * @param Edoger\Database\MySQL\Arguments|null $arguments The statement binding parameter manager.
-     *
-     * @return Edoger\Database\MySQL\Grammars\SQLStatement
+     * @return Edoger\Database\MySQL\Grammars\StatementContainer
      */
-    abstract public function compile(Arguments $arguments = null): SQLStatement;
+    abstract public function compile(): StatementContainer;
 }

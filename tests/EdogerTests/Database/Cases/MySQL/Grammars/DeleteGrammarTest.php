@@ -14,12 +14,12 @@ use PHPUnit\Framework\TestCase;
 use Edoger\Database\MySQL\Table;
 use Edoger\Database\MySQL\Actuator;
 use Edoger\Database\MySQL\Database;
-use Edoger\Database\MySQL\Arguments;
 use Edoger\Database\MySQL\TcpServer;
 use Edoger\Database\MySQL\Connection;
-use Edoger\Database\MySQL\Grammars\SQLStatement;
+use Edoger\Database\MySQL\Grammars\Statement;
 use Edoger\Database\MySQL\Grammars\DeleteGrammar;
 use Edoger\Database\MySQL\Grammars\AbstractGrammar;
+use Edoger\Database\MySQL\Grammars\StatementContainer;
 use Edoger\Database\MySQL\Grammars\Traits\LimitGrammarSupport;
 use Edoger\Database\MySQL\Grammars\Traits\WhereGrammarSupport;
 use Edoger\Database\MySQL\Grammars\Traits\WhereGrammarFoundationSupport;
@@ -91,36 +91,35 @@ class DeleteGrammarTest extends TestCase
         $this->assertEquals($abstract, $uses[$abstract]);
     }
 
-    public function testDeleteGrammarCompileWithArguments()
-    {
-        $grammar   = $this->createDeleteGrammar();
-        $arguments = Arguments::create('test');
-        $statement = $grammar->compile($arguments);
-
-        $this->assertInstanceOf(SQLStatement::class, $statement);
-        $this->assertEquals($arguments, $statement->getArguments());
-    }
-
-    public function testDeleteGrammarCompileWithoutArguments()
+    public function testDeleteGrammarCompile()
     {
         $grammar = $this->createDeleteGrammar();
 
-        $statement = $grammar->compile();
-        $this->assertInstanceOf(SQLStatement::class, $statement);
+        $container = $grammar->compile();
+        $this->assertInstanceOf(StatementContainer::class, $container);
+        $this->assertEquals(1, count($container));
+        $statement = $container->pop();
+        $this->assertInstanceOf(Statement::class, $statement);
         $this->assertEquals([], $statement->getArguments()->toArray());
         $this->assertEquals('DELETE FROM `edoger`.`users`', $statement->getStatement());
 
         $grammar->where('foo', 'foo');
 
-        $statement = $grammar->compile();
-        $this->assertInstanceOf(SQLStatement::class, $statement);
+        $container = $grammar->compile();
+        $this->assertInstanceOf(StatementContainer::class, $container);
+        $this->assertEquals(1, count($container));
+        $statement = $container->pop();
+        $this->assertInstanceOf(Statement::class, $statement);
         $this->assertEquals(['foo'], $statement->getArguments()->toArray());
         $this->assertEquals('DELETE FROM `edoger`.`users` WHERE `foo` = ?', $statement->getStatement());
 
         $grammar->limit(1);
 
-        $statement = $grammar->compile();
-        $this->assertInstanceOf(SQLStatement::class, $statement);
+        $container = $grammar->compile();
+        $this->assertInstanceOf(StatementContainer::class, $container);
+        $this->assertEquals(1, count($container));
+        $statement = $container->pop();
+        $this->assertInstanceOf(Statement::class, $statement);
         $this->assertEquals(['foo'], $statement->getArguments()->toArray());
         $this->assertEquals('DELETE FROM `edoger`.`users` WHERE `foo` = ? LIMIT 1', $statement->getStatement());
     }

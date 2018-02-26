@@ -22,23 +22,23 @@ class DeleteGrammar extends AbstractGrammar
     /**
      * Compile the current instance to a statement string.
      *
-     * @param Edoger\Database\MySQL\Arguments|null $arguments The statement binding parameter manager.
-     *
-     * @return Edoger\Database\MySQL\Grammars\SQLStatement
+     * @return Edoger\Database\MySQL\Grammars\StatementContainer
      */
-    public function compile(Arguments $arguments = null): SQLStatement
+    public function compile(): StatementContainer
     {
-        $statement = new SQLStatement($arguments);
+        $arguments = Arguments::create();
         $fragments = ['DELETE FROM', $this->getWrappedFullTableName()];
 
         if ($this->hasWhereFilter()) {
-            $fragments[] = 'WHERE '.$this->getWhereFilter()->compile($statement->getArguments());
+            $fragments[] = 'WHERE '.$this->getWhereFilter()->compile($arguments);
         }
 
         if ($this->hasLimit()) {
             $fragments[] = 'LIMIT '.$this->getLimit();
         }
 
-        return $statement->setStatement(implode(' ', $fragments));
+        return new StatementContainer([
+            Statement::create(implode(' ', $fragments), $arguments)
+        ]);
     }
 }

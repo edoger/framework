@@ -11,13 +11,13 @@
 namespace EdogerTests\Database\Mocks;
 
 use Edoger\Database\MySQL\Arguments;
-use Edoger\Database\MySQL\Grammars\SQLStatement;
+use Edoger\Database\MySQL\Grammars\StatementContainer;
 use Edoger\Database\MySQL\Grammars\AbstractGrammar;
 
 class TestGrammar extends AbstractGrammar
 {
-    public function compile(Arguments $arguments = null): SQLStatement
+    public function compile(): StatementContainer
     {
-        return new SQLStatement($arguments);
+        return new StatementContainer();
     }
 }
