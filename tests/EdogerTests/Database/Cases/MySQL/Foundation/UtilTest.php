@@ -19,4 +19,45 @@ class UtilTest extends TestCase
     {
         $this->assertEquals('`foo`', Util::wrap('foo'));
     }
+
+    public function testUtilMatrixize()
+    {
+        $this->assertEquals([], Util::matrixize([]));
+        $this->assertEquals(
+            [
+                'foo' => ['a', 'b'],
+                'bar' => [1, 1],
+            ],
+            Util::matrixize([
+                'foo' => ['a', 'b'],
+                'bar' => [1],
+            ])
+        );
+    }
+
+    public function testUtilTranspose()
+    {
+        $this->assertEquals([], Util::transpose([]));
+        $this->assertEquals(
+            [
+                ['a', 1],
+                ['b', 2],
+            ],
+            Util::transpose([
+                'foo' => ['a', 'b'],
+                'bar' => [1, 2],
+            ])
+        );
+    }
+
+    public function testUtilColumnize()
+    {
+        $this->assertEquals('`foo`,`bar`', Util::columnize(['foo', 'bar']));
+        $this->assertEquals('foo,bar', Util::columnize(['foo', 'bar'], false));
+    }
+
+    public function testUtilEnclose()
+    {
+        $this->assertEquals('(foo)', Util::enclose('foo'));
+    }
 }
