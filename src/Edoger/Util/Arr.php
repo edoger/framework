@@ -164,7 +164,7 @@ class Arr
                 // Save the handled key and value.
                 // The key may be modified in the handler.
                 $handled[$key] = $value;
-            } 
+            }
         }
 
         return $handled;
