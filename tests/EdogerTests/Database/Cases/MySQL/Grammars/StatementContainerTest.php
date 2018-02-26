@@ -11,11 +11,13 @@
 namespace EdogerTests\Database\Cases\MySQL\Grammars;
 
 use Countable;
+use RuntimeException;
 use IteratorAggregate;
 use PHPUnit\Framework\TestCase;
 use Edoger\Database\MySQL\Arguments;
 use Edoger\Util\Contracts\Arrayable;
 use Edoger\Database\MySQL\Grammars\Statement;
+use Edoger\Database\MySQL\Exceptions\GrammarException;
 use Edoger\Database\MySQL\Grammars\StatementContainer;
 
 class StatementContainerTest extends TestCase
@@ -28,6 +30,14 @@ class StatementContainerTest extends TestCase
     protected function createStatementContainer(array $statements = [])
     {
         return new StatementContainer($statements);
+    }
+
+    public function testStatementContainerConstructorFail()
+    {
+        $this->expectException(GrammarException::class);
+        $this->expectExceptionMessage('Invalid statement instance.');
+
+        $this->createStatementContainer([false]); // exception
     }
 
     public function testStatementContainerInstanceOfArrayable()
@@ -80,6 +90,14 @@ class StatementContainerTest extends TestCase
 
         $this->assertEquals($statementA, $container->pop());
         $this->assertEquals($statementB, $container->pop());
+    }
+
+    public function testStatementContainerPopFail()
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Can not get statement instance from empty statement container.');
+
+        $this->createStatementContainer()->pop(); // exception
     }
 
     public function testStatementContainerHasOption()
