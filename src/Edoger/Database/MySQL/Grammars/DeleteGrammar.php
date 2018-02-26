@@ -27,18 +27,18 @@ class DeleteGrammar extends AbstractGrammar
     public function compile(): StatementContainer
     {
         $arguments = Arguments::create();
-        $fragments = ['DELETE FROM', $this->getWrappedFullTableName()];
+        $fragments = Fragments::create(['DELETE FROM', $this->getWrappedFullTableName()]);
 
         if ($this->hasWhereFilter()) {
-            $fragments[] = 'WHERE '.$this->getWhereFilter()->compile($arguments);
+            $fragments->push('WHERE '.$this->getWhereFilter()->compile($arguments));
         }
 
         if ($this->hasLimit()) {
-            $fragments[] = 'LIMIT '.$this->getLimit();
+            $fragments->push('LIMIT '.$this->getLimit());
         }
 
         return new StatementContainer([
-            Statement::create(implode(' ', $fragments), $arguments)
+            Statement::create($fragments->assemble(), $arguments),
         ]);
     }
 }
