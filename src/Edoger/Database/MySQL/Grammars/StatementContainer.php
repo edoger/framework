@@ -10,24 +10,22 @@
 
 namespace Edoger\Database\MySQL\Grammars;
 
+use Countable;
+use ArrayIterator;
 use Edoger\Util\Arr;
-use Edoger\Database\MySQL\Arguments;
+use RuntimeException;
+use IteratorAggregate;
+use Edoger\Util\Contracts\Arrayable;
+use Edoger\Database\MySQL\Exceptions\GrammarException;
 
-class SQLStatement
+class StatementContainer implements Arrayable, Countable, IteratorAggregate
 {
     /**
-     * The statement binding parameter manager.
+     * The SQL statement instances.
      *
-     * @var Edoger\Database\MySQL\Arguments
+     * @var array
      */
-    protected $arguments;
-
-    /**
-     * The SQL statement.
-     *
-     * @var string
-     */
-    protected $statement = '';
+    protected $statements = [];
 
     /**
      * The SQL statement options.
@@ -37,53 +35,63 @@ class SQLStatement
     protected $options = [];
 
     /**
-     * The SQL statement constructor.
+     * The statement container constructor.
      *
-     * @param Edoger\Database\MySQL\Arguments|null $arguments The statement binding parameter manager.
+     * @param iterable $statements The SQL statement instances.
      *
      * @return void
      */
-    public function __construct(Arguments $arguments = null)
+    public function __construct(iterable $statements = [])
     {
-        if (is_null($arguments)) {
-            $this->arguments = Arguments::create();
-        } else {
-            $this->arguments = $arguments;
+        foreach ($statements as $statement) {
+            if ($statement instanceof Statement) {
+                $this->push($statement);
+            } else {
+                throw new GrammarException('Invalid statement instance.');
+            }
         }
     }
 
     /**
-     * Get the statement binding parameter manager.
+     * Determine if the current SQL statement instance container is empty.
      *
-     * @return Edoger\Database\MySQL\Arguments
+     * @return bool
      */
-    public function getArguments(): Arguments
+    public function isEmpty(): bool
     {
-        return $this->arguments;
+        return empty($this->statements);
     }
 
     /**
-     * Get the SQL statement.
+     * Append SQL statement instance.
      *
-     * @return string
-     */
-    public function getStatement(): string
-    {
-        return $this->statement;
-    }
-
-    /**
-     * Set the SQL statement.
-     *
-     * @param string $statement The SQL statement.
+     * @param Edoger\Database\MySQL\Grammars\Statement $statement The SQL statement instance.
      *
      * @return self
      */
-    public function setStatement(string $statement): self
+    public function push(Statement $statement): self
     {
-        $this->statement = $statement;
+        $this->statements[] = $statement;
 
         return $this;
+    }
+
+    /**
+     * Fetch SQL statement instance.
+     *
+     * @throws RuntimeException Thrown when the statement container is empty.
+     *
+     * @return Edoger\Database\MySQL\Grammars\Statement
+     */
+    public function pop(): Statement
+    {
+        if ($this->isEmpty()) {
+            throw new RuntimeException(
+                'Can not get statement instance from empty statement container.'
+            );
+        }
+
+        return array_shift($this->statements);
     }
 
     /**
@@ -176,5 +184,35 @@ class SQLStatement
         $this->options = [];
 
         return $this;
+    }
+
+    /**
+     * Returns the current statement container as an array.
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return $this->statements;
+    }
+
+    /**
+     * Gets the size of the current statement container.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->statements);
+    }
+
+    /**
+     * Gets an iterator instance of the current statement container.
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->statements);
     }
 }
