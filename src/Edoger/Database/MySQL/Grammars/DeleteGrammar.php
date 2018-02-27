@@ -20,7 +20,7 @@ class DeleteGrammar extends AbstractGrammar
     use WhereGrammarFoundationSupport, WhereGrammarSupport, LimitGrammarSupport;
 
     /**
-     * Compile the current instance to a statement string.
+     * Compile the current SQL statement.
      *
      * @return Edoger\Database\MySQL\Grammars\StatementContainer
      */
@@ -37,8 +37,10 @@ class DeleteGrammar extends AbstractGrammar
             $fragments->push('LIMIT '.$this->getLimit());
         }
 
-        return new StatementContainer([
+        $container = new StatementContainer([
             Statement::create($fragments->assemble(), $arguments),
         ]);
+
+        return $container;
     }
 }
