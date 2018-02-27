@@ -98,29 +98,45 @@ class DeleteGrammarTest extends TestCase
         $container = $grammar->compile();
         $this->assertInstanceOf(StatementContainer::class, $container);
         $this->assertEquals(1, count($container));
+
         $statement = $container->pop();
+
         $this->assertInstanceOf(Statement::class, $statement);
         $this->assertEquals([], $statement->getArguments()->toArray());
         $this->assertEquals('DELETE FROM `edoger`.`users`', $statement->getStatement());
+    }
+
+    public function testDeleteGrammarCompileWithWhere()
+    {
+        $grammar = $this->createDeleteGrammar();
 
         $grammar->where('foo', 'foo');
 
         $container = $grammar->compile();
         $this->assertInstanceOf(StatementContainer::class, $container);
         $this->assertEquals(1, count($container));
+
         $statement = $container->pop();
+
         $this->assertInstanceOf(Statement::class, $statement);
         $this->assertEquals(['foo'], $statement->getArguments()->toArray());
         $this->assertEquals('DELETE FROM `edoger`.`users` WHERE `foo` = ?', $statement->getStatement());
+    }
+
+    public function testDeleteGrammarCompileWithLimit()
+    {
+        $grammar = $this->createDeleteGrammar();
 
         $grammar->limit(1);
 
         $container = $grammar->compile();
         $this->assertInstanceOf(StatementContainer::class, $container);
         $this->assertEquals(1, count($container));
+
         $statement = $container->pop();
+
         $this->assertInstanceOf(Statement::class, $statement);
-        $this->assertEquals(['foo'], $statement->getArguments()->toArray());
-        $this->assertEquals('DELETE FROM `edoger`.`users` WHERE `foo` = ? LIMIT 1', $statement->getStatement());
+        $this->assertEquals([], $statement->getArguments()->toArray());
+        $this->assertEquals('DELETE FROM `edoger`.`users` LIMIT 1', $statement->getStatement());
     }
 }
