@@ -1,4 +1,4 @@
-# Edoger Framework #
+# Edoger PHP Framework #
 
 [![Build Status](https://travis-ci.org/edoger/framework.svg?branch=master)](https://travis-ci.org/edoger/framework)
 [![codecov](https://codecov.io/gh/edoger/framework/branch/master/graph/badge.svg)](https://codecov.io/gh/edoger/framework)
