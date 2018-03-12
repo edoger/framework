@@ -79,12 +79,7 @@ class Util
 
         // Here, we will not check the validity of the matrix.
         // We will assume that the given matrix is a standard one.
-        return array_map(
-            function (...$row) {
-                return $row;
-            },
-            ...Arr::values($matrix)
-        );
+        return array_map(null, ...Arr::values($matrix));
     }
 
     /**
