@@ -11,6 +11,7 @@
 namespace Edoger\Cache\Drivers;
 
 use RuntimeException;
+use Edoger\Util\Environment;
 use Edoger\Cache\Contracts\Driver;
 
 class ApcuDriver implements Driver
@@ -29,7 +30,7 @@ class ApcuDriver implements Driver
         }
 
         // Not use the SAPI request start time for TTL.
-        if ('cli' === PHP_SAPI) {
+        if (Environment::isCli()) {
             ini_set('apc.use_request_time', 0);
         }
     }
@@ -43,10 +44,10 @@ class ApcuDriver implements Driver
     {
         if (extension_loaded('apcu') && ini_get('apc.enabled')) {
             // In CLI mode, the "apc.enable_cli" option must be enabled.
-            if ('cli' === PHP_SAPI) {
+            if (Environment::isCli()) {
                 return (bool) ini_get('apc.enable_cli');
             }
-            
+
             return true;
         }
 
