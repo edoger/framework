@@ -410,11 +410,34 @@ class RequestTest extends TestCase
         $this->assertFalse($this->createRequest()->isAjax());
     }
 
+    public function testRequestGetHost()
+    {
+        $this->assertEquals('www.test.org', $this->createRequest()->getHost());
+
+        $this->server['HTTP_HOST'] = 'www.test.com';
+        $this->assertEquals('www.test.com', $this->createRequest()->getHost());
+
+        $this->server['HTTP_HOST'] = 'www.test.com:8080';
+        $this->assertEquals('www.test.com:8080', $this->createRequest()->getHost());
+
+        $this->server['HTTP_HOST'] = ' www.TEST.com ';
+        $this->assertEquals('www.test.com', $this->createRequest()->getHost());
+
+        unset($this->server['HTTP_HOST']);
+        $this->assertEquals('localhost', $this->createRequest()->getHost());
+    }
+
     public function testRequestGetHostName()
     {
         $this->assertEquals('www.test.org', $this->createRequest()->getHostName());
 
         $this->server['HTTP_HOST'] = 'www.test.com';
+        $this->assertEquals('www.test.com', $this->createRequest()->getHostName());
+
+        $this->server['HTTP_HOST'] = 'www.test.com:8080';
+        $this->assertEquals('www.test.com', $this->createRequest()->getHostName());
+
+        $this->server['HTTP_HOST'] = ' www.TEST.com ';
         $this->assertEquals('www.test.com', $this->createRequest()->getHostName());
 
         unset($this->server['HTTP_HOST']);

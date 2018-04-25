@@ -373,13 +373,23 @@ class Request implements Arrayable
     }
 
     /**
-     * Get the hostname.
+     * Get the host.
+     *
+     * @return string
+     */
+    public function getHost(): string
+    {
+        return Str::lower(trim($this->getHeader('Host', 'localhost')));
+    }
+
+    /**
+     * Get the hostname (without port).
      *
      * @return string
      */
     public function getHostName(): string
     {
-        return $this->getHeader('Host', 'localhost');
+        return preg_replace('/:\d+$/', '', $this->getHost());
     }
 
     /**
