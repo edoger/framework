@@ -339,8 +339,14 @@ class Arr
      */
     public static function convertFromXml(string $xml): array
     {
-        $arr = json_decode(json_encode(@simplexml_load_string($xml)), true);
+        if ($obj = @simplexml_load_string($xml)) {
+            $arr = json_decode(json_encode($obj), true);
 
-        return is_array($arr) ? $arr : [];
+            if (is_array($arr)) {
+                return $arr;
+            }
+        }
+
+        return [];
     }
 }
