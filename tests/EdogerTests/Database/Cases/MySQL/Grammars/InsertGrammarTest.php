@@ -141,6 +141,9 @@ class InsertGrammarTest extends TestCase
 
         $grammar = $this->createInsertGrammar();
 
+        $grammar->setColumn('bar', 'bar');
+        $grammar->compile();
+
         $grammar->setColumn('foo', 'foo');
         $grammar->compile(); // exception
     }
