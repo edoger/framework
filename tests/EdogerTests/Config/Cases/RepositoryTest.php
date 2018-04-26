@@ -42,6 +42,9 @@ class RepositoryTest extends TestCase
 
     public function testRepositoryHas()
     {
+        $repository = new Repository([]);
+        $this->assertFalse($repository->has('foo'));
+
         $repository = new Repository([
             'a' => 1,
             'b' => [
@@ -68,6 +71,10 @@ class RepositoryTest extends TestCase
 
     public function testRepositoryGet()
     {
+        $repository = new Repository([]);
+        $this->assertNull($repository->get('foo'));
+        $this->assertEquals('foo', $repository->get('foo', 'foo'));
+
         $items = [
             'a' => 1,
             'b' => [
