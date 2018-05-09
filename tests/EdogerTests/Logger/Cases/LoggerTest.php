@@ -177,6 +177,10 @@ class LoggerTest extends TestCase
     {
         $logger = new Logger('CHANNEL', Levels::DEBUG);
 
+        // no logs
+        $this->assertCount(0, $logger->getLogs());
+        $this->assertEquals([], $logger->getLogs());
+
         $logger->log(Levels::DEBUG, 'DEBUG');
         $logger->log(Levels::INFO, 'INFO');
         $logger->log(Levels::NOTICE, 'NOTICE');
