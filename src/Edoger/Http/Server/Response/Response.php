@@ -185,15 +185,15 @@ class Response implements Arrayable
     {
         $body = $this->getResponseRenderer()->render($this->getResponseContent());
 
-        // Output only when the response body is not empty.
-        if (Validator::isNotEmptyString($body)) {
-            if (is_null($handler)) {
+        if (is_null($handler)) {
+            // Output only when the response body is not empty.
+            if (Validator::isNotEmptyString($body)) {
                 echo $body;
-            } else {
-                // Disabling the system automatically outputs response body dataif the response
-                // body data handler is available.
-                call_user_func($handler, $body);
             }
+        } else {
+            // Disabling the system automatically outputs response body dataif the response
+            // body data handler is available.
+            call_user_func($handler, $body);
         }
 
         return $this;

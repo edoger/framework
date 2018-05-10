@@ -422,10 +422,23 @@ class ResponseTest extends TestCase
         $response = new Response(200, ['test' => 'test']);
 
         $response->setResponseRenderer($renderer);
+        $called = false;
 
-        $this->assertEquals($response, $response->sendBody(function ($body) {
+        $this->assertEquals($response, $response->sendBody(function ($body) use (&$called) {
+            $called = true;
             $this->assertEquals('test', $body);
         }));
+        $this->assertTrue($called);
+
+        // Clear all response content.
+        $response->clearResponseContent();
+        $called = false;
+
+        $this->assertEquals($response, $response->sendBody(function ($body) use (&$called) {
+            $called = true;
+            $this->assertEquals('', $body);
+        }));
+        $this->assertTrue($called);
     }
 
     public function testResponseArrayable()
