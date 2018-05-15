@@ -120,4 +120,16 @@ class Connection implements ConnectionContract
 
         return true;
     }
+
+    /**
+     * Disconnect the current database server and reestablish the connection.
+     *
+     * @return PDO
+     */
+    public function reconnect(): PDO
+    {
+        $this->close();
+
+        return $this->connect();
+    }
 }
