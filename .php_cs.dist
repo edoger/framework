@@ -10,19 +10,16 @@
 
 return PhpCsFixer\Config::create()
     ->setRules([
-        // Use Symfony Rules.
-        '@Symfony'                      => true,
-        'binary_operator_spaces'        => ['default' => 'align_single_space_minimal'],
-        'declare_equal_normalize'       => ['space' => 'single'],
-        'phpdoc_no_empty_return'        => false,
-        'phpdoc_annotation_without_dot' => false,
-        // Use Symfony:risky Rules.
-        '@Symfony:risky'             => true,
-        'is_null'                    => false,
-        'php_unit_construct'         => false,
-        'php_unit_dedicate_assert'   => false,
-        'silenced_deprecation_error' => false,
-        // Use Other Rules.
+        '@Symfony'                                  => true,
+        'binary_operator_spaces'                    => ['default' => 'align_single_space_minimal'],
+        'declare_equal_normalize'                   => ['space' => 'single'],
+        'phpdoc_no_empty_return'                    => false,
+        'phpdoc_annotation_without_dot'             => false,
+        '@Symfony:risky'                            => true,
+        'is_null'                                   => false,
+        'php_unit_construct'                        => false,
+        'php_unit_dedicate_assert'                  => false,
+        'silenced_deprecation_error'                => false,
         'protected_to_private'                      => false,
         'ternary_to_null_coalescing'                => true,
         'align_multiline_comment'                   => ['comment_type' => 'all_multiline'],
@@ -46,12 +43,6 @@ return PhpCsFixer\Config::create()
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->in(__DIR__.'/src')
+            ->in(__DIR__.'/tests')
             ->append([__FILE__])
-            ->exclude([
-                'Edoger/Database',
-                'Edoger/Session',
-                // For test.
-                'Edoger/Config/Tests/data',
-                'Edoger/Logger/Tests/temp',
-            ])
     );
