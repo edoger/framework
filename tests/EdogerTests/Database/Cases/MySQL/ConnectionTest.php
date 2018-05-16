@@ -93,4 +93,16 @@ class ConnectionTest extends TestCase
 
         $this->assertTrue($connection->close());
     }
+
+    public function testConnectionReconnect()
+    {
+        $connection = new Connection($this->server);
+
+        $pdoA = $connection->connect();
+        $pdoB = $connection->connect();
+        $pdoC = $connection->reconnect();
+
+        $this->assertSame($pdoA, $pdoB);
+        $this->assertNotSame($pdoB, $pdoC);
+    }
 }
