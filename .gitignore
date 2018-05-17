@@ -19,3 +19,6 @@ coverage.xml
 
 # For php-cs-fixer
 .php_cs.cache
+
+# For PhpStorm
+.idea/
