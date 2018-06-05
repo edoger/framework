@@ -16,7 +16,6 @@ use PHPUnit\Framework\TestCase;
 use Edoger\Config\AbstractLoader;
 use Edoger\Config\AbstractFileLoader;
 use Edoger\Config\Loaders\JsonLoader;
-use Edoger\Serializer\Exceptions\SerializerException;
 
 class JsonLoaderTest extends TestCase
 {
@@ -123,18 +122,10 @@ class JsonLoaderTest extends TestCase
 
     public function testJsonLoaderErrorFile()
     {
-        $error = false;
-
         $this->config->pushLoader($this->createJsonLoader());
-        $this->config->on('error', function ($event) use (&$error) {
-            $this->assertInstanceOf(SerializerException::class, $event->get('exception'));
-
-            $error = true;
-        });
 
         $group = $this->config->group('error');
 
-        $this->assertTrue($error);
         $this->assertInstanceOf(Repository::class, $group);
         $this->assertEquals([], $group->toArray());
     }

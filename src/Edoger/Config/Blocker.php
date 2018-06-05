@@ -11,26 +11,11 @@
 namespace Edoger\Config;
 
 use Throwable;
-use Edoger\Util\Arr;
-use Edoger\Event\Trigger;
-use Edoger\Container\Wrapper;
 use Edoger\Container\Container;
 use Edoger\Flow\Contracts\Blocker as BlockerContract;
 
-class Blocker extends Wrapper implements BlockerContract
+class Blocker implements BlockerContract
 {
-    /**
-     * The configuration group load flow blocker constructor.
-     *
-     * @param Edoger\Event\Trigger $trigger [description]
-     *
-     * @return void
-     */
-    public function __construct(Trigger $trigger)
-    {
-        parent::__construct($trigger);
-    }
-
     /**
      * Handle the flow block event.
      *
@@ -53,10 +38,6 @@ class Blocker extends Wrapper implements BlockerContract
      */
     public function complete(Container $input)
     {
-        if ($this->getOriginal()->hasEventListener('missed')) {
-            $this->getOriginal()->emit('missed', $input);
-        }
-
         return new Repository();
     }
 
@@ -70,13 +51,6 @@ class Blocker extends Wrapper implements BlockerContract
      */
     public function error(Container $input, Throwable $exception)
     {
-        if ($this->getOriginal()->hasEventListener('error')) {
-            $this->getOriginal()->emit(
-                'error',
-                Arr::merge($input->toArray(), ['exception' => $exception])
-            );
-        }
-
         return new Repository();
     }
 }

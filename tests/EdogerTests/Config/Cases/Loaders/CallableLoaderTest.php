@@ -11,7 +11,6 @@
 namespace EdogerTests\Config\Cases\Loaders;
 
 use Closure;
-use RuntimeException;
 use Edoger\Config\Config;
 use Edoger\Config\Repository;
 use PHPUnit\Framework\TestCase;
@@ -64,26 +63,14 @@ class CallableLoaderTest extends TestCase
 
     public function testCallableLoaderLoadFail()
     {
-        $error = false;
-
         $this->config->pushLoader(
             new CallableLoader(function () {
                 return 'foo';
             })
         );
-        $this->config->on('error', function ($event) use (&$error) {
-            $this->assertInstanceOf(RuntimeException::class, $event->get('exception'));
-            $this->assertEquals(
-                'The configuration group callable loader must return "Edoger\Config\Repository" instance.',
-                $event->get('exception')->getMessage()
-            );
-
-            $error = true;
-        });
 
         $group = $this->config->group('test');
 
-        $this->assertTrue($error);
         $this->assertInstanceOf(Repository::class, $group);
         $this->assertEquals([], $group->toArray());
     }

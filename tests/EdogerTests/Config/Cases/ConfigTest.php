@@ -13,7 +13,6 @@ namespace EdogerTests\Config\Cases;
 use Exception;
 use RuntimeException;
 use Edoger\Config\Config;
-use Edoger\Event\Collector;
 use Edoger\Config\Repository;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -40,13 +39,6 @@ class ConfigTest extends TestCase
     protected function createExceptionLoader()
     {
         return new TestExceptionLoader();
-    }
-
-    public function testConfigExtendsCollector()
-    {
-        $config = $this->createConfig();
-
-        $this->assertInstanceOf(Collector::class, $config);
     }
 
     public function testConfigInstanceOfConfigContract()
@@ -190,157 +182,5 @@ class ConfigTest extends TestCase
 
         $this->assertInstanceOf(Repository::class, $group);
         $this->assertEquals([], $group->toArray());
-    }
-
-    public function testConfigLoadingEvent()
-    {
-        $config    = $this->createConfig($this->createLoader());
-        $triggered = false;
-
-        $config->on('loading', function ($event) use (&$triggered) {
-            $this->assertEquals('config.loading', $event->getName());
-            $this->assertEquals('test', $event->get('group'));
-            $this->assertFalse($event->get('reload'));
-
-            $triggered = true;
-        });
-
-        $config->group('test');
-
-        $this->assertTrue($triggered);
-    }
-
-    public function testConfigLoadingEventWithReload()
-    {
-        $config    = $this->createConfig($this->createLoader());
-        $triggered = false;
-
-        $config->on('loading', function ($event) use (&$triggered) {
-            $this->assertEquals('config.loading', $event->getName());
-            $this->assertEquals('test', $event->get('group'));
-            $this->assertTrue($event->get('reload'));
-
-            $triggered = true;
-        });
-
-        $config->group('test', true);
-
-        $this->assertTrue($triggered);
-    }
-
-    public function testConfigLoadedEvent()
-    {
-        $config    = $this->createConfig($this->createLoader('test', ['foo' => 'foo']));
-        $triggered = false;
-
-        $config->on('loaded', function ($event) use (&$triggered) {
-            $this->assertEquals('config.loaded', $event->getName());
-            $this->assertEquals('test', $event->get('group'));
-            $this->assertFalse($event->get('reload'));
-            $this->assertInstanceOf(Repository::class, $event->get('repository'));
-            $this->assertEquals(['foo' => 'foo'], $event->get('repository')->toArray());
-
-            $triggered = true;
-        });
-
-        $config->group('test');
-
-        $this->assertTrue($triggered);
-    }
-
-    public function testConfigLoadedEventWithReload()
-    {
-        $config    = $this->createConfig($this->createLoader('test', ['foo' => 'foo']));
-        $triggered = false;
-
-        $config->on('loaded', function ($event) use (&$triggered) {
-            $this->assertEquals('config.loaded', $event->getName());
-            $this->assertEquals('test', $event->get('group'));
-            $this->assertTrue($event->get('reload'));
-            $this->assertInstanceOf(Repository::class, $event->get('repository'));
-            $this->assertEquals(['foo' => 'foo'], $event->get('repository')->toArray());
-
-            $triggered = true;
-        });
-
-        $config->group('test', true);
-
-        $this->assertTrue($triggered);
-    }
-
-    public function testConfigMissedEvent()
-    {
-        $config    = $this->createConfig();
-        $triggered = false;
-
-        $config->on('missed', function ($event) use (&$triggered) {
-            $this->assertEquals('config.missed', $event->getName());
-            $this->assertEquals('test', $event->get('group'));
-            $this->assertFalse($event->get('reload'));
-
-            $triggered = true;
-        });
-
-        $config->group('test');
-
-        $this->assertTrue($triggered);
-    }
-
-    public function testConfigMissedEventWithReload()
-    {
-        $config    = $this->createConfig();
-        $triggered = false;
-
-        $config->on('missed', function ($event) use (&$triggered) {
-            $this->assertEquals('config.missed', $event->getName());
-            $this->assertEquals('test', $event->get('group'));
-            $this->assertTrue($event->get('reload'));
-
-            $triggered = true;
-        });
-
-        $config->group('test', true);
-
-        $this->assertTrue($triggered);
-    }
-
-    public function testConfigErrorEvent()
-    {
-        $config    = $this->createConfig($this->createExceptionLoader());
-        $triggered = false;
-
-        $config->on('error', function ($event) use (&$triggered) {
-            $this->assertEquals('config.error', $event->getName());
-            $this->assertEquals('test', $event->get('group'));
-            $this->assertFalse($event->get('reload'));
-            $this->assertInstanceOf(Exception::class, $event->get('exception'));
-            $this->assertEquals('test', $event->get('exception')->getMessage());
-
-            $triggered = true;
-        });
-
-        $config->group('test');
-
-        $this->assertTrue($triggered);
-    }
-
-    public function testConfigErrorEventWithReload()
-    {
-        $config    = $this->createConfig($this->createExceptionLoader());
-        $triggered = false;
-
-        $config->on('error', function ($event) use (&$triggered) {
-            $this->assertEquals('config.error', $event->getName());
-            $this->assertEquals('test', $event->get('group'));
-            $this->assertTrue($event->get('reload'));
-            $this->assertInstanceOf(Exception::class, $event->get('exception'));
-            $this->assertEquals('test', $event->get('exception')->getMessage());
-
-            $triggered = true;
-        });
-
-        $config->group('test', true);
-
-        $this->assertTrue($triggered);
     }
 }

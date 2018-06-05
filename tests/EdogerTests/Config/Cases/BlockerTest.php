@@ -11,42 +11,17 @@
 namespace EdogerTests\Config\Cases;
 
 use Exception;
-use Edoger\Event\Trigger;
 use Edoger\Config\Blocker;
-use Edoger\Event\Dispatcher;
 use Edoger\Config\Repository;
-use Edoger\Container\Wrapper;
 use Edoger\Container\Container;
 use PHPUnit\Framework\TestCase;
 use Edoger\Flow\Contracts\Blocker as BlockerContract;
 
 class BlockerTest extends TestCase
 {
-    protected $dispatcher;
-    protected $trigger;
-
-    protected function setUp()
-    {
-        $this->dispatcher = new Dispatcher();
-        $this->trigger    = new Trigger($this->dispatcher);
-    }
-
-    protected function tearDown()
-    {
-        $this->dispatcher = null;
-        $this->trigger    = null;
-    }
-
     protected function createBlocker()
     {
-        return new Blocker($this->trigger);
-    }
-
-    public function testBlockerExtendsWrapper()
-    {
-        $blocker = $this->createBlocker();
-
-        $this->assertInstanceOf(Wrapper::class, $blocker);
+        return new Blocker();
     }
 
     public function testBlockerInstanceOfBlockerContract()
@@ -69,18 +44,9 @@ class BlockerTest extends TestCase
     {
         $blocker   = $this->createBlocker();
         $container = new Container();
-        $missed    = false;
 
         $this->assertInstanceOf(Repository::class, $blocker->complete($container));
         $this->assertEquals([], $blocker->complete($container)->toArray());
-
-        $this->dispatcher->addListener('missed', function () use (&$missed) {
-            $missed = true;
-        });
-
-        $blocker->complete($container);
-
-        $this->assertTrue($missed);
     }
 
     public function testBlockerError()
@@ -88,17 +54,8 @@ class BlockerTest extends TestCase
         $blocker   = $this->createBlocker();
         $container = new Container();
         $exception = new Exception('test');
-        $error     = false;
 
         $this->assertInstanceOf(Repository::class, $blocker->error($container, $exception));
         $this->assertEquals([], $blocker->error($container, $exception)->toArray());
-
-        $this->dispatcher->addListener('error', function () use (&$error) {
-            $error = true;
-        });
-
-        $blocker->error($container, $exception);
-
-        $this->assertTrue($error);
     }
 }
