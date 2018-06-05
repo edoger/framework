@@ -15,6 +15,7 @@ phpunit.xml
 coverage.xml
 
 # For Mac
+*~
 .DS_Store
 
 # For php-cs-fixer
