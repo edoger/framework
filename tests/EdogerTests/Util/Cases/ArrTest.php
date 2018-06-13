@@ -233,6 +233,18 @@ class ArrTest extends TestCase
         $this->assertEquals([''], Arr::convert(''));
         $this->assertEquals(['0'], Arr::convert('0'));
         $this->assertEquals([-5], Arr::convert(-5));
+
+        $f = function () {
+            for ($i = 0; $i < 3; ++$i) {
+                yield $i;
+            }
+        };
+        $this->assertEquals([0, 1, 2], Arr::convert($f()));
+
+        $o    = new \stdClass();
+        $o->a = 1;
+        $o->b = 2;
+        $this->assertEquals(['a' => 1, 'b' => 2], Arr::convert($o));
     }
 
     public function testArrKeys()
