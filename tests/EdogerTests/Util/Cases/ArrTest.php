@@ -335,4 +335,20 @@ class ArrTest extends TestCase
             )
         );
     }
+
+    public function testArrSlice()
+    {
+        $arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+        $this->assertEquals([], Arr::slice([], 5));
+        $this->assertEquals([], Arr::slice([], -5));
+        $this->assertEquals([], Arr::slice([]));
+
+        $this->assertEquals([[1], [2], [3], [4], [5], [6], [7], [8], [9]], Arr::slice($arr));
+        $this->assertEquals([], Arr::slice($arr, 0));
+        $this->assertEquals([], Arr::slice($arr, -2));
+        $this->assertEquals([[1, 2], [3, 4], [5, 6], [7, 8], [9]], Arr::slice($arr, 2));
+        $this->assertEquals([[1, 2, 3], [4, 5, 6], [7, 8, 9]], Arr::slice($arr, 3));
+        $this->assertEquals([$arr], Arr::slice($arr, 20));
+    }
 }

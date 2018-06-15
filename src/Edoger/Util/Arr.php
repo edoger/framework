@@ -349,4 +349,28 @@ class Arr
 
         return [];
     }
+
+    /**
+     * Slices the given array by the specified size.
+     *
+     * @param array $values The given array.
+     * @param int   $size   The size of the slice.
+     *
+     * @return array
+     */
+    public static function slice(array $values, int $size = 1): array
+    {
+        if ($size < 1 || empty($values)) {
+            return [];
+        }
+
+        $count  = count($values);
+        $slices = [];
+
+        for ($i = 0; $i < $count; $i += $size) {
+            $slices[] = array_slice($values, $i, $size);
+        }
+
+        return $slices;
+    }
 }
