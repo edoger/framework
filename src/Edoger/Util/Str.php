@@ -133,6 +133,22 @@ class Str
     }
 
     /**
+     * Make a string's first character lowercase.
+     *
+     * @param string $str The given string.
+     *
+     * @return string
+     */
+    public static function lcfirst(string $str): string
+    {
+        if (static::length($str) <= 1) {
+            return static::lower($str);
+        }
+
+        return static::lower(static::substr($str, 0, 1)).static::substr($str, 1);
+    }
+
+    /**
      * Find position of first occurrence of string in the given string.
      *
      * @param string $str    The given string.

@@ -83,6 +83,15 @@ class StrTest extends TestCase
         $this->assertEquals('Foo', Str::ucfirst('foo'));
     }
 
+    public function testStrLcfirst()
+    {
+        $this->assertEquals('', Str::lcfirst(''));
+        $this->assertEquals('1', Str::lcfirst('1'));
+        $this->assertEquals('a', Str::lcfirst('A'));
+        $this->assertEquals('fOO', Str::lcfirst('FOO'));
+        $this->assertEquals('foo', Str::lcfirst('foo'));
+    }
+
     public function testStrStrpos()
     {
         $this->assertEquals(0, Str::strpos('Hello World', 'Hello'));
