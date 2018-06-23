@@ -1,3 +1,6 @@
+# For this project
+laboratory.php
+
 # For Composer
 vendor/
 composer.lock
@@ -13,6 +16,7 @@ sftp-config.json
 # For PHPUnit
 phpunit.xml
 coverage.xml
+html/
 
 # For Mac
 *~
@@ -21,5 +25,5 @@ coverage.xml
 # For php-cs-fixer
 .php_cs.cache
 
-# For PhpStorm
+# For PhpStorm IDE
 .idea/
