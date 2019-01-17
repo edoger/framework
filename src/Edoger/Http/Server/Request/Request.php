@@ -15,7 +15,6 @@ use Edoger\Util\Str;
 use Edoger\Http\Server\Globals\Body;
 use Edoger\Util\Contracts\Arrayable;
 use Edoger\Http\Server\Globals\Query;
-use Edoger\Http\Foundation\Collection;
 use Edoger\Http\Server\Globals\Server;
 use Edoger\Http\Server\Globals\Cookies;
 use Edoger\Http\Server\Traits\RequestExtrasSupport;
