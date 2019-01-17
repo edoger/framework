@@ -303,39 +303,6 @@ class ArrTest extends TestCase
         $this->assertFalse(Arr::isOneDimensional([[], []]));
     }
 
-    public function testArrConvertFromXml()
-    {
-        $this->assertEquals([], Arr::convertFromXml(''));
-        $this->assertEquals([], Arr::convertFromXml('<test></test>'));
-        $this->assertEquals(['foo'], Arr::convertFromXml('<test>foo</test>'));
-        $this->assertEquals(['title' => 'foo'], Arr::convertFromXml('<test><title>foo</title></test>'));
-        $this->assertEquals(
-            ['element' => ['1', '2']],
-            Arr::convertFromXml('<test><element>1</element><element>2</element></test>')
-        );
-
-        $this->assertEquals(
-            [
-                'title'    => 'foo',
-                'elements' => [
-                    'element' => ['1', '2', '3'],
-                    'node'    => '1',
-                ],
-            ],
-            Arr::convertFromXml(
-                '<test>
-                    <title>foo</title>
-                    <elements>
-                        <element>1</element>
-                        <element>2</element>
-                        <element>3</element>
-                        <node>1</node>
-                    </elements>
-                </test>'
-            )
-        );
-    }
-
     public function testArrSlice()
     {
         $arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];

@@ -330,27 +330,6 @@ class Arr
     }
 
     /**
-     * Converts the given XML string to an array.
-     * If the conversion fails will return an empty array.
-     *
-     * @param string $xml The given XML string.
-     *
-     * @return array
-     */
-    public static function convertFromXml(string $xml): array
-    {
-        if ($obj = @simplexml_load_string($xml)) {
-            $arr = json_decode(json_encode($obj), true);
-
-            if (is_array($arr)) {
-                return $arr;
-            }
-        }
-
-        return [];
-    }
-
-    /**
      * Slices the given array by the specified size.
      *
      * @param array $values The given array.
