@@ -250,7 +250,7 @@ class Validator
             return false;
         }
 
-        return (bool) preg_match('/^\d+(?:\-\d+)*$/', $value);
+        return (bool) preg_match('/^\d+(?:-\d+)*$/', $value);
     }
 
     /**
