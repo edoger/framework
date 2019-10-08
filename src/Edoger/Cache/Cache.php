@@ -19,7 +19,7 @@ class Cache
     /**
      * The cache driver.
      *
-     * @var Edoger\Cache\Contracts\Driver
+     * @var Driver
      */
     protected $driver;
 
@@ -33,8 +33,8 @@ class Cache
     /**
      * The cache constructor.
      *
-     * @param Edoger\Cache\Contracts\Driver $driver The cache driver instance.
-     * @param string                        $prefix The cache key name prefix.
+     * @param Driver $driver The cache driver instance.
+     * @param string $prefix The cache key name prefix.
      *
      * @return void
      */
@@ -47,7 +47,7 @@ class Cache
     /**
      * Get the cache driver.
      *
-     * @return Edoger\Cache\Contracts\Driver
+     * @return Driver
      */
     public function getDriver(): Driver
     {
