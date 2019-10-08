@@ -55,7 +55,7 @@ abstract class AbstractFileLoader extends AbstractLoader
      * @param bool    $reload Whether to reload the configuration group.
      * @param Closure $next   The trigger for the next loader.
      *
-     * @return Edoger\Config\Repository
+     * @return Repository
      */
     public function load(string $group, bool $reload, Closure $next): Repository
     {

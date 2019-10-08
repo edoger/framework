@@ -22,7 +22,7 @@ abstract class AbstractLoader extends EmptyProcessor
      * @param bool    $reload Whether to reload the configuration group.
      * @param Closure $next   The trigger for the next loader.
      *
-     * @return Edoger\Config\Repository
+     * @return Repository
      */
     abstract public function load(string $group, bool $reload, Closure $next): Repository;
 }

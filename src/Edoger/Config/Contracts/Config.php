@@ -21,7 +21,7 @@ interface Config
      * @param string $group  The configuration group name.
      * @param bool   $reload Whether to reload the configuration group.
      *
-     * @return Edoger\Config\Repository
+     * @return Repository
      */
     public function group(string $group, bool $reload = false): Repository;
 }

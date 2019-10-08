@@ -21,7 +21,7 @@ class Config implements ConfigContract
     /**
      * The configuration group load flow.
      *
-     * @var Edoger\Config\Flow
+     * @var \Edoger\Config\Flow
      */
     protected $flow;
 
@@ -52,7 +52,7 @@ class Config implements ConfigContract
     /**
      * Get the configuration group load flow.
      *
-     * @return Edoger\Config\Flow
+     * @return \Edoger\Config\Flow
      */
     protected function getLoadFlow(): Flow
     {
@@ -65,7 +65,7 @@ class Config implements ConfigContract
      * @param string $group  The configuration group name.
      * @param bool   $reload Whether to reload the configuration group.
      *
-     * @return Edoger\Config\Repository
+     * @return \Edoger\Config\Repository
      */
     protected function load(string $group, bool $reload): Repository
     {
@@ -113,7 +113,7 @@ class Config implements ConfigContract
     /**
      * Append a configuration group loader.
      *
-     * @param Edoger\Config\AbstractLoader|callable $loader The configuration group loader.
+     * @param \Edoger\Config\AbstractLoader|callable $loader The configuration group loader.
      *
      * @return int
      */
@@ -137,7 +137,7 @@ class Config implements ConfigContract
      *
      * @throws RuntimeException Throws when the configuration group loader collection is empty.
      *
-     * @return Edoger\Config\AbstractLoader
+     * @return AbstractLoader
      */
     public function popLoader(): AbstractLoader
     {
@@ -169,7 +169,7 @@ class Config implements ConfigContract
      * @param string $group  The configuration group name.
      * @param bool   $reload Whether to reload the configuration group.
      *
-     * @return Edoger\Config\Repository
+     * @return \Edoger\Config\Repository
      */
     public function group(string $group, bool $reload = false): Repository
     {
