@@ -19,7 +19,7 @@ trait ProcessorStoreSupport
     /**
      * Get flow processor store instance.
      *
-     * @return Edoger\Container\Store
+     * @return Store
      */
     abstract protected function getStore(): Store;
 
@@ -36,8 +36,8 @@ trait ProcessorStoreSupport
     /**
      * Append the given processor to the current processor store.
      *
-     * @param Edoger\Flow\Contracts\Processor $processor The given processor.
-     * @param bool                            $top       Append to the top of the processor store.
+     * @param Processor $processor The given processor.
+     * @param bool      $top       Append to the top of the processor store.
      *
      * @return int
      */
@@ -53,7 +53,7 @@ trait ProcessorStoreSupport
      *
      * @throws RuntimeException Throws when the current processor store is empty.
      *
-     * @return Edoger\Flow\Contracts\Processor
+     * @return Processor
      */
     public function remove(bool $top = true): Processor
     {

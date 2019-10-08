@@ -19,8 +19,8 @@ class SimpleBlocker implements Blocker
     /**
      * Handle the flow block event.
      *
-     * @param Edoger\Container\Container $input  The processor input parameter container.
-     * @param mixed                      $result The processor flow return value.
+     * @param Container $input  The processor input parameter container.
+     * @param mixed     $result The processor flow return value.
      *
      * @return mixed
      */
@@ -32,7 +32,7 @@ class SimpleBlocker implements Blocker
     /**
      * Handle the flow complete event.
      *
-     * @param Edoger\Container\Container $input The processor input parameter container.
+     * @param Container $input The processor input parameter container.
      *
      * @return mixed
      */
@@ -44,7 +44,7 @@ class SimpleBlocker implements Blocker
     /**
      * Handle the flow error event.
      *
-     * @param Edoger\Container\Container $input     The processor input parameter container.
+     * @param Container $input     The processor input parameter container.
      * @param Throwable                  $exception The captured flow processor exception.
      *
      * @return mixed

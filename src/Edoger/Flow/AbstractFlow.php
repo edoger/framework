@@ -23,21 +23,21 @@ abstract class AbstractFlow implements Flow
     /**
      * The flow blocker.
      *
-     * @var Edoger\Flow\Contracts\Blocker
+     * @var Blocker
      */
     protected $blocker;
 
     /**
      * The flow processor store.
      *
-     * @var Edoger\Container\Store
+     * @var Store
      */
     protected $store;
 
     /**
      * The abstract flow constructor.
      *
-     * @param Edoger\Flow\Contracts\Blocker $blocker The flow blocker.
+     * @param Blocker $blocker The flow blocker.
      *
      * @return void
      */
@@ -50,7 +50,7 @@ abstract class AbstractFlow implements Flow
     /**
      * Get current flow blocker.
      *
-     * @return Edoger\Flow\Contracts\Blocker
+     * @return Blocker
      */
     protected function getBlocker(): Blocker
     {
@@ -60,7 +60,7 @@ abstract class AbstractFlow implements Flow
     /**
      * Get flow processor store instance.
      *
-     * @return Edoger\Container\Store
+     * @return Store
      */
     protected function getStore(): Store
     {
@@ -70,7 +70,7 @@ abstract class AbstractFlow implements Flow
     /**
      * Create and return a flow processor queue instance.
      *
-     * @return Edoger\Flow\ProcessorQueue
+     * @return ProcessorQueue
      */
     protected function createQueue(): ProcessorQueue
     {
@@ -80,9 +80,9 @@ abstract class AbstractFlow implements Flow
     /**
      * Run flow processors.
      *
-     * @param Edoger\Flow\ProcessorQueue $queue The processor queue.
-     * @param Edoger\Container\Container $input The processor input parameter container.
-     * @param bool                       $top   Whether it is the top call stack.
+     * @param ProcessorQueue $queue The processor queue.
+     * @param Container      $input The processor input parameter container.
+     * @param bool           $top   Whether it is the top call stack.
      *
      * @return mixed
      */
@@ -150,8 +150,8 @@ abstract class AbstractFlow implements Flow
     /**
      * Run the flow processor.
      *
-     * @param Edoger\Flow\Contracts\Processor $processor The flow processor.
-     * @param Edoger\Container\Container      $input     The processor input parameter container.
+     * @param Processor $processor The flow processor.
+     * @param Container $input     The processor input parameter container.
      * @param Closure                         $next      The trigger for the next processor.
      *
      * @return mixed

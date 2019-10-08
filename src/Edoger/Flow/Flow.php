@@ -24,9 +24,9 @@ class Flow extends AbstractFlow implements Arrayable, Countable
     /**
      * Run the flow processor.
      *
-     * @param Edoger\Flow\Contracts\Processor $processor The flow processor.
-     * @param Edoger\Container\Container      $input     The processor input parameter container.
-     * @param Closure                         $next      The trigger for the next processor.
+     * @param Processor $processor The flow processor.
+     * @param Container $input     The processor input parameter container.
+     * @param Closure   $next      The trigger for the next processor.
      *
      * @return mixed
      */

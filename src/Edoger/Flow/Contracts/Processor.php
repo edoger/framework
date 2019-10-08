@@ -18,8 +18,8 @@ interface Processor
     /**
      * Process the current task.
      *
-     * @param Edoger\Container\Container $input The processor input parameter container.
-     * @param Closure                    $next  The trigger for the next processor.
+     * @param Container $input The processor input parameter container.
+     * @param Closure   $next  The trigger for the next processor.
      *
      * @return mixed
      */
