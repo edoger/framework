@@ -41,7 +41,7 @@ class PhpSerializer implements Serializer
      *
      * @param mixed $value The given value.
      *
-     * @throws Edoger\Serializer\Exception\SerializerException Thrown when serialization fails.
+     * @throws SerializerException Thrown when serialization fails.
      *
      * @return string
      */
@@ -66,7 +66,7 @@ class PhpSerializer implements Serializer
      * @param string $str     The given string.
      * @param array  $options The serializer decoding options.
      *
-     * @throws Edoger\Serializer\Exception\SerializerException Thrown when deserialization fails.
+     * @throws SerializerException Thrown when deserialization fails.
      *
      * @return mixed
      */

@@ -49,7 +49,7 @@ class JsonSerializer implements Serializer
      * @param int   $options The serializer encoding options.
      * @param int   $depth   The maximum depth.
      *
-     * @throws Edoger\Serializer\Exception\SerializerException Thrown when serialization fails.
+     * @throws SerializerException Thrown when serialization fails.
      *
      * @return string
      */
@@ -75,7 +75,7 @@ class JsonSerializer implements Serializer
      * @param int    $depth   User specified recursion depth.
      * @param int    $options The serializer decoding options.
      *
-     * @throws Edoger\Serializer\Exception\SerializerException Thrown when deserialization fails.
+     * @throws SerializerException Thrown when deserialization fails.
      *
      * @return mixed
      */
