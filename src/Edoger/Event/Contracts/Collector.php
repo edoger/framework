@@ -15,8 +15,8 @@ interface Collector
     /**
      * Add an event listener for the specified event.
      *
-     * @param string                                   $name     The event name.
-     * @param Edoger\Event\Contracts\Listener|callable $listener The event listener.
+     * @param string            $name     The event name.
+     * @param Listener|callable $listener The event listener.
      *
      * @return self
      */

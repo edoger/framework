@@ -18,7 +18,7 @@ trait TriggerSupport
     /**
      * Gets the current event dispatcher instance.
      *
-     * @return Edoger\Event\Dispatcher
+     * @return Dispatcher
      */
     abstract public function getEventDispatcher(): Dispatcher;
 
@@ -56,7 +56,7 @@ trait TriggerSupport
      * @param string $name The event name.
      * @param mixed  $body The event body.
      *
-     * @return Edoger\Event\Event
+     * @return Event
      */
     public function emit(string $name, $body = []): Event
     {

@@ -173,8 +173,8 @@ class Dispatcher implements Arrayable
     /**
      * Add an event listener for the specified event.
      *
-     * @param string                                   $name     The event name.
-     * @param Edoger\Event\Contracts\Listener|callable $listener The event listener.
+     * @param string            $name     The event name.
+     * @param Listener|callable $listener The event listener.
      *
      * @throws InvalidArgumentException Thrown when the event listener is invalid.
      *
@@ -204,10 +204,9 @@ class Dispatcher implements Arrayable
     /**
      * Removes a listener for the specified event.
      *
-     * @param string $event The event name.
-     * @param string $name
+     * @param string $name The event name.
      *
-     * @return Edoger\Event\Contracts\Listener|callable|null
+     * @return Listener|callable|null
      */
     public function removeListener(string $name)
     {
@@ -264,7 +263,7 @@ class Dispatcher implements Arrayable
      * @param string $name The event name.
      * @param mixed  $body The event body.
      *
-     * @return Edoger\Event\Event
+     * @return Event
      */
     public function dispatch(string $name, $body = []): Event
     {

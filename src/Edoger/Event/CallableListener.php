@@ -30,8 +30,8 @@ class CallableListener extends Wrapper implements Listener
     /**
      * Run the current event listener.
      *
-     * @param Edoger\Event\Event      $event      The event body.
-     * @param Edoger\Event\Dispatcher $dispatcher The event dispatcher.
+     * @param Event      $event      The event body.
+     * @param Dispatcher $dispatcher The event dispatcher.
      *
      * @return void
      */

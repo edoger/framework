@@ -29,7 +29,7 @@ interface Trigger
      * @param string $name The event name.
      * @param mixed  $body The event body.
      *
-     * @return Edoger\Event\Event
+     * @return Event
      */
     public function emit(string $name, $body = []): Event;
 }

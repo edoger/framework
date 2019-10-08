@@ -17,7 +17,7 @@ interface DispatcherContainer
     /**
      * Gets the current event dispatcher instance.
      *
-     * @return Edoger\Event\Dispatcher
+     * @return Dispatcher
      */
     public function getEventDispatcher(): Dispatcher;
 

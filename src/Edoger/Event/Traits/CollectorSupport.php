@@ -11,13 +11,14 @@
 namespace Edoger\Event\Traits;
 
 use Edoger\Event\Dispatcher;
+use Edoger\Event\Contracts\Listener;
 
 trait CollectorSupport
 {
     /**
      * Gets the current event dispatcher instance.
      *
-     * @return Edoger\Event\Dispatcher
+     * @return Dispatcher
      */
     abstract public function getEventDispatcher(): Dispatcher;
 
@@ -40,8 +41,8 @@ trait CollectorSupport
     /**
      * Add an event listener for the specified event.
      *
-     * @param string                                   $name     The event name.
-     * @param Edoger\Event\Contracts\Listener|callable $listener The event listener.
+     * @param string            $name     The event name.
+     * @param Listener|callable $listener The event listener.
      *
      * @return self
      */

@@ -18,7 +18,7 @@ class Factory
      * @param string $group     The event group name.
      * @param mixed  $listeners The event listeners collection.
      *
-     * @return Edoger\Event\Dispatcher
+     * @return Dispatcher
      */
     public static function createDispatcher(string $group = '', $listeners = []): Dispatcher
     {
@@ -31,7 +31,7 @@ class Factory
      * @param string $group     The event group name.
      * @param mixed  $listeners The event listeners collection.
      *
-     * @return Edoger\Event\Dispatcher
+     * @return Dispatcher
      */
     public static function createEdogerDispatcher(string $group = '', $listeners = []): Dispatcher
     {

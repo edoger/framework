@@ -17,7 +17,7 @@ class DispatcherContainer implements DispatcherContainerContract
     /**
      * The event dispatcher.
      *
-     * @var Edoger\Event\Dispatcher
+     * @var Dispatcher
      */
     protected $dispatcher;
 
@@ -31,8 +31,8 @@ class DispatcherContainer implements DispatcherContainerContract
     /**
      * The event dispatcher container constructor.
      *
-     * @param Edoger\Event\Dispatcher $dispatcher            The event dispatcher.
-     * @param string                  $subcomponentEventName The subcomponent event name.
+     * @param Dispatcher $dispatcher            The event dispatcher.
+     * @param string     $subcomponentEventName The subcomponent event name.
      *
      * @return void
      */
@@ -45,7 +45,7 @@ class DispatcherContainer implements DispatcherContainerContract
     /**
      * Gets the current event dispatcher instance.
      *
-     * @return Edoger\Event\Dispatcher
+     * @return Dispatcher
      */
     public function getEventDispatcher(): Dispatcher
     {
