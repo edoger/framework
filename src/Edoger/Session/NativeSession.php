@@ -18,7 +18,7 @@ class NativeSession extends AbstractSession
     /**
      * The session constructor.
      *
-     * @param Edoger\Session\Contracts\SessionHandler $handler The session handler.
+     * @param SessionHandler $handler The session handler.
      *
      * @return void
      */

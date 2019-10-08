@@ -18,7 +18,7 @@ class ApcuHandler implements SessionHandler
     /**
      * The PHP apcu cache driver.
      *
-     * @var Edoger\Cache\Drivers\ApcuDriver
+     * @var ApcuDriver
      */
     protected $driver;
 
@@ -40,9 +40,9 @@ class ApcuHandler implements SessionHandler
      * The session apcu handler constructor.
      *
      *
-     * @param Edoger\Cache\Drivers\ApcuDriver $driver The PHP apcu cache driver.
-     * @param int                             $ttl    The session time to live.
-     * @param string                          $prefix The session name prefix.
+     * @param ApcuDriver $driver The PHP apcu cache driver.
+     * @param int        $ttl    The session time to live.
+     * @param string     $prefix The session name prefix.
      *
      * @return void
      */

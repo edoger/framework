@@ -22,14 +22,14 @@ abstract class AbstractSession implements Countable, Arrayable, IteratorAggregat
     /**
      * The session data store.
      *
-     * @var Edoger\Session\Contracts\SessionStore
+     * @var SessionStore
      */
     protected $store;
 
     /**
      * The session handler.
      *
-     * @var Edoger\Session\Contracts\SessionHandler
+     * @var SessionHandler
      */
     protected $handler;
 
@@ -43,8 +43,8 @@ abstract class AbstractSession implements Countable, Arrayable, IteratorAggregat
     /**
      * The session constructor.
      *
-     * @param Edoger\Session\Contracts\SessionStore   $store   The session data store.
-     * @param Edoger\Session\Contracts\SessionHandler $handler The session handler.
+     * @param SessionStore   $store   The session data store.
+     * @param SessionHandler $handler The session handler.
      *
      * @return void
      */
@@ -78,7 +78,7 @@ abstract class AbstractSession implements Countable, Arrayable, IteratorAggregat
     /**
      * Get the current session handler.
      *
-     * @return Edoger\Session\Contracts\SessionHandler
+     * @return SessionHandler
      */
     public function getSessionHandler(): SessionHandler
     {
@@ -88,7 +88,7 @@ abstract class AbstractSession implements Countable, Arrayable, IteratorAggregat
     /**
      * Get the current session data store.
      *
-     * @return Edoger\Session\Contracts\SessionStore
+     * @return SessionStore
      */
     public function getSessionStore(): SessionStore
     {
@@ -98,7 +98,7 @@ abstract class AbstractSession implements Countable, Arrayable, IteratorAggregat
     /**
      * Set the current session data store.
      *
-     * @param Edoger\Session\Contracts\SessionStore $store The session data store.
+     * @param SessionStore $store The session data store.
      *
      * @return void
      */
