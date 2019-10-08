@@ -11,6 +11,7 @@
 namespace Edoger\Container;
 
 use Countable;
+use ArrayIterator;
 use Edoger\Util\Arr;
 use RuntimeException;
 use IteratorAggregate;
@@ -21,7 +22,7 @@ class Stack implements Arrayable, Countable, IteratorAggregate
     /**
      * The stack element store.
      *
-     * @var Edoger\Containers\Store
+     * @var Store
      */
     protected $store;
 
