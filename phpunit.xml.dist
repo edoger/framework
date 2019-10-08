@@ -5,7 +5,7 @@
          backupGlobals="false"
          verbose="true">
     <testsuites>
-        <testsuite name="Edoger framework tests uites.">
+        <testsuite name="Edoger framework tests cases.">
             <directory suffix="Test.php">./tests/EdogerTests/*/Cases</directory>
         </testsuite>
     </testsuites>
