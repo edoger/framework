@@ -36,7 +36,7 @@ class FileHandler extends AbstractHandler
     /**
      * The log formatter.
      *
-     * @var Edoger\Logger\Contracts\Formatter|null
+     * @var Formatter|null
      */
     protected $formatter;
 
@@ -50,10 +50,10 @@ class FileHandler extends AbstractHandler
     /**
      * The file handler constructor.
      *
-     * @param string                            $file          The log file path name.
-     * @param int                               $level         The lowest processing log level.
-     * @param Edoger\Logger\Contracts\Formatter $formatter     The log formatter.
-     * @param bool                              $autoInterrupt Whether to automatically interrupt handler stack.
+     * @param string    $file          The log file path name.
+     * @param int       $level         The lowest processing log level.
+     * @param Formatter $formatter     The log formatter.
+     * @param bool      $autoInterrupt Whether to automatically interrupt handler stack.
      *
      * @return void
      */
@@ -68,7 +68,7 @@ class FileHandler extends AbstractHandler
     /**
      * Get the log formatter.
      *
-     * @return Edoger\Logger\Contracts\Formatter
+     * @return Formatter
      */
     protected function getFormatter(): Formatter
     {
@@ -94,9 +94,9 @@ class FileHandler extends AbstractHandler
     /**
      * Handle a log.
      *
-     * @param string            $channel The logger channel name.
-     * @param Edoger\Logger\Log $log     The log body instance.
-     * @param Closure           $next    The trigger for the next log handler.
+     * @param string  $channel The logger channel name.
+     * @param Log     $log     The log body instance.
+     * @param Closure $next    The trigger for the next log handler.
      *
      * @return bool
      */

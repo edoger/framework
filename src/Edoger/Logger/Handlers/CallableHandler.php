@@ -49,9 +49,9 @@ class CallableHandler extends AbstractHandler
     /**
      * Handle a log.
      *
-     * @param string            $channel The logger channel name.
-     * @param Edoger\Logger\Log $log     The log body instance.
-     * @param Closure           $next    The trigger for the next log handler.
+     * @param string  $channel The logger channel name.
+     * @param Log     $log     The log body instance.
+     * @param Closure $next    The trigger for the next log handler.
      *
      * @return bool
      */

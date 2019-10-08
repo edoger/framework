@@ -27,7 +27,7 @@ class Logger
     /**
      * The log handle flow.
      *
-     * @var Edoger\Logger\Flow
+     * @var Flow
      */
     protected $flow;
 
@@ -63,7 +63,7 @@ class Logger
     /**
      * Get the log handle flow.
      *
-     * @return Edoger\Logger\Flow
+     * @return Flow
      */
     protected function getHandleFlow(): Flow
     {
@@ -111,8 +111,8 @@ class Logger
     /**
      * Append a log handler.
      *
-     * @param Edoger\Logger\AbstractHandler|callable $handler The log handler.
-     * @param bool                                   $top     Append the handler to the top of the stack.
+     * @param AbstractHandler|callable $handler The log handler.
+     * @param bool                     $top     Append the handler to the top of the stack.
      *
      * @return int
      */
@@ -138,7 +138,7 @@ class Logger
      *
      * @throws RuntimeException Throws when the log handle stack is empty.
      *
-     * @return Edoger\Logger\AbstractHandler
+     * @return AbstractHandler
      */
     public function popHandler(bool $top = true): AbstractHandler
     {
