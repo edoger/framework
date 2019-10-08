@@ -18,14 +18,14 @@ trait ResponseRendererSupport
     /**
      * The HTTP response body renderer.
      *
-     * @var Edoger\Http\Contracts\ResponseRenderer|null
+     * @var ResponseRenderer|null
      */
     protected $renderer = null;
 
     /**
      * Set the HTTP response body renderer.
      *
-     * @param Edoger\Http\Contracts\ResponseRenderer $renderer The HTTP response body renderer.
+     * @param ResponseRenderer $renderer The HTTP response body renderer.
      *
      * @return void
      */
@@ -37,7 +37,7 @@ trait ResponseRendererSupport
     /**
      * Get the HTTP response body renderer.
      *
-     * @return Edoger\Http\Contracts\ResponseRenderer
+     * @return ResponseRenderer
      */
     public function getResponseRenderer(): ResponseRenderer
     {

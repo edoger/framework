@@ -50,7 +50,7 @@ trait ResponseCookiesSupport
      *
      * @param string $name The cookie name.
      *
-     * @return Edoger\Http\Server\Response\Cookie|null
+     * @return Cookie|null
      */
     public function getCookie(string $name)
     {
@@ -84,7 +84,7 @@ trait ResponseCookiesSupport
     /**
      * Add a cookie instance.
      *
-     * @param Edoger\Http\Server\Response\Cookie $cookie The cookie instance.
+     * @param Cookie $cookie The cookie instance.
      *
      * @return void
      */

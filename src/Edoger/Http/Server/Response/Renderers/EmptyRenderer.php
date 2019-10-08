@@ -38,7 +38,7 @@ class EmptyRenderer implements ResponseRenderer
     /**
      * Render the HTTP response body.
      *
-     * @param Edoger\Http\Foundation\Collection $content The HTTP response content collection.
+     * @param Collection $content The HTTP response content collection.
      *
      * @return string
      */

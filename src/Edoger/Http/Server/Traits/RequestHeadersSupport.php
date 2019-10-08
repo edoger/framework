@@ -17,7 +17,7 @@ trait RequestHeadersSupport
     /**
      * The request headers collection.
      *
-     * @var Edoger\Http\Server\Request\Headers
+     * @var Headers
      */
     protected $headers;
 
@@ -34,7 +34,7 @@ trait RequestHeadersSupport
     /**
      * Get the request headers collection.
      *
-     * @return Edoger\Http\Server\Request\Headers
+     * @return Headers
      */
     public function getHeaders(): Headers
     {

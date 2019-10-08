@@ -32,28 +32,28 @@ class Request implements Arrayable
     /**
      * The server and execution environment variables collection.
      *
-     * @var Edoger\Http\Server\Globals\Server
+     * @var Server
      */
     protected $server;
 
     /**
      * The request body parameters collection.
      *
-     * @var Edoger\Http\Server\Globals\Body
+     * @var Body
      */
     protected $body;
 
     /**
      * The request query parameters collection.
      *
-     * @var Edoger\Http\Server\Globals\Query
+     * @var Query
      */
     protected $query;
 
     /**
      * The request cookies collection.
      *
-     * @var Edoger\Http\Server\Globals\Cookies
+     * @var Cookies
      */
     protected $cookies;
 

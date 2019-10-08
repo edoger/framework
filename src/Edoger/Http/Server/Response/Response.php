@@ -33,7 +33,7 @@ class Response implements Arrayable
     /**
      * The HTTP response content collection.
      *
-     * @var Edoger\Http\Foundation\Collection
+     * @var Collection
      */
     protected $content;
 
@@ -86,7 +86,7 @@ class Response implements Arrayable
     /**
      * Get the HTTP response content collection.
      *
-     * @return Edoger\Http\Foundation\Collection
+     * @return Collection
      */
     public function getResponseContent(): Collection
     {
@@ -154,6 +154,7 @@ class Response implements Arrayable
         }
 
         // Send cookie headers.
+        /** @var Cookie $cookie */
         foreach ($this->getCookies() as $cookie) {
             // Handle cookie expiration date.
             if (0 !== $expire = $cookie->getExpiresTime()) {

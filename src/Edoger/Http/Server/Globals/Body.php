@@ -17,8 +17,7 @@ class Body extends Collection
     /**
      * Create request body parameters collection.
      *
-     * @param iterable $server The request body parameters.
-     * @param iterable $body
+     * @param iterable $body The request body parameters.
      *
      * @return self
      */

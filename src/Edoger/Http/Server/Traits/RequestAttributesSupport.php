@@ -17,7 +17,7 @@ trait RequestAttributesSupport
     /**
      * The client's request attributes collection.
      *
-     * @var Edoger\Http\Foundation\Collection
+     * @var Collection
      */
     protected $attributes;
 
@@ -34,7 +34,7 @@ trait RequestAttributesSupport
     /**
      * Get the client's request attributes collection.
      *
-     * @return Edoger\Http\Foundation\Collection
+     * @return Collection
      */
     protected function getAttributes(): Collection
     {
