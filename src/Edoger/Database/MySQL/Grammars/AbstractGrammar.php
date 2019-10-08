@@ -19,22 +19,22 @@ abstract class AbstractGrammar
     /**
      * The MySQL database instance.
      *
-     * @var Edoger\Database\MySQL\Database
+     * @var Database
      */
     protected $database;
 
     /**
      * The MySQL database table instance.
      *
-     * @var Edoger\Database\MySQL\Table
+     * @var Table
      */
     protected $table;
 
     /**
      * The abstract grammar constructor.
      *
-     * @param Edoger\Database\MySQL\Database $database The MySQL database instance.
-     * @param Edoger\Database\MySQL\Table    $table    The MySQL database table instance.
+     * @param Database $database The MySQL database instance.
+     * @param Table    $table    The MySQL database table instance.
      *
      * @return void
      */
@@ -47,8 +47,8 @@ abstract class AbstractGrammar
     /**
      * Create a grammar instance.
      *
-     * @param Edoger\Database\MySQL\Database $database The MySQL database instance.
-     * @param Edoger\Database\MySQL\Table    $table    The MySQL database table instance.
+     * @param Database $database The MySQL database instance.
+     * @param Table $table    The MySQL database table instance.
      *
      * @return self
      */
@@ -72,7 +72,7 @@ abstract class AbstractGrammar
     /**
      * Get MySQL database instance.
      *
-     * @return Edoger\Database\MySQL\Database
+     * @return Database
      */
     public function getDatabase(): Database
     {
@@ -82,7 +82,7 @@ abstract class AbstractGrammar
     /**
      * Get MySQL database table instance.
      *
-     * @return Edoger\Database\MySQL\Table
+     * @return Table
      */
     public function getTable(): Table
     {
@@ -102,7 +102,7 @@ abstract class AbstractGrammar
     /**
      * Compile the current SQL statement.
      *
-     * @return Edoger\Database\MySQL\Grammars\StatementContainer
+     * @return StatementContainer
      */
     abstract public function compile(): StatementContainer;
 }

@@ -15,20 +15,21 @@ use Edoger\Util\Arr;
 use Edoger\Util\Validator;
 use InvalidArgumentException;
 use Edoger\Database\MySQL\Foundation\Util;
+use Edoger\Database\Exceptions\ExecutionException;
 
 class Database
 {
     /**
      * The SQL statement actuator.
      *
-     * @var Edoger\Database\MySQL\Actuator
+     * @var Actuator
      */
     protected $actuator;
 
     /**
      * The transaction manager.
      *
-     * @var Edoger\Database\MySQL\Transaction
+     * @var Transaction
      */
     protected $transaction;
 
@@ -49,9 +50,10 @@ class Database
     /**
      * The database constructor.
      *
-     * @param Edoger\Database\MySQL\Actuator $actuator The SQL statement actuator.
-     * @param string                         $name     The database name.
+     * @param Actuator $actuator The SQL statement actuator.
+     * @param string $name The database name.
      *
+     * @throws ExecutionException
      * @throws InvalidArgumentException Thrown when the database name can not be determined.
      *
      * @return void
@@ -67,6 +69,8 @@ class Database
      * Format the database name.
      *
      * @param string $name The database name.
+     *
+     * @throws ExecutionException
      *
      * @return string
      */
@@ -125,7 +129,7 @@ class Database
     /**
      * Get the current SQL statement actuator.
      *
-     * @return Edoger\Database\MySQL\Actuator
+     * @return Actuator
      */
     public function getActuator(): Actuator
     {
@@ -134,6 +138,8 @@ class Database
 
     /**
      * Get the database name from the current connection.
+     *
+     * @throws ExecutionException
      *
      * @return string
      */
@@ -148,6 +154,8 @@ class Database
      * Use the given database name as the default database name for the current connection.
      *
      * @param string $name The given database name.
+     *
+     * @throws ExecutionException
      *
      * @return self
      */
@@ -168,6 +176,8 @@ class Database
      *
      * @param bool $noCache Do not read cached data.
      *
+     * @throws ExecutionException
+     *
      * @return array
      */
     public function getDatabaseTables(bool $noCache = false): array
@@ -187,7 +197,7 @@ class Database
     /**
      * Get the current transaction manager.
      *
-     * @return Edoger\Database\MySQL\Transaction
+     * @return Transaction
      */
     public function getTransaction(): Transaction
     {

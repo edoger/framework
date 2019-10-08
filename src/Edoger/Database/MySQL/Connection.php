@@ -21,7 +21,7 @@ class Connection implements ConnectionContract
     /**
      * The server definition instance.
      *
-     * @var Edoger\Database\MySQL\Contracts\Server
+     * @var Server
      */
     protected $server;
 
@@ -35,7 +35,7 @@ class Connection implements ConnectionContract
     /**
      * The connection constructor.
      *
-     * @param Edoger\Database\MySQL\Contracts\Server $server The server definition instance.
+     * @param Server $server The server definition instance.
      *
      * @return void
      */
@@ -47,7 +47,7 @@ class Connection implements ConnectionContract
     /**
      * Get the server definition instance.
      *
-     * @return Edoger\Database\MySQL\Contracts\Server
+     * @return Server
      */
     public function getServer(): Server
     {
@@ -78,7 +78,7 @@ class Connection implements ConnectionContract
      * Connect to the server and create a PDO instance.
      * If the connection has been completed, the created PDO instance is returned directly.
      *
-     * @throws Edoger\Database\Exceptions\ConnectionException Thrown when the connection fails.
+     * @throws ConnectionException Thrown when the connection fails.
      *
      * @return PDO
      */
@@ -123,6 +123,8 @@ class Connection implements ConnectionContract
 
     /**
      * Disconnect the current database server and reestablish the connection.
+     *
+     * @throws ConnectionException
      *
      * @return PDO
      */

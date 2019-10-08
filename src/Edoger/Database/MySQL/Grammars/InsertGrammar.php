@@ -86,10 +86,10 @@ class InsertGrammar extends AbstractGrammar
     /**
      * Compile the current SQL statement.
      *
-     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when the column data is empty.
-     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when the column does not exist or is not writable.
+     * @throws GrammarException Thrown when the column does not exist or is not writable.
+     * @throws GrammarException Thrown when the column data is empty.
      *
-     * @return Edoger\Database\MySQL\Grammars\StatementContainer
+     * @return StatementContainer
      */
     public function compile(): StatementContainer
     {

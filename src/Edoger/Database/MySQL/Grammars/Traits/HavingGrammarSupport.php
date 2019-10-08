@@ -24,14 +24,14 @@ trait HavingGrammarSupport
      *
      * @param string $connector The default filter connector.
      *
-     * @return Edoger\Container\Wrapper
+     * @return Wrapper
      */
     abstract public function createHavingFilterWrapper(string $connector): Wrapper;
 
     /**
      * Get the having filter instance.
      *
-     * @return Edoger\Database\MySQL\Grammars\Filter
+     * @return Filter
      */
     abstract public function getHavingFilter(): Filter;
 
@@ -43,8 +43,8 @@ trait HavingGrammarSupport
      * @param bool|string $operator  The filter operator.
      * @param string|null $connector The filter connector.
      *
-     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when a parameter is missing.
-     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when the filter column is invalid.
+     * @throws GrammarException Thrown when the filter column is invalid.
+     * @throws GrammarException Thrown when a parameter is missing.
      *
      * @return self
      */

@@ -17,14 +17,14 @@ class Transaction
     /**
      * The database server connection.
      *
-     * @var Edoger\Database\MySQL\Contracts\Connection
+     * @var Connection
      */
     protected $connection;
 
     /**
      * The transaction constructor.
      *
-     * @param Edoger\Database\MySQL\Contracts\Connection $connection The database server connection.
+     * @param Connection $connection The database server connection.
      *
      * @return void
      */

@@ -11,6 +11,7 @@
 namespace Edoger\Database\MySQL\Grammars;
 
 use Edoger\Container\Wrapper;
+use Edoger\Database\MySQL\Exceptions\GrammarException;
 use Edoger\Database\MySQL\Grammars\Traits\HavingGrammarSupport;
 
 class HavingFilterWrapper extends Wrapper
@@ -21,7 +22,9 @@ class HavingFilterWrapper extends Wrapper
      * The having filter wrapper constructor.
      *
      * @param string $connector The default filter connector.
-     * 
+     *
+     * @throws GrammarException
+     *
      * @return void
      */
     public function __construct(string $connector)
@@ -34,7 +37,9 @@ class HavingFilterWrapper extends Wrapper
      *
      * @param string $connector The default filter connector.
      *
-     * @return Edoger\Container\Wrapper
+     * @throws GrammarException
+     *
+     * @return Wrapper
      */
     public function createHavingFilterWrapper(string $connector): Wrapper
     {
@@ -44,7 +49,7 @@ class HavingFilterWrapper extends Wrapper
     /**
      * Get the having filter instance.
      *
-     * @return Edoger\Database\MySQL\Grammars\Filter
+     * @return Filter
      */
     public function getHavingFilter(): Filter
     {

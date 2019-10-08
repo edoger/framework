@@ -27,7 +27,7 @@ trait LimitGrammarSupport
      *
      * @param int $limit The limit value.
      *
-     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when the limit is invalid.
+     * @throws GrammarException Thrown when the limit is invalid.
      *
      * @return self
      */

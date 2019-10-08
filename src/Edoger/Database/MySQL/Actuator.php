@@ -23,14 +23,14 @@ class Actuator
     /**
      * The database server connection.
      *
-     * @var Edoger\Database\MySQL\Contracts\Connection
+     * @var Connection
      */
     protected $connection;
 
     /**
      * The actuator constructor.
      *
-     * @param Edoger\Database\MySQL\Contracts\Connection $connection The database server connection.
+     * @param Connection $connection The database server connection.
      *
      * @return void
      */
@@ -42,7 +42,7 @@ class Actuator
     /**
      * Get the currently bound database connection.
      *
-     * @return Edoger\Database\MySQL\Contracts\Connection
+     * @return Connection
      */
     public function getConnection(): Connection
     {
@@ -54,6 +54,7 @@ class Actuator
      *
      * @param string $statement The given SQL statement.
      *
+     * @throws ExecutionException
      * @throws InvalidArgumentException Thrown when the SQL statement is invalid.
      *
      * @return void
@@ -73,8 +74,9 @@ class Actuator
      * Execute a query SQL statement.
      *
      * @param string $statement The given SQL statement.
-     * @param array  $arguments The SQL statement binding parameters.
+     * @param array $arguments The SQL statement binding parameters.
      *
+     * @throws ExecutionException
      * @throws InvalidArgumentException Thrown when the SQL statement is invalid.
      *
      * @return PDOStatement
@@ -96,8 +98,9 @@ class Actuator
      * Execute an update SQL statement.
      *
      * @param string $statement The given SQL statement.
-     * @param array  $arguments The SQL statement binding parameters.
+     * @param array $arguments The SQL statement binding parameters.
      *
+     * @throws ExecutionException
      * @throws InvalidArgumentException Thrown when the SQL statement is invalid.
      *
      * @return int
@@ -119,8 +122,9 @@ class Actuator
      * Execute an insert SQL statement.
      *
      * @param string $statement The given SQL statement.
-     * @param array  $arguments The SQL statement binding parameters.
+     * @param array $arguments The SQL statement binding parameters.
      *
+     * @throws ExecutionException
      * @throws InvalidArgumentException Thrown when the SQL statement is invalid.
      *
      * @return string
@@ -144,8 +148,9 @@ class Actuator
      * Execute a delete SQL statement.
      *
      * @param string $statement The given SQL statement.
-     * @param array  $arguments The SQL statement binding parameters.
+     * @param array $arguments The SQL statement binding parameters.
      *
+     * @throws ExecutionException
      * @throws InvalidArgumentException Thrown when the SQL statement is invalid.
      *
      * @return int
@@ -166,12 +171,12 @@ class Actuator
     /**
      * Throws an "Edoger\Database\MySQL\Exceptions\ExecutionException" instance.
      *
-     * @param string         $message   The exception message.
-     * @param string         $statement The failed SQL statement.
-     * @param array          $arguments The SQL statement binding parameters.
-     * @param Throwable|null $previous  The previous exception used for the exception chaining.
+     * @param string $message The exception message.
+     * @param string $statement The failed SQL statement.
+     * @param array $arguments The SQL statement binding parameters.
+     * @param Throwable|null $previous The previous exception used for the exception chaining.
      *
-     * @throws Edoger\Database\MySQL\Exceptions\ExecutionException Always throw.
+     * @throws ExecutionException Always throw.
      *
      * @return void
      */
@@ -216,6 +221,8 @@ class Actuator
      *
      * @param string $statement The given SQL statement.
      *
+     * @throws ExecutionException
+     *
      * @return int
      */
     protected function doSimpleExecute(string $statement): int
@@ -235,6 +242,8 @@ class Actuator
      *
      * @param string $statement The given SQL statement.
      *
+     * @throws ExecutionException
+     *
      * @return PDOStatement
      */
     protected function doSimpleQuery(string $statement): PDOStatement
@@ -253,7 +262,9 @@ class Actuator
      * Executes a given SQL statement with the binding parameters.
      *
      * @param string $statement The given SQL statement.
-     * @param array  $arguments The SQL statement binding parameters.
+     * @param array $arguments The SQL statement binding parameters.
+     *
+     * @throws ExecutionException
      *
      * @return PDOStatement
      */

@@ -11,6 +11,7 @@
 namespace Edoger\Database\MySQL\Grammars;
 
 use Edoger\Database\MySQL\Arguments;
+use Edoger\Database\MySQL\Exceptions\GrammarException;
 use Edoger\Database\MySQL\Grammars\Traits\LimitGrammarSupport;
 use Edoger\Database\MySQL\Grammars\Traits\WhereGrammarSupport;
 use Edoger\Database\MySQL\Grammars\Traits\WhereGrammarFoundationSupport;
@@ -22,7 +23,9 @@ class DeleteGrammar extends AbstractGrammar
     /**
      * Compile the current SQL statement.
      *
-     * @return Edoger\Database\MySQL\Grammars\StatementContainer
+     * @throws GrammarException
+     *
+     * @return StatementContainer
      */
     public function compile(): StatementContainer
     {

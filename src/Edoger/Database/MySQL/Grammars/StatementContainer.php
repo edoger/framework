@@ -39,6 +39,8 @@ class StatementContainer implements Arrayable, Countable, IteratorAggregate
      *
      * @param iterable $statements The SQL statement instances.
      *
+     * @throws GrammarException
+     *
      * @return void
      */
     public function __construct(iterable $statements = [])
@@ -65,7 +67,7 @@ class StatementContainer implements Arrayable, Countable, IteratorAggregate
     /**
      * Append SQL statement instance.
      *
-     * @param Edoger\Database\MySQL\Grammars\Statement $statement The SQL statement instance.
+     * @param Statement $statement The SQL statement instance.
      *
      * @return self
      */
@@ -81,7 +83,7 @@ class StatementContainer implements Arrayable, Countable, IteratorAggregate
      *
      * @throws RuntimeException Thrown when the statement container is empty.
      *
-     * @return Edoger\Database\MySQL\Grammars\Statement
+     * @return Statement
      */
     public function pop(): Statement
     {

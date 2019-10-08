@@ -10,6 +10,7 @@
 
 namespace Edoger\Database\MySQL;
 
+use Edoger\Database\Exceptions\ExecutionException;
 use PDO;
 use Countable;
 use ArrayIterator;
@@ -205,10 +206,9 @@ class Table implements Arrayable, Countable, IteratorAggregate
     /**
      * Initialize the current database table fields and primary key from the given database instance.
      *
-     * @param Edoger\Database\MySQL\Database $database The database instance.
+     * @param Database $database The database instance.
      *
-     * @throws RuntimeException Thrown when the current database table does not exist.
-     * @throws RuntimeException Thrown when the current database table primary key does not exist.
+     * @throws ExecutionException
      *
      * @return self
      */

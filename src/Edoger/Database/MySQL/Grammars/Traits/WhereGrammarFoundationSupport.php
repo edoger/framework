@@ -19,7 +19,7 @@ trait WhereGrammarFoundationSupport
     /**
      * The where filter wrapper instance.
      *
-     * @var Edoger\Database\MySQL\Grammars\WhereFilterWrapper|null
+     * @var WhereFilterWrapper|null
      */
     protected $whereFilterWrapper = null;
 
@@ -42,7 +42,7 @@ trait WhereGrammarFoundationSupport
      *
      * @param string $connector The default filter connector.
      *
-     * @return Edoger\Container\Wrapper
+     * @return Wrapper
      */
     public function createWhereFilterWrapper(string $connector): Wrapper
     {
@@ -52,7 +52,7 @@ trait WhereGrammarFoundationSupport
     /**
      * Get the where filter instance.
      *
-     * @return Edoger\Database\MySQL\Grammars\Filter
+     * @return Filter
      */
     public function getWhereFilter(): Filter
     {

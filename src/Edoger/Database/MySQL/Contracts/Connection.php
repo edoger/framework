@@ -17,7 +17,7 @@ interface Connection
     /**
      * Get the server definition instance.
      *
-     * @return Edoger\Database\MySQL\Contracts\Server
+     * @return Server
      */
     public function getServer(): Server;
 

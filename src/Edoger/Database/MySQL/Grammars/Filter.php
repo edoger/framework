@@ -42,6 +42,8 @@ class Filter implements Arrayable, Countable
      *
      * @param string $connector The default filter connector.
      *
+     * @throws GrammarException
+     *
      * @return void
      */
     public function __construct(string $connector = 'and')
@@ -53,6 +55,8 @@ class Filter implements Arrayable, Countable
      * Standardize the given filter connector.
      *
      * @param string|null $connector The given filter connector.
+     *
+     * @throws GrammarException
      *
      * @return string
      */
@@ -68,10 +72,12 @@ class Filter implements Arrayable, Countable
     /**
      * Add a scalar column filter.
      *
-     * @param string      $column    The filter column name.
-     * @param scalar      $value     The filter column value.
-     * @param string|bool $operator  The filter operator.
+     * @param string      $column The filter column name.
+     * @param mixed       $value The filter column value.
+     * @param string|bool $operator The filter operator.
      * @param string|null $connector The filter connector.
+     *
+     * @throws GrammarException
      *
      * @return self
      */
@@ -96,7 +102,7 @@ class Filter implements Arrayable, Countable
      * @param string|bool $operator  The filter operator.
      * @param string|null $connector The filter connector.
      *
-     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when the column value is empty.
+     * @throws GrammarException Thrown when the column value is empty.
      *
      * @return self
      */
@@ -121,9 +127,11 @@ class Filter implements Arrayable, Countable
     /**
      * Add a null column filter.
      *
-     * @param string      $column    The filter column name.
-     * @param bool        $operator  The filter operator.
+     * @param string $column The filter column name.
+     * @param bool $operator The filter operator.
      * @param string|null $connector The filter connector.
+     *
+     * @throws GrammarException
      *
      * @return self
      */
@@ -199,7 +207,7 @@ class Filter implements Arrayable, Countable
      * @param string|bool $operator  The filter operator.
      * @param string|null $connector The filter connector.
      *
-     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when the column value is invalid.
+     * @throws GrammarException Thrown when the column value is invalid.
      *
      * @return self
      */
@@ -223,9 +231,11 @@ class Filter implements Arrayable, Countable
     /**
      * Add multiple column filters.
      *
-     * @param array       $columns   The given columns.
-     * @param mixed       $operator  The filter operator.
+     * @param array $columns The given columns.
+     * @param mixed $operator The filter operator.
      * @param string|null $connector The filter connector.
+     *
+     * @throws GrammarException
      *
      * @return self
      */
@@ -241,9 +251,11 @@ class Filter implements Arrayable, Countable
     /**
      * Add group filter.
      *
-     * @param Closure                  $builder   The filter builder.
-     * @param Edoger\Container\Wrapper $wrapper   The filter wrapper instance.
-     * @param string|null              $connector The filter connector.
+     * @param Closure     $builder The filter builder.
+     * @param Wrapper     $wrapper The filter wrapper instance.
+     * @param string|null $connector The filter connector.
+     *
+     * @throws GrammarException
      *
      * @return self
      */
@@ -265,7 +277,7 @@ class Filter implements Arrayable, Countable
     /**
      * Compile the current instance to a statement string.
      *
-     * @param Edoger\Database\MySQL\Arguments $arguments The statement binding parameter manager.
+     * @param Arguments $arguments The statement binding parameter manager.
      *
      * @return string
      */
@@ -293,6 +305,7 @@ class Filter implements Arrayable, Countable
                 $fragments->push($this->compileNullFilter($filter['column'], $filter['operator']));
             } else {
                 // For unknown types of compilation, do nothing.
+                continue;
             }
         }
 

@@ -39,7 +39,7 @@ class Connector
      *
      * @param string $connector The given filter connector.
      *
-     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Throws when the filter connector is invalid.
+     * @throws GrammarException Throws when the filter connector is invalid.
      *
      * @return string
      */

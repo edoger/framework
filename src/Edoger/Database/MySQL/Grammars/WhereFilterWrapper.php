@@ -11,6 +11,7 @@
 namespace Edoger\Database\MySQL\Grammars;
 
 use Edoger\Container\Wrapper;
+use Edoger\Database\MySQL\Exceptions\GrammarException;
 use Edoger\Database\MySQL\Grammars\Traits\WhereGrammarSupport;
 
 class WhereFilterWrapper extends Wrapper
@@ -21,6 +22,8 @@ class WhereFilterWrapper extends Wrapper
      * The where filter wrapper constructor.
      *
      * @param string $connector The default filter connector.
+     *
+     * @throws GrammarException
      *
      * @return void
      */
@@ -34,7 +37,9 @@ class WhereFilterWrapper extends Wrapper
      *
      * @param string $connector The default filter connector.
      *
-     * @return Edoger\Container\Wrapper
+     * @throws GrammarException
+     *
+     * @return Wrapper
      */
     public function createWhereFilterWrapper(string $connector): Wrapper
     {
@@ -44,7 +49,7 @@ class WhereFilterWrapper extends Wrapper
     /**
      * Get the where filter instance.
      *
-     * @return Edoger\Database\MySQL\Grammars\Filter
+     * @return Filter
      */
     public function getWhereFilter(): Filter
     {

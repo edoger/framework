@@ -49,7 +49,7 @@ class Operator
      *
      * @param string|bool $operator The given filter simple operator.
      *
-     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Throws when the filter simple operator is invalid.
+     * @throws GrammarException Throws when the filter simple operator is invalid.
      *
      * @return string
      */
@@ -73,7 +73,7 @@ class Operator
      *
      * @param string|bool $operator The given filter range operator.
      *
-     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Throws when the filter range operator is invalid.
+     * @throws GrammarException Throws when the filter range operator is invalid.
      *
      * @return string
      */
@@ -99,7 +99,7 @@ class Operator
      *
      * @param bool $operator The given filter null operator.
      *
-     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Throws when the filter null operator is invalid.
+     * @throws GrammarException Throws when the filter null operator is invalid.
      *
      * @return string
      */

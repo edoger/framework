@@ -28,7 +28,7 @@ class Fragments implements Arrayable
      *
      * @param mixed $fragments The SQL statement fragments.
      *
-     * @throws Edoger\Database\MySQL\Exceptions\GrammarException Thrown when the statement fragment is invalid.
+     * @throws GrammarException Thrown when the statement fragment is invalid.
      *
      * @return void
      */
@@ -47,6 +47,8 @@ class Fragments implements Arrayable
      * Create a statement fragment manager instance.
      *
      * @param mixed $fragments The SQL statement fragments.
+     *
+     * @throws GrammarException
      *
      * @return self
      */

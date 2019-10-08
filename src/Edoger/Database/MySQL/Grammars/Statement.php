@@ -24,15 +24,15 @@ class Statement
     /**
      * The statement binding parameter manager.
      *
-     * @var Edoger\Database\MySQL\Arguments
+     * @var Arguments
      */
     protected $arguments;
 
     /**
      * The SQL statement constructor.
      *
-     * @param string                          $statement The SQL statement.
-     * @param Edoger\Database\MySQL\Arguments $arguments The statement binding parameter manager.
+     * @param string    $statement The SQL statement.
+     * @param Arguments $arguments The statement binding parameter manager.
      *
      * @return void
      */
@@ -45,8 +45,8 @@ class Statement
     /**
      * Create a SQL statement instance.
      *
-     * @param string                               $statement The SQL statement.
-     * @param Edoger\Database\MySQL\Arguments|null $arguments The statement binding parameter manager.
+     * @param string         $statement The SQL statement.
+     * @param Arguments|null $arguments The statement binding parameter manager.
      *
      * @return self
      */
@@ -62,7 +62,7 @@ class Statement
     /**
      * Get the statement binding parameter manager.
      *
-     * @return Edoger\Database\MySQL\Arguments
+     * @return Arguments
      */
     public function getArguments(): Arguments
     {

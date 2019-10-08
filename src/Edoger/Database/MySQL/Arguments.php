@@ -32,6 +32,8 @@ class Arguments implements Arrayable, Countable, IteratorAggregate, JsonSerializ
      *
      * @param mixed $parameters The statement binding parameters.
      *
+     * @throws ArgumentException
+     *
      * @return void
      */
     public function __construct($parameters)
@@ -43,6 +45,8 @@ class Arguments implements Arrayable, Countable, IteratorAggregate, JsonSerializ
      * Create a statement binding parameter collection instance.
      *
      * @param mixed $parameters The statement binding parameters.
+     *
+     * @throws ArgumentException
      *
      * @return self
      */
@@ -66,7 +70,7 @@ class Arguments implements Arrayable, Countable, IteratorAggregate, JsonSerializ
      *
      * @param mixed $parameters The statement binding parameters.
      *
-     * @throws Edoger\Database\MySQL\Exceptions\ArgumentException Thrown when the statement binding parameter is invalid.
+     * @throws ArgumentException Thrown when the statement binding parameter is invalid.
      *
      * @return self
      */
